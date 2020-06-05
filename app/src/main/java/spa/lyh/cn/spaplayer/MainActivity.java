@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (v.getId()){
             case R.id.btn_activity:
-                //intent = new Intent(MainActivity.this);
+                intent = new Intent(MainActivity.this,SingleActivity.class);
+                startActivity(intent);
                 break;
         }
     }
