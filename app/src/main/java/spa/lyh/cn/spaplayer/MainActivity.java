@@ -9,9 +9,10 @@ import android.widget.Button;
 
 import spa.lyh.cn.spaplayer.activity.SingleActivity;
 import spa.lyh.cn.spaplayer.fragment.FragmentActivity;
+import spa.lyh.cn.spaplayer.recyclerview.RecyclerActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btn1,btn2;
+    Button btn1,btn2,btn3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn1.setOnClickListener(this);
         btn2 = findViewById(R.id.btn_fragment);
         btn2.setOnClickListener(this);
+        btn3 = findViewById(R.id.btn_recyclerview);
+        btn3.setOnClickListener(this);
     }
 
     @Override
@@ -33,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_fragment:
                 intent = new Intent(MainActivity.this, FragmentActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_recyclerview:
+                intent = new Intent(MainActivity.this, RecyclerActivity.class);
                 startActivity(intent);
                 break;
         }
