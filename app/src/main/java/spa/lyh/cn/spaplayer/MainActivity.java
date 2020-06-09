@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import spa.lyh.cn.spaplayer.activity.SingleActivity;
+import spa.lyh.cn.spaplayer.fragment.FragmentActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btn1;
+    Button btn1,btn2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         btn1 = findViewById(R.id.btn_activity);
         btn1.setOnClickListener(this);
+        btn2 = findViewById(R.id.btn_fragment);
+        btn2.setOnClickListener(this);
     }
 
     @Override
@@ -23,7 +28,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (v.getId()){
             case R.id.btn_activity:
-                intent = new Intent(MainActivity.this,SingleActivity.class);
+                intent = new Intent(MainActivity.this, SingleActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_fragment:
+                intent = new Intent(MainActivity.this, FragmentActivity.class);
                 startActivity(intent);
                 break;
         }
