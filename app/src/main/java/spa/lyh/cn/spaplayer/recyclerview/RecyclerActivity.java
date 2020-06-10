@@ -1,6 +1,7 @@
 package spa.lyh.cn.spaplayer.recyclerview;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.Global;
 import spa.lyh.cn.spaplayer.R;
+import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayer.adapter.RecyclerViewAdapter;
 
 
@@ -26,7 +29,7 @@ import spa.lyh.cn.spaplayer.adapter.RecyclerViewAdapter;
  * onDestroy()
  * 这三个方法必须重写
  *
- * RecyclerView
+ * RecyclerView添加对应的监听，用来停止视频的播放
  */
 public class RecyclerActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -50,10 +53,17 @@ public class RecyclerActivity extends AppCompatActivity {
             @Override
             public void onChildViewDetachedFromWindow(View view) {
                 Jzvd jzvd = view.findViewById(R.id.spaplayer);
-                if (jzvd != null && Jzvd.CURRENT_JZVD != null &&
-                        jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())) {
-                    if (Jzvd.CURRENT_JZVD != null && Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
-                        Jzvd.goOnPlayOnPause();
+                if (jzvd != null
+                        && Jzvd.CURRENT_JZVD != null
+                        && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
+                        && jzvd.mediaInterface != null) {
+                    JZMediaSystem system = (JZMediaSystem) jzvd.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
+                    if (system.mediaPlayer != null
+                    && system.isPlaying()){
+                        if (Jzvd.CURRENT_JZVD != null &&
+                                Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
+                            Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
+                        }
                     }
                 }
             }
