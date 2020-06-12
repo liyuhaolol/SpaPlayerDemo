@@ -12,7 +12,7 @@ import spa.lyh.cn.spaplayer.fragment.FragmentActivity;
 import spa.lyh.cn.spaplayer.recyclerview.RecyclerActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btn1,btn2,btn3;
+    Button btn1,btn2,btn3,btn4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn2.setOnClickListener(this);
         btn3 = findViewById(R.id.btn_recyclerview);
         btn3.setOnClickListener(this);
+        btn4 = findViewById(R.id.btn_floatwindow);
+        btn4.setOnClickListener(this);
     }
 
     @Override
@@ -39,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btn_recyclerview:
+                intent = new Intent(MainActivity.this, RecyclerActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_floatwindow:
                 intent = new Intent(MainActivity.this, RecyclerActivity.class);
                 startActivity(intent);
                 break;

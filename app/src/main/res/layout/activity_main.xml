@@ -29,7 +29,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="recyclerview演示" />
+                android:text="recyclerview一般演示" />
+            <Button
+                android:id="@+id/btn_floatwindow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="recyclerview小窗演示(官方demo就有BUG放弃)" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
