@@ -36,6 +36,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="recyclerview小窗演示(官方demo就有BUG放弃)" />
+            <Button
+                android:id="@+id/btn_web"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="web页内嵌" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

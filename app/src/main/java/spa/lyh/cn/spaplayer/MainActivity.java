@@ -10,9 +10,10 @@ import android.widget.Button;
 import spa.lyh.cn.spaplayer.activity.SingleActivity;
 import spa.lyh.cn.spaplayer.fragment.FragmentActivity;
 import spa.lyh.cn.spaplayer.recyclerview.RecyclerActivity;
+import spa.lyh.cn.spaplayer.web.WebActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btn1,btn2,btn3,btn4;
+    Button btn1,btn2,btn3,btn4,btn5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
         btn4 = findViewById(R.id.btn_floatwindow);
         btn4.setOnClickListener(this);
+        btn5 = findViewById(R.id.btn_web);
+        btn5.setOnClickListener(this);
     }
 
     @Override
@@ -46,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_floatwindow:
                 intent = new Intent(MainActivity.this, RecyclerActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_web:
+                intent = new Intent(MainActivity.this, WebActivity.class);
                 startActivity(intent);
                 break;
         }
