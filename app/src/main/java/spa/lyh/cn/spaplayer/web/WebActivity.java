@@ -2,11 +2,14 @@ package spa.lyh.cn.spaplayer.web;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
 
@@ -18,12 +21,14 @@ import com.bumptech.glide.Glide;
 import cn.jzvd.JZUtils;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
+import spa.lyh.cn.lib_utils.PixelUtils;
 import spa.lyh.cn.spaplayer.Global;
 import spa.lyh.cn.spaplayer.R;
 
 public class WebActivity extends AppCompatActivity {
     WebView web;
-
+    JzvdStd jzvdStd;
+    LinearLayout linearLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +38,11 @@ public class WebActivity extends AppCompatActivity {
 
     private void initWeb(){
         web = findViewById(R.id.web);
+        jzvdStd = new JzvdStd(WebActivity.this);
+        linearLayout = new LinearLayout(WebActivity.this);
+        linearLayout.addView(jzvdStd);
         WebSettings webSettings = web.getSettings();
-        //webSettings.setBlockNetworkImage(true);
+        webSettings.setBlockNetworkImage(true);
         // 不支持缩放
         webSettings.setSupportZoom(false);
 
@@ -67,48 +75,50 @@ public class WebActivity extends AppCompatActivity {
         //启动对js的支持
         webSettings.setJavaScriptEnabled(true);
         web.addJavascriptInterface(new JZCallBack(), "jzvd");
-        web.loadUrl("file:///android_asset/jzvd.html");
+
+        web.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                web.getSettings().setBlockNetworkImage(false);
+                if (!web.getSettings().getLoadsImagesAutomatically()) {
+
+                    web.getSettings().setLoadsImagesAutomatically(true);
+                }
+            }
+        });
+        //web.loadUrl("file:///android_asset/jzvd.html");
+        web.loadUrl("file:///android_asset/test.html?closeAD=true");
     }
 
     public class JZCallBack {
 
         @JavascriptInterface
-        public void adViewJiaoZiVideoPlayer(final int width, final int height, final int top, final int left, final int index) {
+        public void adViewJiaoZiVideoPlayer(final int width, final int height, final int top, final int left, final int index,String videoUrl,String picUrl) {
+            Log.e("qwer","调用");
             runOnUiThread(() -> {
-                if (index == 0) {
-                    JzvdStd jzvdStd = new JzvdStd(WebActivity.this);
-                    jzvdStd.setUp(Global.url, "饺子骑大马");
-                    Glide.with(WebActivity.this)
-                            .load(Global.pic)
-                            .into(jzvdStd.posterImageView);
-                    ViewGroup.LayoutParams ll = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    AbsoluteLayout.LayoutParams layoutParams = new AbsoluteLayout.LayoutParams(ll);
-                    layoutParams.y = JZUtils.dip2px(WebActivity.this, top);
-                    layoutParams.x = JZUtils.dip2px(WebActivity.this, left);
-                    layoutParams.height = JZUtils.dip2px(WebActivity.this, height);
-                    layoutParams.width = JZUtils.dip2px(WebActivity.this, width);
+                if (linearLayout.getParent() == null){
+                    if (index == 0) {
+                        Jzvd.releaseAllVideos();
+                        jzvdStd.setUp(videoUrl, "饺子骑大马");
+                        Glide.with(WebActivity.this)
+                                .load(picUrl)
+                                .into(jzvdStd.posterImageView);
+                        ViewGroup.LayoutParams ll = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        AbsoluteLayout.LayoutParams layoutParams = new AbsoluteLayout.LayoutParams(ll);
+                        //Log.e("qwer","top:" + top);
+                        layoutParams.y = PixelUtils.dip2px(WebActivity.this, top);
+                        //Log.e("qwer","left:" + left);
+                        layoutParams.x = PixelUtils.dip2px(WebActivity.this, left);
+                        //Log.e("qwer","原始高度:" + height+"转换后的高度:" + PixelUtils.dip2px(WebActivity.this, height));
+                        layoutParams.height = PixelUtils.dip2px(WebActivity.this, height);
+                        //Log.e("qwer","原始宽度:" + width+"转换后的宽度:" + PixelUtils.dip2px(WebActivity.this, width));
+                        layoutParams.width = PixelUtils.dip2px(WebActivity.this, width);
 
-                    LinearLayout linearLayout = new LinearLayout(WebActivity.this);
-                    linearLayout.addView(jzvdStd);
-                    web.addView(linearLayout, layoutParams);
-                } else {
-                    JzvdStd jzvdStd = new JzvdStd(WebActivity.this);
-                    jzvdStd.setUp(Global.url, "饺子失态了");
-                    Glide.with(WebActivity.this)
-                            .load(Global.pic)
-                            .into(jzvdStd.posterImageView);
-                    ViewGroup.LayoutParams ll = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    AbsoluteLayout.LayoutParams layoutParams = new AbsoluteLayout.LayoutParams(ll);
-                    layoutParams.y = JZUtils.dip2px(WebActivity.this, top);
-                    layoutParams.x = JZUtils.dip2px(WebActivity.this, left);
-                    layoutParams.height = JZUtils.dip2px(WebActivity.this, height);
-                    layoutParams.width = JZUtils.dip2px(WebActivity.this, width);
-
-                    LinearLayout linearLayout = new LinearLayout(WebActivity.this);
-                    linearLayout.addView(jzvdStd);
-                    web.addView(linearLayout, layoutParams);
+                        web.addView(linearLayout, layoutParams);
+                        jzvdStd.startVideo();
+                    }
                 }
-
             });
 
         }

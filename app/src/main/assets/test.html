@@ -1,0 +1,390 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+	<meta name="keywords" content="【视频新闻】震惊！巴西在线教育竟如此艰难？" />
+    <meta name="description" content="【视频新闻】震惊！巴西在线教育竟如此艰难？" />
+
+	<title>【视频新闻】震惊！巴西在线教育竟如此艰难？</title>
+     <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/swiper.min.css">
+    <!-- <link rel="stylesheet" href="/jrlmCMS/r/cms/www/tpl_basecms/css/wap.css"> -->
+    <script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/jquery-1.8.0.min.js"></script>
+    <script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/myjquery.js"></script>
+    <script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/swiper.min.js"></script>
+
+    <!-- Demo styles -->
+    <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+    .swiper-slide p span{
+    	/*margin-right: 0.1rem;*/
+    	padding:0;
+    }
+    .swiper-slide p .text{
+    	/*padding-right:0.02rem;*/
+    	margin-right: 0.02rem;
+    }
+
+    .mainContent img{
+    	width: 100%;
+    	max-width: 550px;
+    	height: auto;
+    	margin: 0 auto;
+    }
+    .mainContent{
+    	font-size:0.18rem;
+    	line-height: .27rem;
+    }
+
+    /*add*/
+    .downapp{
+    	background: rgba(0,0,0,0.4);
+    	padding:0.1rem;
+    	position:fixed;
+    	width:100%;
+    	bottom:0;
+    	overflow:hidden;
+    	/*text-align: center;*/
+    	z-index:111;
+    }
+    .pr{
+    	position:relative;
+    }
+    .pr a{
+    	color:white;
+    	outline: none;
+    	blr:expression(this.onFocus=this.blur());
+    	text-decoration: none;
+    	font-size: 0.2rem;
+    	/*display: inline-block;*/
+    	display: block;
+    	/*width: 0.6rem;*/
+    	/*width:3.2rem;*/
+    	width:95%;
+    	height:0.6rem;
+    	/*line-height: 0.35rem;
+    	background:#38f;*/
+    	border-radius:0.06rem;
+    }
+    .pr a img{
+    	float:left;
+    	width:0.8rem;
+    	height:0.8rem;
+    }
+    .pr span{
+		float:left;
+		margin-top:0.2rem;
+		margin-left:0.2rem;
+    }
+    .app_close{
+    	width: 0.6rem;
+		height: 0.6rem;
+		right: 10px;
+		top: -10px;
+		position: absolute;
+		background: #000 url("http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/img/x.png") no-repeat 23px 14px;
+		background-size: auto 30%;
+		text-indent: -9999px;
+		border-radius: 0 0 0 100%;
+		cursor: pointer;
+		z-index: 999;
+    }
+
+
+
+    </style>
+    <script>
+    $(document).ready(function(){
+    	$(".mainContent p:has(img)").css("text-align","center");
+    	$(".mainContent p:has(img)").css("text-indent","0px");
+       // $(".mainContent").find("p").not(':has(img)').css("border","solid yellow");
+    //alert($.browser.chrome);
+        //转换本地时间
+        var timestamp = $("#span_localDate").text();
+	var localDate = new Date(parseInt(timestamp)).Format("yyyy-MM-dd hh:mm");
+        $("#span_localDate").text(localDate);
+        $("#span_localDate").show();
+        //转换本地时间结束
+     if($.browser.chrome){
+ 	var version=$.browser.version.split(".");
+ 	//alert("this is chrome");
+   	if(version[0]>53){
+          $("<link>").attr({ rel: "stylesheet",type: "text/css",href: "http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/wap_video.css"}).appendTo("head");
+     //$("link").attr("href","/jrlmCMS/r/cms/www/tpl_basecms/css/wap_video.css");
+   	}
+     }
+
+	    //夜间模式 add 20180409
+	    function getQueryVariable(variable){
+	       var query = window.location.search.substring(1);
+	       var vars = query.split("&");
+	       for (var i=0;i<vars.length;i++) {
+	               var pair = vars[i].split("=");
+	               if(pair[0] == variable){return pair[1];}
+	       }
+	       return(false);
+	    }
+	    function include_css(path){
+	        var fileref=document.createElement("link");
+	        fileref.rel = "stylesheet";
+	        fileref.type = "text/css";
+	        fileref.href = path;
+	        var head = document.getElementsByTagName('head')[0];
+	        head.appendChild(fileref);
+	    }
+
+	    var res = getQueryVariable("night");
+	    if(res=="true"){
+	        include_css("http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/wapn.css");
+	    }else{
+	        include_css("http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/wap.css");
+	    }
+
+	    //图片点击放大效果
+	    var imgSrcs=[];
+	    $(".mainContent img").each(function(){
+	    	imgSrcs.push($(this).attr('src'));
+	    });
+
+	    //判断客户端
+	    var u = navigator.userAgent;
+	    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+	    //判断是否是app打开
+	    var isapp = getQueryVariable("closeAD");
+
+
+	    if(isapp=="true"){
+	    	//添加视频音频播放暂停
+		    var videos = document.getElementsByTagName('video');
+		    for (var i = 0; i < videos.length; i++) {
+		        videos[i].addEventListener('play', onPlay, false);
+		    }
+
+		    var audios = document.getElementsByTagName('audio');
+		    for (var i = 0; i < audios.length; i++) {
+		        audios[i].addEventListener('play', onPlay, false);
+		    }
+
+	    	function onPlay() {
+	    		if(isiOS){
+	    			window.webkit.messageHandlers.stopTTS.postMessage("");
+	    		}else if(isAndroid){
+		       		window.android.stopAudio();
+		    	}
+		    }
+
+
+	    	$(".downapp").hide();
+	    	if(isAndroid){
+		  		pics = imgSrcs.join(",");
+		  		window.android.getPicUrl(pics);
+		  		$(".mainContent img").on("click",function(){
+		    		var clicksrc = $(this).attr("src");
+		    		for(var i = 0; i < imgSrcs.length; i++) {
+			            if (imgSrcs[i] == clicksrc){
+			            	window.android.getPicIndex(i);
+			            	return i;
+				        }
+				    }
+			    });
+		    }else if(isiOS){
+		    	window.webkit.messageHandlers.AddPicture.postMessage(imgSrcs);
+		    	$(".mainContent img").on("click",function(){
+		    		var clicksrc = $(this).attr("src");
+		    		for(var i = 0; i < imgSrcs.length; i++) {
+			            if (imgSrcs[i] == clicksrc){
+			            	window.webkit.messageHandlers.testWS.postMessage(i);
+			            	return i;
+				        }
+				    }
+			    });
+		    }
+	    }else{
+	    	$(".downapp").show();
+	    	if(isAndroid){
+	    		//$(".pr a").attr("href","http://www.jrlamei.com/app/");
+	    		//http://10.8.13.235:8080/jrlmCMS/hwzxadmin/hwzxcms/content/share.html
+	    		//http://10.8.13.235:8080/jrlmCMS/share.html
+	    		$(".pr a").attr("href","http://cms.jrlamei.com/jrlmCMS/share.html");
+
+	    	}else if(isiOS){
+	    		//$(".pr a").attr("href","https://itunes.apple.com/app/id1321836222");
+	    		$(".pr a").attr("href","http://cms.jrlamei.com/jrlmCMS/share.html");
+	    	}
+	    }
+
+
+    });
+
+    function phide(obj){
+       $(obj).parent().children().children("div").fadeToggle();
+    }
+    function stopaudio(){
+    	var audio = document.getElementById("audio1");
+    	audio.pause();
+    }
+    function stopvideo(){
+    	var video = document.getElementById("video1");
+    	video.pause();
+    }
+
+    function closed(obj){
+    	$(obj).parent().parent().hide();
+    }
+
+    function onPause() {
+		var videos = document.getElementsByTagName('video');
+        for (var i = 0; i < videos.length; i++) {
+     		var video = videos[i];
+         	video.pause();
+        }
+        var audios = document.getElementsByTagName('audio');
+        for (var i = 0; i < audios.length; i++) {
+        	var audio = audios[i];
+            audio.pause();
+        }
+	}
+
+
+Date.prototype.Format = function(fmt) {//author: liyuhao
+			var o = {
+				"M+" : this.getMonth() + 1,
+				"d+" : this.getDate(),
+				"h+" : this.getHours(),
+				"m+" : this.getMinutes(),
+				"s+" : this.getSeconds(),
+				"q+" : Math.floor((this.getMonth() + 3) / 3),
+				"S" : this.getMilliseconds() };
+			if (/(y+)/.test(fmt))
+				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			for (var k in o)
+			if (new RegExp("(" + k + ")").test(fmt))
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
+    </script>
+</head>
+<body>
+ <!--    <div class="wrap"> -->
+	     <!-- 图文类型稿件-->
+
+		 <!-- 视频类型稿件-->
+			<div class="mod">
+				<header class="landingHead">
+					<h1 class="titleFont">【视频新闻】震惊！巴西在线教育竟如此艰难？</h1>
+					<div class="infoSet">
+						<span class="afrSplit">来源：南美侨报网</span>
+
+						<span   id="span_localDate" style="display:none;">
+							1589465491000 &nbsp
+						</span>
+					</div>
+				</header>
+				<div class="mainContent">
+					<section id="video_play">
+						<video id="video1" class="main_video"  poster="http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png"   webkit-playsinline="" playsinline="" controls="true">
+							     <source src="http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4">
+						</video>
+					</section>
+		                <p>
+			              <p style="text-indent:2em;">
+	【南美侨报网讯】疫情期间，为何巴西学校推出的远程在线课程，一直饱受诟病？巴西高考会如期进行吗？学生，家长与老师之间又存在着怎样的矛盾与争吵？（“今日拉美”　小苏圣保罗报道）
+</p>
+<p style="text-indent:2em;">
+
+	<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592288269664&di=797cd96998ed20b95d4cf53c76a08e9f&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg" width="100" height="91" />
+	<p>
+		部分资源来自YOUTUBE，原视频链接如下：
+	</p>
+		<p>
+			http://video.jrlamei.com/VideoSystem/dealVideoSave/2020/5/202005141111198306351.mp4
+	</p>
+					<p>
+						http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4
+					</p>
+		<p>
+			http://cms.jrlamei.com/jrlmCMS/br_video/u/cms/www/202005/141105146fun.png
+	</p>
+					<p>
+						http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png
+					</p>
+	<p>
+		https://www.youtube.com/watch?v=xM-ICfudXJw
+	</p>
+	<p>
+		https://www.youtube.com/watch?v=EeOpimY8pVg
+	</p>
+	<p>
+		https://www.youtube.com/watch?v=apufjiGlIY0
+	</p>
+	<p>
+		https://www.youtube.com/watch?v=QIYrjZTmjwI
+	</p>
+</p>
+<p style="text-indent:2em;">
+
+</p>
+		                </p>
+
+				</div>
+			</div>
+
+			<script>
+
+			var video1=document.getElementById("video1");
+			var sources = video1.getElementsByTagName('source');
+			video1.addEventListener('play', function () {//播放开始执行的函数
+jzvd.adViewJiaoZiVideoPlayer(video1.offsetWidth,video1.offsetHeight,video1.offsetTop,video1.offsetLeft,0,sources[0].src,video1.poster)
+			                });
+		 </script>
+
+ <!-- <script>
+ window.onload = function(){
+ 　　　var video1=document.getElementById("video1");
+ var sources = video1.getElementsByTagName('source');
+    jzvd.adViewJiaoZiVideoPlayer(video1.offsetWidth,video1.offsetHeight,video1.offsetTop,video1.offsetLeft,0,sources[0].src,video1.poster)
+ }
+ </script>
+音频类型稿件-->
+                <script>
+                       var vi = document.getElementById("video1")
+                       vi.addEventListener('webkitendfullscreen',function () {
+                            window.webkit.messageHandlers.webVideoEndFullScreen.postMessage("");
+                       },false);
+               </script>
+
+		 <!-- 音频类型稿件-->
+
+		 <!-- 图集类型稿件-->
+		<!-- add下载app -->
+        <div class="downapp" style="display:none;">
+        	<div class="pr">
+        		<a><img src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/img/waplogo.png"><span>下载今日拉美客户端</span></a>
+        		<div class="app_close" onclick="closed(this);">关闭</div>
+        	</div>
+        </div>
+		<!-- Swiper JS -->
+		<script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/swiper.min.js"></script>
+
+		<!-- Initialize Swiper -->
+		<script>
+		var swiper = new Swiper('.swiper-container', {
+			paginationClickable: true
+		});
+		</script>
+
+
+
+
+   <!--  </div> -->
+</body>
+</html>
