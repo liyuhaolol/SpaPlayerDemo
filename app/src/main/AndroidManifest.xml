@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="spa.lyh.cn.spaplayer">
+    package="spa.lyh.cn.spaplayerdemo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -14,23 +14,23 @@
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/jz_network_security_config"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".MainActivity">
+        <activity android:name="spa.lyh.cn.spaplayerdemo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SingleActivity"
+        <activity android:name="spa.lyh.cn.spaplayerdemo.activity.SingleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait"/>
-        <activity android:name=".fragment.FragmentActivity"
+        <activity android:name="spa.lyh.cn.spaplayerdemo.fragment.FragmentActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait"/>
-        <activity android:name=".recyclerview.RecyclerActivity"
+        <activity android:name="spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait"/>
-        <activity android:name=".web.WebActivity"
+        <activity android:name="spa.lyh.cn.spaplayerdemo.web.WebActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait"/>
     </application>

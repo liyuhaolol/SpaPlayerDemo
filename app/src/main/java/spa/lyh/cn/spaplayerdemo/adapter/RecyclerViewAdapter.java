@@ -1,4 +1,4 @@
-package spa.lyh.cn.spaplayer.adapter;
+package spa.lyh.cn.spaplayerdemo.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,13 +10,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
-import cn.jzvd.Jzvd;
-import cn.jzvd.JzvdStd;
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
-import spa.lyh.cn.spaplayer.Global;
-import spa.lyh.cn.spaplayer.R;
+import spa.lyh.cn.spaplayerdemo.Global;
+import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

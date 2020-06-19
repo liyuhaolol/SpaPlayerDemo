@@ -1,4 +1,4 @@
-package spa.lyh.cn.spaplayer.web;
+package spa.lyh.cn.spaplayerdemo.web;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,12 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
-import cn.jzvd.JZUtils;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 import spa.lyh.cn.lib_utils.PixelUtils;
-import spa.lyh.cn.spaplayer.Global;
-import spa.lyh.cn.spaplayer.R;
+import spa.lyh.cn.spaplayerdemo.R;
 
 public class WebActivity extends AppCompatActivity {
     WebView web;
@@ -141,6 +138,7 @@ public class WebActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        web.reload();
         Jzvd.releaseAllVideos();
     }
 }

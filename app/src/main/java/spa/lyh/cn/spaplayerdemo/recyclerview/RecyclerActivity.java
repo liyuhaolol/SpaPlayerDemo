@@ -1,7 +1,6 @@
-package spa.lyh.cn.spaplayer.recyclerview;
+package spa.lyh.cn.spaplayerdemo.recyclerview;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -9,15 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
-import spa.lyh.cn.spaplayer.Global;
-import spa.lyh.cn.spaplayer.R;
-import spa.lyh.cn.spaplayer.SpaPlayer;
-import spa.lyh.cn.spaplayer.adapter.RecyclerViewAdapter;
+import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.adapter.RecyclerViewAdapter;
 
 
 /**

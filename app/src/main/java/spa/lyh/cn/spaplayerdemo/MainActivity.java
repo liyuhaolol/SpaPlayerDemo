@@ -1,4 +1,4 @@
-package spa.lyh.cn.spaplayer;
+package spa.lyh.cn.spaplayerdemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import spa.lyh.cn.spaplayer.activity.SingleActivity;
-import spa.lyh.cn.spaplayer.fragment.FragmentActivity;
-import spa.lyh.cn.spaplayer.recyclerview.RecyclerActivity;
-import spa.lyh.cn.spaplayer.web.WebActivity;
+import spa.lyh.cn.spaplayerdemo.activity.SingleActivity;
+import spa.lyh.cn.spaplayerdemo.fragment.FragmentActivity;
+import spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity;
+import spa.lyh.cn.spaplayerdemo.web.WebActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btn1,btn2,btn3,btn4,btn5;

@@ -1,15 +1,15 @@
-package spa.lyh.cn.spaplayer.fragment;
+package spa.lyh.cn.spaplayerdemo.activity;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import cn.jzvd.Jzvd;
-import spa.lyh.cn.spaplayer.R;
-
+import spa.lyh.cn.lib_image.app.ImageLoadUtil;
+import spa.lyh.cn.spaplayerdemo.Global;
+import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayer.SpaPlayer;
 
 /**
  * 在单独的Activity中演示
@@ -20,17 +20,18 @@ import spa.lyh.cn.spaplayer.R;
  * onDestroy()
  * 这三个方法必须重写
  */
-public class FragmentActivity extends AppCompatActivity {
+public class SingleActivity extends AppCompatActivity {
+    SpaPlayer player;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        VideoFragment videoFragment = new VideoFragment();
-        transaction.add(R.id.fl_main, videoFragment);
-        transaction.commit();
+        setContentView(R.layout.activity_single);
+        player = findViewById(R.id.spaplayer);
+        player.setUp(Global.url,"聪明的小学神");
+        ImageLoadUtil.displayImage(this,Global.pic,player.posterImageView);
 
+        //player.startVideo();
     }
 
     @Override

@@ -3,10 +3,10 @@ package spa.lyh.cn.spaplayer;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 public class SpaPlayer extends JzvdStd {
@@ -28,6 +28,19 @@ public class SpaPlayer extends JzvdStd {
     public void init(Context context) {
         super.init(context);
         time = findViewById(R.id.time);
+        startButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SpaPlayer.this.mediaInterface != null){
+                    if (SpaPlayer.this.mediaInterface.jzvd.state == Jzvd.STATE_NORMAL){
+                        Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
+                }
+                SpaPlayer.super.onClick(v);
+            }
+        });
 
         /*posterImageView.setOnClickListener(new OnClickListener() {
             @Override

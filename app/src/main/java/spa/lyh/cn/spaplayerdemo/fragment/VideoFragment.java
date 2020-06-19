@@ -1,4 +1,4 @@
-package spa.lyh.cn.spaplayer.fragment;
+package spa.lyh.cn.spaplayerdemo.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
-import spa.lyh.cn.spaplayer.Global;
-import spa.lyh.cn.spaplayer.R;
+import spa.lyh.cn.spaplayerdemo.Global;
+import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 
 public class VideoFragment extends Fragment {

@@ -1,4 +1,4 @@
-package spa.lyh.cn.spaplayer;
+package spa.lyh.cn.spaplayerdemo;
 
 public class Global {
 
