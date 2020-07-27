@@ -2,6 +2,7 @@ package spa.lyh.cn.spaplayer;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import cn.jzvd.JzvdStd;
 
 public class SpaPlayer extends JzvdStd {
     TextView time;
+    private VideoCompleteListener listener;
     public SpaPlayer(Context context) {
         this(context,null);
     }
@@ -54,5 +56,23 @@ public class SpaPlayer extends JzvdStd {
     public void setAllControlsVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro, int posterImg, int bottomPro, int retryLayout) {
         super.setAllControlsVisiblity(topCon, bottomCon, startBtn, loadingPro, posterImg, bottomPro, retryLayout);
         time.setVisibility(posterImg);
+    }
+
+    @Override
+    public void gotoFullscreen() {
+        super.gotoFullscreen();
+        Toast.makeText(getContext(), "全屏",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStateAutoComplete() {
+        super.onStateAutoComplete();
+        if (listener != null){
+            listener.onComplete();
+        }
+    }
+
+    public void setOnCompleteListener(VideoCompleteListener listener){
+        this.listener = listener;
     }
 }

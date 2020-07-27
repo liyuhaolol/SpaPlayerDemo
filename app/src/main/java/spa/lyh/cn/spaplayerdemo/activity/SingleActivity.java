@@ -31,6 +31,7 @@ public class SingleActivity extends AppCompatActivity {
         player.setUp(Global.url,"聪明的小学神");
         ImageLoadUtil.displayImage(this,Global.pic,player.posterImageView);
 
+
         //player.startVideo();
     }
 

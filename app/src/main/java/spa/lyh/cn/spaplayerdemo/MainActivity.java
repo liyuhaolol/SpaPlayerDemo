@@ -10,10 +10,11 @@ import android.widget.Button;
 import spa.lyh.cn.spaplayerdemo.activity.SingleActivity;
 import spa.lyh.cn.spaplayerdemo.fragment.FragmentActivity;
 import spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity;
+import spa.lyh.cn.spaplayerdemo.tiktok.TiktokActivity;
 import spa.lyh.cn.spaplayerdemo.web.WebActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btn1,btn2,btn3,btn4,btn5;
+    Button btn1,btn2,btn3,btn4,btn5,btn6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn4.setOnClickListener(this);
         btn5 = findViewById(R.id.btn_web);
         btn5.setOnClickListener(this);
+        btn6 = findViewById(R.id.btn_tiktok);
+        btn6.setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_web:
                 intent = new Intent(MainActivity.this, WebActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_tiktok:
+                intent = new Intent(MainActivity.this, TiktokActivity.class);
                 startActivity(intent);
                 break;
         }
