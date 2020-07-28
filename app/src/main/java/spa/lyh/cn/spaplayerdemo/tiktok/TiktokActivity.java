@@ -127,7 +127,7 @@ public class TiktokActivity extends AppCompatActivity {
             }
         });
 
-        canLoadMore = true;
+        canLoadMore = false;
 
     }
 
@@ -179,6 +179,7 @@ public class TiktokActivity extends AppCompatActivity {
     }
 
     private void loadMoreStop(){
+        canLoadMore = false;
     }
 
     private void playVideo(int position){
