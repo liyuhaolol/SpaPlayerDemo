@@ -32,10 +32,25 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
         SpaPlayer spaPlayer = baseViewHolder.getView(R.id.spaplayer);
-        spaPlayer.setUp(
-                viewModel.videoUrl,
-                viewModel.title);
-        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+        if (spaPlayer.jzDataSource !=null){
+            if (!spaPlayer.jzDataSource.containsTheUrl(viewModel.videoUrl)){
+                spaPlayer.setUp(
+                        viewModel.videoUrl,
+                        viewModel.title);
+                ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+            }else {
+                //当前item的url一样，
+
+                Log.e("qwer","未刷新");
+            }
+        }else {
+            spaPlayer.setUp(
+                    viewModel.videoUrl,
+                    viewModel.title);
+            ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+        }
+
+        //spaPlayer.titleTextView.setText(viewModel.title);
         int count = getHeaderLayoutCount();
         int postion;
         if (count > 0){
@@ -43,6 +58,7 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }else {
             postion = baseViewHolder.getLayoutPosition();
         }
+        //Log.e("qwer",postion+"");
         spaPlayer.setOnCompleteListener(new VideoCompleteListener() {
             @Override
             public void onComplete() {

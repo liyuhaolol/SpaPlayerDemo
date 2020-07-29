@@ -12,9 +12,10 @@ import spa.lyh.cn.spaplayerdemo.fragment.FragmentActivity;
 import spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity;
 import spa.lyh.cn.spaplayerdemo.tiktok.TiktokActivity;
 import spa.lyh.cn.spaplayerdemo.web.WebActivity;
+import spa.lyh.cn.spaplayerdemo.xigua.XiguaActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btn1,btn2,btn3,btn4,btn5,btn6;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn5.setOnClickListener(this);
         btn6 = findViewById(R.id.btn_tiktok);
         btn6.setOnClickListener(this);
+        btn7 = findViewById(R.id.btn_xigua);
+        btn7.setOnClickListener(this);
     }
 
     @Override
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_tiktok:
                 intent = new Intent(MainActivity.this, TiktokActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_xigua:
+                intent = new Intent(MainActivity.this, XiguaActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -52,12 +52,17 @@ public class RecyclerActivity extends AppCompatActivity {
                         && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
                         && jzvd.mediaInterface != null) {
                     JZMediaSystem system = (JZMediaSystem) jzvd.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
-                    if (system.mediaPlayer != null
-                    && system.isPlaying()){
-                        if (Jzvd.CURRENT_JZVD != null &&
-                                Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
-                            Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
+                    if (system.mediaPlayer != null){
+                        if (system.isPlaying()){
+                            if (Jzvd.CURRENT_JZVD != null &&
+                                    Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
+                                Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
+                            }
+                        }else {
+                            Jzvd.releaseAllVideos();
                         }
+                    }else {
+                        Jzvd.releaseAllVideos();
                     }
                 }
             }

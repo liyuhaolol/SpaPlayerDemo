@@ -3,6 +3,8 @@ package spa.lyh.cn.spaplayerdemo.tiktok;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayerdemo.R;
@@ -54,10 +57,12 @@ public class TiktokActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                //Log.e("qwer","onPageSelected->position:"+position);
+                Log.e("qwer","onPageSelected->position:"+position);
                 Jzvd.releaseAllVideos();
 
+                Log.e("qwer",list.get(position).title);
                 playVideo(position);
+
                 if (canLoadMore){
                     //可以加载
                     if (position >= list.size()-2){
@@ -87,15 +92,15 @@ public class TiktokActivity extends AppCompatActivity {
             }
         });
 
-        /*recyInViewpager.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+        recyInViewpager.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
-
             }
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                Jzvd jzvd = view.findViewById(R.id.spaplayer);
+                Log.e("qwer","离开一个view");
+                /*Jzvd jzvd = view.findViewById(R.id.spaplayer);
                 if (jzvd != null
                         && Jzvd.CURRENT_JZVD != null
                         && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
@@ -108,9 +113,9 @@ public class TiktokActivity extends AppCompatActivity {
                             Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
                         }
                     }
-                }
+                }*/
             }
-        });*/
+        });
 
 
         adapter = new VideoAdapter(this,list);
@@ -127,7 +132,19 @@ public class TiktokActivity extends AppCompatActivity {
             }
         });
 
-        canLoadMore = false;
+        canLoadMore = true;
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                list.get(0).title="134";
+                //adapter.notifyItemChanged(0);
+                adapter.notifyDataSetChanged();
+                //adapter.notifyItemRemoved(0);
+                //adapter.notifyItemInserted(1);
+                //loadMore();
+            }
+        },10000);
 
     }
 
@@ -166,8 +183,10 @@ public class TiktokActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.e("qwer","上拉");
                 addData();
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
+                adapter.notifyItemInserted(adapter.getItemCount());
                 loadMoreComplete();
             }
         }, 100);
@@ -186,7 +205,7 @@ public class TiktokActivity extends AppCompatActivity {
         SpaPlayer spaPlayer = adapter.getVideoPlayer(position);
         if (spaPlayer != null){
 
-            spaPlayer.startVideoAfterPreloading();
+            spaPlayer.startVideo();
         }else {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override

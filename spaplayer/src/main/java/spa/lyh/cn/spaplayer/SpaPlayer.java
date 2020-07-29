@@ -61,7 +61,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void gotoFullscreen() {
         super.gotoFullscreen();
-        Toast.makeText(getContext(), "全屏",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "全屏",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -75,4 +75,5 @@ public class SpaPlayer extends JzvdStd {
     public void setOnCompleteListener(VideoCompleteListener listener){
         this.listener = listener;
     }
+
 }

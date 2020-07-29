@@ -1,6 +1,8 @@
 package spa.lyh.cn.spaplayerdemo.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +32,6 @@ public class SingleActivity extends AppCompatActivity {
         player = findViewById(R.id.spaplayer);
         player.setUp(Global.url,"聪明的小学神");
         ImageLoadUtil.displayImage(this,Global.pic,player.posterImageView);
-
 
         //player.startVideo();
     }
