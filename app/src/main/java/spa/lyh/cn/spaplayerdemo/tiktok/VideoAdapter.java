@@ -42,45 +42,6 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
                         viewModel.videoUrl,
                         viewModel.title);
                 ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-            }else {
-                //当前item的url一样，
-                /*if (spaPlayer.mediaInterface != null){
-                    Log.e("qwer","不为空");
-                    if (spaPlayer.state == 7){
-                        Log.e("qwer","释放");
-                        *//*JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;
-                        system.release();*//*
-                        spaPlayer.reset();
-                    }
-                }else {
-                    Log.e("qwer","为空");
-                }*/
-                /*if (spaPlayer.mediaInterface != null){
-                    //媒体入口不为空
-                    JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;
-                    if (system.mediaPlayer != null){
-                        //播放器不为空
-                        if (!system.isPlaying()){
-                            //当前没有在播放，初始化
-                            spaPlayer.setUp(
-                                    viewModel.videoUrl,
-                                    viewModel.title);
-                            ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-                        }
-                    }else {
-                        //播放器为空,初始化
-                        spaPlayer.setUp(
-                                viewModel.videoUrl,
-                                viewModel.title);
-                        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-                    }
-                }else {
-                    //媒体入口为空，初始化
-                    spaPlayer.setUp(
-                            viewModel.videoUrl,
-                            viewModel.title);
-                    ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-                }*/
             }
         }else {
             //当前没有对应播放数据，初始化
