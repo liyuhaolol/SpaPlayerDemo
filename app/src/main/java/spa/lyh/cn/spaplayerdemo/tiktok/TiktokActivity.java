@@ -57,10 +57,8 @@ public class TiktokActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                Log.e("qwer","onPageSelected->position:"+position);
                 Jzvd.releaseAllVideos();
 
-                Log.e("qwer",list.get(position).title);
                 playVideo(position);
 
                 if (canLoadMore){
@@ -92,30 +90,35 @@ public class TiktokActivity extends AppCompatActivity {
             }
         });
 
-        recyInViewpager.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+/*        recyInViewpager.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
             }
 
             @Override
             public void onChildViewDetachedFromWindow(View view) {
-                Log.e("qwer","离开一个view");
-                /*Jzvd jzvd = view.findViewById(R.id.spaplayer);
+
+                Jzvd jzvd = view.findViewById(R.id.spaplayer);
                 if (jzvd != null
                         && Jzvd.CURRENT_JZVD != null
                         && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
                         && jzvd.mediaInterface != null) {
                     JZMediaSystem system = (JZMediaSystem) jzvd.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
-                    if (system.mediaPlayer != null
-                            && system.isPlaying()){
-                        if (Jzvd.CURRENT_JZVD != null &&
-                                Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
-                            Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
+                    if (system.mediaPlayer != null){
+                        if (system.isPlaying()){
+                            if (Jzvd.CURRENT_JZVD != null &&
+                                    Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
+                                Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
+                            }
+                        }else {
+                            Jzvd.releaseAllVideos();
                         }
+                    }else {
+                        Jzvd.releaseAllVideos();
                     }
-                }*/
+                }
             }
-        });
+        });*/
 
 
         adapter = new VideoAdapter(this,list);
@@ -133,18 +136,6 @@ public class TiktokActivity extends AppCompatActivity {
         });
 
         canLoadMore = true;
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                list.get(0).title="134";
-                //adapter.notifyItemChanged(0);
-                adapter.notifyDataSetChanged();
-                //adapter.notifyItemRemoved(0);
-                //adapter.notifyItemInserted(1);
-                //loadMore();
-            }
-        },10000);
 
     }
 
@@ -183,7 +174,6 @@ public class TiktokActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.e("qwer","上拉");
                 addData();
                 //adapter.notifyDataSetChanged();
                 adapter.notifyItemInserted(adapter.getItemCount());

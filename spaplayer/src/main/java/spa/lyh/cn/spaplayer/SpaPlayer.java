@@ -1,12 +1,15 @@
 package spa.lyh.cn.spaplayer;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.jzvd.JZUtils;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
@@ -65,11 +68,48 @@ public class SpaPlayer extends JzvdStd {
     }
 
     @Override
+    public void onStateNormal() {
+        super.onStateNormal();
+    }
+
+    @Override
+    public void onStatePreparing() {
+        super.onStatePreparing();
+    }
+
+    @Override
+    public void onStatePlaying() {
+        super.onStatePlaying();
+    }
+
+    @Override
+    public void onStatePause() {
+        super.onStatePause();
+    }
+
+    @Override
+    public void onStateError() {
+        super.onStateError();
+    }
+
+
+    @Override
     public void onStateAutoComplete() {
         super.onStateAutoComplete();
+        textureViewContainer.removeAllViews();
         if (listener != null){
             listener.onComplete();
         }
+    }
+
+    @Override
+    public void startVideo() {
+        super.startVideo();
+    }
+
+    @Override
+    public void onInfo(int what, int extra) {
+        super.onInfo(what, extra);
     }
 
     public void setOnCompleteListener(VideoCompleteListener listener){

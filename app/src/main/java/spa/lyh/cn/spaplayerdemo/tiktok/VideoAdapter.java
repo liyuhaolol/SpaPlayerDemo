@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import cn.jzvd.JZMediaSystem;
+import cn.jzvd.Jzvd;
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayer.VideoCompleteListener;
@@ -33,24 +35,62 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
         SpaPlayer spaPlayer = baseViewHolder.getView(R.id.spaplayer);
         if (spaPlayer.jzDataSource !=null){
+            //当前有对应播放数据
             if (!spaPlayer.jzDataSource.containsTheUrl(viewModel.videoUrl)){
+                //当前item的url不一样，初始化
                 spaPlayer.setUp(
                         viewModel.videoUrl,
                         viewModel.title);
                 ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
             }else {
                 //当前item的url一样，
-
-                Log.e("qwer","未刷新");
+                /*if (spaPlayer.mediaInterface != null){
+                    Log.e("qwer","不为空");
+                    if (spaPlayer.state == 7){
+                        Log.e("qwer","释放");
+                        *//*JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;
+                        system.release();*//*
+                        spaPlayer.reset();
+                    }
+                }else {
+                    Log.e("qwer","为空");
+                }*/
+                /*if (spaPlayer.mediaInterface != null){
+                    //媒体入口不为空
+                    JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;
+                    if (system.mediaPlayer != null){
+                        //播放器不为空
+                        if (!system.isPlaying()){
+                            //当前没有在播放，初始化
+                            spaPlayer.setUp(
+                                    viewModel.videoUrl,
+                                    viewModel.title);
+                            ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+                        }
+                    }else {
+                        //播放器为空,初始化
+                        spaPlayer.setUp(
+                                viewModel.videoUrl,
+                                viewModel.title);
+                        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+                    }
+                }else {
+                    //媒体入口为空，初始化
+                    spaPlayer.setUp(
+                            viewModel.videoUrl,
+                            viewModel.title);
+                    ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+                }*/
             }
         }else {
+            //当前没有对应播放数据，初始化
             spaPlayer.setUp(
                     viewModel.videoUrl,
                     viewModel.title);
             ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
         }
 
-        //spaPlayer.titleTextView.setText(viewModel.title);
+        spaPlayer.titleTextView.setText(viewModel.title);
         int count = getHeaderLayoutCount();
         int postion;
         if (count > 0){
@@ -69,6 +109,7 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         });
 
     }
+
 
     public void setOnCompleteListener(VideoPositionCompleteListener listener){
         this.listener = listener;

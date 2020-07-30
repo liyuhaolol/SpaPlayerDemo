@@ -48,10 +48,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             videoViewHolder vHolder = (videoViewHolder) holder;
             Log.i(TAG, "onBindViewHolder [" + vHolder.spaPlayer.hashCode() + "] position=" + position);
 
-            vHolder.spaPlayer.setUp(
+/*            vHolder.spaPlayer.setUp(
                     Global.url,
                     "聪明的小学神");
-            ImageLoadUtil.displayImage(context,Global.pic,vHolder.spaPlayer.posterImageView);
+            ImageLoadUtil.displayImage(context,Global.pic,vHolder.spaPlayer.posterImageView);*/
+
+            if (vHolder.spaPlayer.jzDataSource !=null){
+                //当前有对应播放数据
+                if (!vHolder.spaPlayer.jzDataSource.containsTheUrl(Global.url)){
+                    //当前item的url不一样，初始化
+                    vHolder.spaPlayer.setUp(
+                            Global.url,
+                            "聪明的小学神");
+                    ImageLoadUtil.displayImage(context,Global.pic,vHolder.spaPlayer.posterImageView);
+                }else {
+                    //当前item的url一样，
+                }
+            }else {
+                //当前没有对应播放数据，初始化
+                vHolder.spaPlayer.setUp(
+                        Global.url,
+                        "聪明的小学神");
+                ImageLoadUtil.displayImage(context,Global.pic,vHolder.spaPlayer.posterImageView);
+            }
+
         }else {
             textViewHolder tHolder = (textViewHolder) holder;
             tHolder.item.setText("item"+position);

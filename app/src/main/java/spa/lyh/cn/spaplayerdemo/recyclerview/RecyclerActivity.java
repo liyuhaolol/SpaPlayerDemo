@@ -1,12 +1,17 @@
 package spa.lyh.cn.spaplayerdemo.recyclerview;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
 
 import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
@@ -40,12 +45,13 @@ public class RecyclerActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
-            public void onChildViewAttachedToWindow(View view) {
+            public void onChildViewAttachedToWindow(@NotNull View view) {
 
             }
 
             @Override
-            public void onChildViewDetachedFromWindow(View view) {
+            public void onChildViewDetachedFromWindow(@NotNull View view) {
+                Log.e("qwer","离开一个view");
                 Jzvd jzvd = view.findViewById(R.id.spaplayer);
                 if (jzvd != null
                         && Jzvd.CURRENT_JZVD != null
@@ -67,6 +73,18 @@ public class RecyclerActivity extends AppCompatActivity {
                 }
             }
         });
+
+/*        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                list.get(0).title="134";
+                //adapter.notifyItemChanged(0);
+                adapter.notifyDataSetChanged();
+                //adapter.notifyItemRemoved(0);
+                //adapter.notifyItemInserted(1);
+                //loadMore();
+            }
+        },20000);*/
     }
 
     @Override
