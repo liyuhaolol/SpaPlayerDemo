@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.adapter.RecyclerViewAdapter;
+import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
 
 
 /**
@@ -34,6 +36,10 @@ public class RecyclerActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
 
+    private int currentPlayPosition = -1;
+
+    private boolean isNotify;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +52,11 @@ public class RecyclerActivity extends AppCompatActivity {
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NotNull View view) {
-
             }
 
             @Override
             public void onChildViewDetachedFromWindow(@NotNull View view) {
-                Log.e("qwer","离开一个view");
+                int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
                 Jzvd jzvd = view.findViewById(R.id.spaplayer);
                 if (jzvd != null
                         && Jzvd.CURRENT_JZVD != null
@@ -62,29 +67,66 @@ public class RecyclerActivity extends AppCompatActivity {
                         if (system.isPlaying()){
                             if (Jzvd.CURRENT_JZVD != null &&
                                     Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
-                                Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
+                                releaseVideo(position);
                             }
                         }else {
-                            Jzvd.releaseAllVideos();
+                            releaseVideo(position);
                         }
                     }else {
-                        Jzvd.releaseAllVideos();
+                        releaseVideo(position);
                     }
                 }
+            }
+        });
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING){
+                    //拖拽状态
+                    isNotify = false;
+                }
+                /*else if (newState == RecyclerView.SCROLL_STATE_SETTLING){
+                    Log.e("qwer","回弹状态");
+                }else if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    Log.e("qwer","静止状态");
+                }*/
+            }
+        });
+
+        adapter.setVideoStartListener(new VideoStartListener() {
+            @Override
+            public void onStart(int position) {
+                currentPlayPosition = position;
             }
         });
 
 /*        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                list.get(0).title="134";
                 //adapter.notifyItemChanged(0);
-                adapter.notifyDataSetChanged();
+                notifyDataSetChanged();
                 //adapter.notifyItemRemoved(0);
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },20000);*/
+        },5000);*/
+    }
+
+    private void releaseVideo(int viewPosition){
+        if (viewPosition == currentPlayPosition ){
+            //当view跟播放是同一个的时候在执行操作
+            if (!isNotify){
+                Jzvd.releaseAllVideos();
+            }
+        }
+    }
+
+    private void notifyDataSetChanged(){
+        isNotify = true;
+        adapter.notifyDataSetChanged();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package spa.lyh.cn.spaplayerdemo.xigua;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 
@@ -14,11 +13,10 @@ import java.util.List;
 
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
-import spa.lyh.cn.spaplayer.SpaPlayer;
-import spa.lyh.cn.spaplayer.VideoCompleteListener;
+import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
-import spa.lyh.cn.spaplayerdemo.tiktok.VideoPositionCompleteListener;
+import spa.lyh.cn.spaplayerdemo.listener.VideoPositionCompleteListener;
 
 public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     private Context mContext;
@@ -51,14 +49,14 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }else {
             postion = baseViewHolder.getLayoutPosition();
         }
-        commonPlayer.setOnCompleteListener(new VideoCompleteListener() {
+/*        commonPlayer.setOnCompleteListener(new VideoStatusListener() {
             @Override
             public void onComplete() {
                 if (listener != null){
                     listener.onComplete(postion);
                 }
             }
-        });
+        });*/
 
     }
 

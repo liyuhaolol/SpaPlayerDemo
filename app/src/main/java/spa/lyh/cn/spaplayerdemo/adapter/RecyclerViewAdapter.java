@@ -11,15 +11,19 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
+import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayer.SpaPlayer;
+import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final String TAG = "AdapterRecyclerView";
     int[] videoIndexs = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
     private Context context;
+
+    private VideoStartListener listener;
 
     public RecyclerViewAdapter(Context context) {
         this.context = context;
@@ -52,7 +56,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Global.url,
                     "聪明的小学神");
             ImageLoadUtil.displayImage(context,Global.pic,vHolder.spaPlayer.posterImageView);*/
-
             if (vHolder.spaPlayer.jzDataSource !=null){
                 //当前有对应播放数据
                 if (!vHolder.spaPlayer.jzDataSource.containsTheUrl(Global.url)){
@@ -71,6 +74,39 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         "聪明的小学神");
                 ImageLoadUtil.displayImage(context,Global.pic,vHolder.spaPlayer.posterImageView);
             }
+
+            vHolder.spaPlayer.setOnStatusListener(new VideoStatusListener() {
+                @Override
+                public void onStateNormal() {
+
+                }
+
+                @Override
+                public void onStatePreparing() {
+                    if (listener != null){
+                        listener.onStart(holder.getLayoutPosition());
+                    }
+                }
+
+                @Override
+                public void onStatePlaying() {
+
+                }
+
+                @Override
+                public void onStatePause() {
+
+                }
+
+                @Override
+                public void onStateError() {
+
+                }
+
+                @Override
+                public void onComplete() {
+                }
+            });
 
         }else {
             textViewHolder tHolder = (textViewHolder) holder;
@@ -103,5 +139,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         return position % 2;
+    }
+
+    public void setVideoStartListener(VideoStartListener listener){
+        this.listener = listener;
     }
 }

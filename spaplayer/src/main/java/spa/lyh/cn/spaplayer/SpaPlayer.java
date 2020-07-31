@@ -1,21 +1,17 @@
 package spa.lyh.cn.spaplayer;
 
 import android.content.Context;
-import android.media.AudioManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.jzvd.JZUtils;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 public class SpaPlayer extends JzvdStd {
     TextView time;
-    private VideoCompleteListener listener;
+    private VideoStatusListener listener;
     public SpaPlayer(Context context) {
         this(context,null);
     }
@@ -70,26 +66,41 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStateNormal() {
         super.onStateNormal();
+        if (listener != null){
+            listener.onStateNormal();
+        }
     }
 
     @Override
     public void onStatePreparing() {
         super.onStatePreparing();
+        if (listener != null){
+            listener.onStatePreparing();
+        }
     }
 
     @Override
     public void onStatePlaying() {
         super.onStatePlaying();
+        if (listener != null){
+            listener.onStatePlaying();
+        }
     }
 
     @Override
     public void onStatePause() {
         super.onStatePause();
+        if (listener != null){
+            listener.onStatePause();
+        }
     }
 
     @Override
     public void onStateError() {
         super.onStateError();
+        if (listener != null){
+            listener.onStateError();
+        }
     }
 
 
@@ -112,7 +123,7 @@ public class SpaPlayer extends JzvdStd {
         super.onInfo(what, extra);
     }
 
-    public void setOnCompleteListener(VideoCompleteListener listener){
+    public void setOnStatusListener(VideoStatusListener listener){
         this.listener = listener;
     }
 

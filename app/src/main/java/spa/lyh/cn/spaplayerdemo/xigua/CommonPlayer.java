@@ -4,11 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import cn.jzvd.JzvdStd;
-import spa.lyh.cn.spaplayer.VideoCompleteListener;
+import spa.lyh.cn.spaplayer.VideoStatusListener;
 
 public class CommonPlayer extends JzvdStd {
 
-    private VideoCompleteListener listener;
+    private VideoStatusListener listener;
 
 
     public CommonPlayer(Context context) {
@@ -27,7 +27,7 @@ public class CommonPlayer extends JzvdStd {
         }
     }
 
-    public void setOnCompleteListener(VideoCompleteListener listener){
+    public void setOnCompleteListener(VideoStatusListener listener){
         this.listener = listener;
     }
 }

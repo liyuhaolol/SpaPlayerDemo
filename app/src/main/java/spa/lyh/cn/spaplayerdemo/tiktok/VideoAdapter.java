@@ -3,10 +3,7 @@ package spa.lyh.cn.spaplayerdemo.tiktok;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.lifecycle.ViewModel;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -14,13 +11,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import cn.jzvd.JZMediaSystem;
-import cn.jzvd.Jzvd;
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
 import spa.lyh.cn.spaplayer.SpaPlayer;
-import spa.lyh.cn.spaplayer.VideoCompleteListener;
-import spa.lyh.cn.spaplayerdemo.Global;
+import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.listener.VideoPositionCompleteListener;
 
 public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     private Context mContext;
@@ -59,8 +54,33 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }else {
             postion = baseViewHolder.getLayoutPosition();
         }
-        //Log.e("qwer",postion+"");
-        spaPlayer.setOnCompleteListener(new VideoCompleteListener() {
+
+        spaPlayer.setOnStatusListener(new VideoStatusListener() {
+            @Override
+            public void onStateNormal() {
+
+            }
+
+            @Override
+            public void onStatePreparing() {
+
+            }
+
+            @Override
+            public void onStatePlaying() {
+
+            }
+
+            @Override
+            public void onStatePause() {
+
+            }
+
+            @Override
+            public void onStateError() {
+
+            }
+
             @Override
             public void onComplete() {
                 if (listener != null){
