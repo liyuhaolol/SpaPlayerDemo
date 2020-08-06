@@ -46,14 +46,6 @@ public class TiktokActivity extends AppCompatActivity {
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                /*Log.e("qwer","onPageScrolled->position:"+position);
-                Log.e("qwer","onPageScrolled->positionOffset:"+positionOffset);
-                Log.e("qwer","onPageScrolled->positionOffsetPixels:"+positionOffsetPixels);*/
-            }
-
-            @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 Jzvd.releaseAllVideos();
@@ -70,55 +62,7 @@ public class TiktokActivity extends AppCompatActivity {
                 }
 
             }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-                switch (state){
-                    case ViewPager2.SCROLL_STATE_IDLE:
-                        //Log.e("qwer","onPageScrollStateChanged->静止状态");
-                        break;
-                    case ViewPager2.SCROLL_STATE_DRAGGING:
-                        //Log.e("qwer","onPageScrollStateChanged->拖拽状态");
-                        break;
-                    case ViewPager2.SCROLL_STATE_SETTLING:
-                        //Log.e("qwer","onPageScrollStateChanged->回弹状态");
-                        break;
-                }
-
-            }
         });
-
-        //viewpager模型不需要这个东西，测试用的
-/*        recyInViewpager.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-            @Override
-            public void onChildViewAttachedToWindow(View view) {
-            }
-
-            @Override
-            public void onChildViewDetachedFromWindow(View view) {
-
-                Jzvd jzvd = view.findViewById(R.id.spaplayer);
-                if (jzvd != null
-                        && Jzvd.CURRENT_JZVD != null
-                        && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
-                        && jzvd.mediaInterface != null) {
-                    JZMediaSystem system = (JZMediaSystem) jzvd.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
-                    if (system.mediaPlayer != null){
-                        if (system.isPlaying()){
-                            if (Jzvd.CURRENT_JZVD != null &&
-                                    Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
-                                Jzvd.releaseAllVideos();//这里一定要使用释放视频，而不是暂停之类的，否则会出现很严重的复用问题
-                            }
-                        }else {
-                            Jzvd.releaseAllVideos();
-                        }
-                    }else {
-                        Jzvd.releaseAllVideos();
-                    }
-                }
-            }
-        });*/
 
 
         adapter = new VideoAdapter(this,list);

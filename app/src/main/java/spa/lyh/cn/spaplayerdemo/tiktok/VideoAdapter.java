@@ -63,7 +63,6 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
             @Override
             public void onStatePreparing() {
-
             }
 
             @Override

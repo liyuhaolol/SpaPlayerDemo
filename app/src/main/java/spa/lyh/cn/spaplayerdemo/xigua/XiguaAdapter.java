@@ -22,6 +22,8 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     private Context mContext;
     private VideoPositionCompleteListener listener;
 
+    private ScreenListener screenListener;
+
     public XiguaAdapter(Context context, @Nullable List<VideoModel> data) {
         super(R.layout.item_xigua_video,data);
         mContext = context;
@@ -32,31 +34,61 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         CommonPlayer commonPlayer = baseViewHolder.getView(R.id.player);
         if (isVerticalScreen(mContext)){
             //竖屏
-            commonPlayer.setUp(
-                    viewModel.videoUrl,
-                    viewModel.title,Jzvd.SCREEN_NORMAL);
+            if (commonPlayer.jzDataSource !=null){
+                //当前有对应播放数据
+                if (!commonPlayer.jzDataSource.containsTheUrl(viewModel.videoUrl)){
+                    //当前item的url不一样，初始化
+                    commonPlayer.setUp(
+                            viewModel.videoUrl,
+                            viewModel.title,Jzvd.SCREEN_NORMAL);
+                }
+            }else {
+                //当前没有对应播放数据，初始化
+                commonPlayer.setUp(
+                        viewModel.videoUrl,
+                        viewModel.title,Jzvd.SCREEN_NORMAL);
+            }
         }else {
             //横屏
-            commonPlayer.setUp(
-                    viewModel.videoUrl,
-                    viewModel.title, Jzvd.SCREEN_FULLSCREEN);
+            if (commonPlayer.jzDataSource !=null){
+                //当前有对应播放数据
+                if (!commonPlayer.jzDataSource.containsTheUrl(viewModel.videoUrl)){
+                    //当前item的url不一样，初始化
+                    commonPlayer.setUp(
+                            viewModel.videoUrl,
+                            viewModel.title, Jzvd.SCREEN_FULLSCREEN);
+                }
+            }else {
+                //当前没有对应播放数据，初始化
+                commonPlayer.setUp(
+                        viewModel.videoUrl,
+                        viewModel.title, Jzvd.SCREEN_FULLSCREEN);
+            }
         }
         ImageLoadUtil.displayImage(mContext,viewModel.picUrl,commonPlayer.posterImageView);
         int count = getHeaderLayoutCount();
-        int postion;
+        int position;
         if (count > 0){
-            postion = baseViewHolder.getLayoutPosition()-1;
+            position = baseViewHolder.getLayoutPosition()-1;
         }else {
-            postion = baseViewHolder.getLayoutPosition();
+            position = baseViewHolder.getLayoutPosition();
         }
-/*        commonPlayer.setOnCompleteListener(new VideoStatusListener() {
+
+        commonPlayer.setScreenListener(new ScreenListener() {
             @Override
-            public void onComplete() {
-                if (listener != null){
-                    listener.onComplete(postion);
+            public void gotoNormalScreen(int a) {
+                if (screenListener != null){
+                    screenListener.gotoNormalScreen(position);
                 }
             }
-        });*/
+
+            @Override
+            public void gotoFullscreen(int a) {
+                if (screenListener != null){
+                    screenListener.gotoFullscreen(position);
+                }
+            }
+        });
 
     }
 
@@ -65,7 +97,7 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     }
 
     public CommonPlayer getVideoPlayer(int position){
-        return (CommonPlayer) getViewByPosition(position,R.id.spaplayer);
+        return (CommonPlayer) getViewByPosition(position,R.id.player);
     }
 
     /**
@@ -73,8 +105,12 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
      * @param activity
      * @return
      */
-    public static boolean isVerticalScreen(Context activity) {
+    private boolean isVerticalScreen(Context activity) {
         return activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    public void setScreenListener(ScreenListener listener){
+        this.screenListener = listener;
     }
 
 }
