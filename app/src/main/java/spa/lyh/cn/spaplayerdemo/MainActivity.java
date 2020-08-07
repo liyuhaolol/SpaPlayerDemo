@@ -13,6 +13,8 @@ import spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity;
 import spa.lyh.cn.spaplayerdemo.tiktok.TiktokActivity;
 import spa.lyh.cn.spaplayerdemo.web.WebActivity;
 import spa.lyh.cn.spaplayerdemo.xigua.XiguaActivity;
+import spa.lyh.cn.spaplayerdemo.xigua.XiguaListActivity;
+import spa.lyh.cn.spaplayerdemo.xigua.XiguaListAdapter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btn_xigua:
-                intent = new Intent(MainActivity.this, XiguaActivity.class);
+                intent = new Intent(MainActivity.this, XiguaListActivity.class);
                 startActivity(intent);
                 break;
         }

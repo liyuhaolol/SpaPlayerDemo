@@ -1,6 +1,8 @@
 package spa.lyh.cn.spaplayerdemo.tiktok;
 
-public class VideoModel {
+import java.io.Serializable;
+
+public class VideoModel implements Serializable {
     public String videoUrl;
     public String picUrl;
 

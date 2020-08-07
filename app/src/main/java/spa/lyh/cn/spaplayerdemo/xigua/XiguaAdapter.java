@@ -2,6 +2,7 @@ package spa.lyh.cn.spaplayerdemo.xigua;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -15,6 +16,7 @@ import cn.jzvd.Jzvd;
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
 import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 import spa.lyh.cn.spaplayerdemo.listener.VideoPositionCompleteListener;
 
@@ -23,6 +25,8 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     private VideoPositionCompleteListener listener;
 
     private ScreenListener screenListener;
+
+    private VideoStatusListener statusListener;
 
     public XiguaAdapter(Context context, @Nullable List<VideoModel> data) {
         super(R.layout.item_xigua_video,data);
@@ -67,25 +71,69 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }
         ImageLoadUtil.displayImage(mContext,viewModel.picUrl,commonPlayer.posterImageView);
         int count = getHeaderLayoutCount();
-        int position;
+        int pos;
         if (count > 0){
-            position = baseViewHolder.getLayoutPosition()-1;
+            pos = baseViewHolder.getLayoutPosition()-1;
         }else {
-            position = baseViewHolder.getLayoutPosition();
+            pos = baseViewHolder.getLayoutPosition();
         }
-
         commonPlayer.setScreenListener(new ScreenListener() {
             @Override
-            public void gotoNormalScreen(int a) {
+            public void gotoNormalScreen(View player, int position) {
                 if (screenListener != null){
-                    screenListener.gotoNormalScreen(position);
+                    screenListener.gotoNormalScreen(player,pos);
                 }
             }
 
             @Override
-            public void gotoFullscreen(int a) {
+            public void gotoFullscreen(View player, int position) {
                 if (screenListener != null){
-                    screenListener.gotoFullscreen(position);
+                    screenListener.gotoFullscreen(player,pos);
+                }
+            }
+        });
+
+        commonPlayer.setOnStatusListener(new VideoStatusListener() {
+            @Override
+            public void onStateNormal() {
+                if (statusListener != null){
+                    statusListener.onStateNormal();
+                }
+            }
+
+            @Override
+            public void onStatePreparing() {
+                if (statusListener != null){
+                    statusListener.onStatePreparing();
+                }
+
+            }
+
+            @Override
+            public void onStatePlaying() {
+                if (statusListener != null){
+                    statusListener.onStatePlaying();
+                }
+            }
+
+            @Override
+            public void onStatePause() {
+                if (statusListener != null){
+                    statusListener.onStatePause();
+                }
+            }
+
+            @Override
+            public void onStateError() {
+                if (statusListener != null){
+                    statusListener.onStateError();
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                if (statusListener != null){
+                    statusListener.onComplete();
                 }
             }
         });
@@ -111,6 +159,10 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
     public void setScreenListener(ScreenListener listener){
         this.screenListener = listener;
+    }
+
+    public void setOnStatusListener(VideoStatusListener listener){
+        this.statusListener = listener;
     }
 
 }

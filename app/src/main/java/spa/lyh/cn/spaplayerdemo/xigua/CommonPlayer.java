@@ -22,19 +22,11 @@ public class CommonPlayer extends JzvdStd {
     }
 
     @Override
-    public void onStateAutoComplete() {
-        super.onStateAutoComplete();
-        if (listener != null){
-            listener.onComplete();
-        }
-    }
-
-    @Override
     public void gotoNormalScreen() {
         //super.gotoNormalScreen();
         if (screenListener != null){
             gobakFullscreenTime = System.currentTimeMillis();//退出全屏
-            screenListener.gotoNormalScreen(0);
+            screenListener.gotoNormalScreen(this,0);
         }
     }
 
@@ -43,15 +35,67 @@ public class CommonPlayer extends JzvdStd {
         //super.gotoFullscreen();
         if (screenListener != null){
             gotoFullscreenTime = System.currentTimeMillis();
-            screenListener.gotoFullscreen(0);
+            screenListener.gotoFullscreen(this,0);
         }
     }
 
-    public void setOnCompleteListener(VideoStatusListener listener){
-        this.listener = listener;
+    @Override
+    public void onStateNormal() {
+        super.onStateNormal();
+        if (listener != null){
+            listener.onStateNormal();
+        }
     }
+
+    @Override
+    public void onStatePreparing() {
+        super.onStatePreparing();
+        if (listener != null){
+            listener.onStatePreparing();
+        }
+    }
+
+    @Override
+    public void onStatePlaying() {
+        super.onStatePlaying();
+        if (listener != null){
+            listener.onStatePlaying();
+        }
+    }
+
+    @Override
+    public void onStatePause() {
+        super.onStatePause();
+        if (listener != null){
+            listener.onStatePause();
+        }
+    }
+
+    @Override
+    public void onStateError() {
+        super.onStateError();
+        if (listener != null){
+            listener.onStateError();
+        }
+    }
+
+
+    @Override
+    public void onStateAutoComplete() {
+        super.onStateAutoComplete();
+        textureViewContainer.removeAllViews();
+        if (listener != null){
+            listener.onComplete();
+        }
+    }
+
+
 
     public void setScreenListener(ScreenListener listener){
         this.screenListener = listener;
+    }
+
+    public void setOnStatusListener(VideoStatusListener listener){
+        this.listener = listener;
     }
 }

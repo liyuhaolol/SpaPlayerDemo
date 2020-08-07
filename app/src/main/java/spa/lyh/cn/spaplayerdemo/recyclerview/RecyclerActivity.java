@@ -52,7 +52,6 @@ public class RecyclerActivity extends AppCompatActivity {
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NotNull View view) {
-                Log.e("qwer","刷新");
                 int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
                 if (position == currentPlayPosition){
                     isNotify = false;
@@ -95,6 +94,7 @@ public class RecyclerActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //adapter.notifyItemChanged(0);
+                Log.e("qwer","执行刷新");
                 notifyDataSetChanged();
                 //adapter.notifyItemRemoved(0);
                 //adapter.notifyItemInserted(1);

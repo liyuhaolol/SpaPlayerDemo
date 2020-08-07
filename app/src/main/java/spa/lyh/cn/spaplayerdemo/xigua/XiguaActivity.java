@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -62,18 +63,16 @@ public class XiguaActivity extends AppCompatActivity {
 
         player.setScreenListener(new ScreenListener() {
             @Override
-            public void gotoNormalScreen(int position) {
+            public void gotoNormalScreen(View player, int position) {
                 VideoModel model = list.get(position);
                 list.clear();
                 list.add(model);
-                player.setCanLoadMore(false);
                 refreshView();
             }
 
             @Override
-            public void gotoFullscreen(int position) {
-                player.setCanLoadMore(true);
-                player.processLoadMore();
+            public void gotoFullscreen(View player, int position) {
+
             }
         });
     }

@@ -7,9 +7,11 @@ import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -20,6 +22,7 @@ import java.util.List;
 import cn.jzvd.JZUtils;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
+import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
@@ -104,13 +107,11 @@ public class XiguaPlayer extends RelativeLayout {
         //list.add(model);
 
         if (adapter == null){
-            Log.e("qwer","初始化");
             adapter = new XiguaAdapter(context,list);
             viewPager.setAdapter(adapter);
             setData();
         }else {
-            Log.e("qwer","更新数据");
-            Jzvd.releaseAllVideos();
+            //Jzvd.releaseAllVideos();
             adapter.notifyDataSetChanged();
         }
 
@@ -119,16 +120,16 @@ public class XiguaPlayer extends RelativeLayout {
     private void setData(){
         adapter.setScreenListener(new ScreenListener() {
             @Override
-            public void gotoNormalScreen(int position) {
+            public void gotoNormalScreen(View player, int position) {
                 //Log.e("qwer","小屏");
-                CommonPlayer player = (CommonPlayer) adapter.getViewByPosition(position,R.id.player);
+                CommonPlayer commonPlayer = (CommonPlayer) player;
                 ViewGroup vg = (ViewGroup) (JZUtils.scanForActivity(context)).getWindow().getDecorView();
                 vg.removeView(XiguaPlayer.this);
-               // player.CONTAINER_LIST.getLast().removeViewAt(blockIndex);//remove block
-                player.CONTAINER_LIST.getLast().addView(XiguaPlayer.this, blockIndex, blockLayoutParams);
-                player.CONTAINER_LIST.pop();
+                // player.CONTAINER_LIST.getLast().removeViewAt(blockIndex);//remove block
+                commonPlayer.CONTAINER_LIST.getLast().addView(XiguaPlayer.this, blockIndex, blockLayoutParams);
+                commonPlayer.CONTAINER_LIST.pop();
 
-                player.setScreenNormal();//这块可以放到jzvd中
+                commonPlayer.setScreenNormal();//这块可以放到jzvd中
                 JZUtils.showStatusBar(context);
                 JZUtils.setRequestedOrientation(context, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -137,37 +138,45 @@ public class XiguaPlayer extends RelativeLayout {
                 list.clear();
                 list.add(model);
                 adapter.notifyDataSetChanged();
+                canLoadMore = false;
                 if (sListener != null){
-                    sListener.gotoNormalScreen(position);
+                    sListener.gotoNormalScreen(XiguaPlayer.this,position);
                 }
             }
 
             @Override
-            public void gotoFullscreen(int position) {
+            public void gotoFullscreen(View player, int position) {
                 //Log.e("qwer","全屏");
-                CommonPlayer player = (CommonPlayer) adapter.getViewByPosition(position,R.id.player);
+                CommonPlayer commonPlayer = (CommonPlayer) player;
                 ViewGroup vg = (ViewGroup) getParent();
                 context = vg.getContext();
                 blockLayoutParams = getLayoutParams();
                 blockIndex = vg.indexOfChild(XiguaPlayer.this);
                 vg.removeView(XiguaPlayer.this);
-                player.CONTAINER_LIST.add(vg);
+                /*TextView textView = new TextView(context);
+                textView.setText("123");
+                vg.addView(textView);*/
+                commonPlayer.CONTAINER_LIST.add(vg);
                 vg = (ViewGroup) (JZUtils.scanForActivity(context)).getWindow().getDecorView();
                 ViewGroup.LayoutParams fullLayout = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 vg.addView(XiguaPlayer.this, fullLayout);
 
-                player.setScreenFullscreen();
+                commonPlayer.setScreenFullscreen();
                 JZUtils.hideStatusBar(context);
                 JZUtils.setRequestedOrientation(context, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
                 JZUtils.hideSystemUI(context);//华为手机和有虚拟键的手机全屏时可隐藏虚拟键 issue:1326
+                canLoadMore = true;
+                processLoadMore();
                 if (sListener != null){
-                    sListener.gotoFullscreen(position);
+                    sListener.gotoFullscreen(XiguaPlayer.this,position);
                 }
             }
         });
     }
+
+    private void cloneView(ViewGroup vg){}
 
     private void playVideo(int position){
         CommonPlayer commonPlayer = adapter.getVideoPlayer(position);
@@ -194,10 +203,6 @@ public class XiguaPlayer extends RelativeLayout {
         }
     }
 
-    public void setCanLoadMore(boolean canLoadMore){
-        this.canLoadMore = canLoadMore;
-    }
-
     public void processLoadMore(){
         if (canLoadMore){
             canLoadMore = false;
@@ -222,5 +227,13 @@ public class XiguaPlayer extends RelativeLayout {
 
     public void setScreenListener(ScreenListener listener){
         this.sListener = listener;
+    }
+
+    public void setOnStatusListener(VideoStatusListener listener){
+        adapter.setOnStatusListener(listener);
+    }
+
+    public Jzvd getVideoPlayer(){
+        return (Jzvd) adapter.getViewByPosition(0,R.id.player);
     }
 }
