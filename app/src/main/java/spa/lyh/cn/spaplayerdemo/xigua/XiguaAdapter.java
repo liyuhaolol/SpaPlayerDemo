@@ -35,6 +35,7 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
+        int a = baseViewHolder.getLayoutPosition();
         CommonPlayer commonPlayer = baseViewHolder.getView(R.id.player);
         if (isVerticalScreen(mContext)){
             //竖屏

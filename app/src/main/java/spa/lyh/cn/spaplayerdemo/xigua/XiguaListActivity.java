@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,11 +57,20 @@ public class XiguaListActivity extends AppCompatActivity {
 
         adapter = new XiguaListAdapter(this,list);
 
+
         recyclerView.setAdapter(adapter);
+
+        /*TextView a = new TextView(this);
+        a.setText("测试一下");
+        adapter.addHeaderView(a);*/
+
+
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NotNull View view) {
                 int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
+                Log.e("qwer","添加position:"+position);
+
                 if (position == currentPlayPosition){
                     isNotify = false;
                 }
@@ -68,6 +79,8 @@ public class XiguaListActivity extends AppCompatActivity {
             @Override
             public void onChildViewDetachedFromWindow(@NotNull View view) {
                 int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
+                Log.e("qwer","移除position:"+position);
+
                 XiguaPlayer player = view.findViewById(R.id.player);
                 if (player != null){
                     Jzvd jzvd = player.getVideoPlayer();
@@ -125,14 +138,22 @@ public class XiguaListActivity extends AppCompatActivity {
             @Override
             public void gotoNormalScreen(View player, int mainPosition, int secPosition) {
                 VideoModel model = minList.get(secPosition);
-                list.remove(mainPosition);
-                list.add(mainPosition,model);
-                if (currentPlayPosition >= 0){
+                /*list.remove(mainPosition);
+                list.add(mainPosition,model);*/
+                list.get(mainPosition).videoUrl = model.videoUrl;
+                list.get(mainPosition).picUrl = model.picUrl;
+                list.get(mainPosition).title = model.title;
+                /*if (currentPlayPosition >= 0){
                     //当前存在播放的视频
                     isNotify = true;
                 }
-                adapter.notifyItemChanged(mainPosition);
-                //notifyDataSetChanged();
+                adapter.notifyItemChanged(mainPosition);*/
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                },5000);
             }
 
             @Override
@@ -142,6 +163,24 @@ public class XiguaListActivity extends AppCompatActivity {
                 minList.add(list.get(position));
             }
         });
+
+        adapter.getLoadMoreModule().setEnableLoadMore(true);
+        adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addData();
+                        //adapter.notifyItemInserted(adapter.getItemCount());
+                        notifyDataSetChanged();
+                        adapter.getLoadMoreModule().loadMoreComplete();
+                    }
+                },5000);
+
+            }
+        });
+
         /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {

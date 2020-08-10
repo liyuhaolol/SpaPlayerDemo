@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,7 @@ import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
-public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder> {
+public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder> implements LoadMoreModule {
     private Context mContext;
 
     private VideoStartListener startListener;

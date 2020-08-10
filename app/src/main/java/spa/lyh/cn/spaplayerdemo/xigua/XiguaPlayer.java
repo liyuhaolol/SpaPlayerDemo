@@ -89,6 +89,8 @@ public class XiguaPlayer extends RelativeLayout {
                 }
             }
         });
+
+        //this.setAlpha(0.2f);
     }
 
     public void setUp(String url,String pic,String title){
@@ -125,7 +127,9 @@ public class XiguaPlayer extends RelativeLayout {
                 CommonPlayer commonPlayer = (CommonPlayer) player;
                 ViewGroup vg = (ViewGroup) (JZUtils.scanForActivity(context)).getWindow().getDecorView();
                 vg.removeView(XiguaPlayer.this);
-                // player.CONTAINER_LIST.getLast().removeViewAt(blockIndex);//remove block
+                //player.CONTAINER_LIST.getLast().removeViewAt(blockIndex);//remove block
+                /*TextView a = new TextView(context);
+                a.setText("测试一下");*/
                 commonPlayer.CONTAINER_LIST.getLast().addView(XiguaPlayer.this, blockIndex, blockLayoutParams);
                 commonPlayer.CONTAINER_LIST.pop();
 

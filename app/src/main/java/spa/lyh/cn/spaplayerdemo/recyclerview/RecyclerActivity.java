@@ -90,7 +90,7 @@ public class RecyclerActivity extends AppCompatActivity {
             }
         });
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 //adapter.notifyItemChanged(0);
@@ -100,7 +100,7 @@ public class RecyclerActivity extends AppCompatActivity {
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },5000);
+        },5000);*/
     }
 
     private void releaseVideo(int viewPosition){
