@@ -16,8 +16,12 @@ import org.jetbrains.annotations.NotNull;
 
 import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
+import spa.lyh.cn.spaplayer.SpaPlayer;
+import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.adapter.RecyclerViewAdapter;
+import spa.lyh.cn.spaplayerdemo.listener.OnItemClickListener;
+import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
 
 
@@ -64,6 +68,7 @@ public class RecyclerActivity extends AppCompatActivity {
                 Jzvd jzvd = view.findViewById(R.id.spaplayer);
                 if (jzvd != null
                         && Jzvd.CURRENT_JZVD != null
+                        && jzvd.jzDataSource != null
                         && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
                         && jzvd.mediaInterface != null) {
                     JZMediaSystem system = (JZMediaSystem) jzvd.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
@@ -90,7 +95,15 @@ public class RecyclerActivity extends AppCompatActivity {
             }
         });
 
-        /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        adapter.setVideoPlayClickListener(new OnStartPositionClickListener() {
+            @Override
+            public void startButtonClicked(SpaPlayer player, int position) {
+                player.setUp(Global.url,"聪明的小学神");
+                player.startVideo();
+            }
+        });
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 //adapter.notifyItemChanged(0);
@@ -100,7 +113,7 @@ public class RecyclerActivity extends AppCompatActivity {
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },5000);*/
+        },5000);
     }
 
     private void releaseVideo(int viewPosition){

@@ -11,7 +11,12 @@ import cn.jzvd.JzvdStd;
 
 public class SpaPlayer extends JzvdStd {
     TextView time;
+    Context context;
+
     private VideoStatusListener listener;
+
+    private OnStartButtonClickListener startButtonClickListener;
+
     public SpaPlayer(Context context) {
         this(context,null);
     }
@@ -28,27 +33,13 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void init(Context context) {
         super.init(context);
-        time = findViewById(R.id.time);
-        startButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (SpaPlayer.this.mediaInterface != null){
-                    if (SpaPlayer.this.mediaInterface.jzvd.state == Jzvd.STATE_NORMAL){
-                        Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
-                    }
-                }else {
-                    Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
-                }
-                SpaPlayer.super.onClick(v);
-            }
-        });
+        this.context = context;
 
-        /*posterImageView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context,"进入详情",Toast.LENGTH_SHORT).show();
-            }
-        });*/
+        time = findViewById(R.id.time);
+
+        startButton.setOnClickListener(this);
+
+        posterImageView.setOnClickListener(this);
     }
 
     @Override
@@ -123,8 +114,53 @@ public class SpaPlayer extends JzvdStd {
         super.onInfo(what, extra);
     }
 
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.poster) {
+            if (jzDataSource == null || jzDataSource.urlsMap.isEmpty() || jzDataSource.getCurrentUrl() == null) {
+                startButton.callOnClick();
+            }else {
+                if (SpaPlayer.this.mediaInterface != null){
+                    if (SpaPlayer.this.mediaInterface.jzvd.state == Jzvd.STATE_NORMAL){
+                        startButton.callOnClick();
+                    }else {
+                        super.onClick(v);
+                    }
+                }else {
+                    startButton.callOnClick();
+                }
+            }
+        }else if (i == R.id.start) {
+            if (SpaPlayer.this.mediaInterface != null){
+                if (SpaPlayer.this.mediaInterface.jzvd.state == Jzvd.STATE_NORMAL){
+                    Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
+
+                    if (startButtonClickListener != null){
+                        startButtonClickListener.startButtonClicked(SpaPlayer.this);
+                    }
+                }else {
+                    super.onClick(v);
+                }
+            }else {
+                Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
+
+                if (startButtonClickListener != null){
+                    startButtonClickListener.startButtonClicked(SpaPlayer.this);
+                }
+            }
+        }else {
+            super.onClick(v);
+        }
+    }
+
     public void setOnStatusListener(VideoStatusListener listener){
         this.listener = listener;
+    }
+
+    public void setOnStartButtonClickListener(OnStartButtonClickListener listener){
+        this.startButtonClickListener = listener;
     }
 
 }
