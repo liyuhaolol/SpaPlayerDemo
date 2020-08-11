@@ -40,8 +40,6 @@ public class RecyclerActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
 
-    private int currentPlayPosition = -1;
-
     private boolean isNotify;
 
     @Override
@@ -53,19 +51,28 @@ public class RecyclerActivity extends AppCompatActivity {
 
         adapter = new RecyclerViewAdapter(this);
         recyclerView.setAdapter(adapter);
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING){
+                    //拖拽的话，将标识符置false
+                    isNotify = false;
+                }
+            }
+        });
+
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NotNull View view) {
-                int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
-                if (position == currentPlayPosition){
-                    isNotify = false;
-                }
             }
 
             @Override
             public void onChildViewDetachedFromWindow(@NotNull View view) {
                 int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
-                Jzvd jzvd = view.findViewById(R.id.spaplayer);
+                SpaPlayer jzvd = view.findViewById(R.id.spaplayer);
                 if (jzvd != null
                         && Jzvd.CURRENT_JZVD != null
                         && jzvd.jzDataSource != null
@@ -82,16 +89,12 @@ public class RecyclerActivity extends AppCompatActivity {
                             releaseVideo(position);
                         }
                     }else {
-                        releaseVideo(position);
+                        if (jzvd.isStarted){
+                            //当前播放器已经被启动
+                            releaseVideo(position);
+                        }
                     }
                 }
-            }
-        });
-
-        adapter.setVideoStartListener(new VideoStartListener() {
-            @Override
-            public void onStart(int position) {
-                currentPlayPosition = position;
             }
         });
 
@@ -108,6 +111,7 @@ public class RecyclerActivity extends AppCompatActivity {
             public void run() {
                 //adapter.notifyItemChanged(0);
                 Log.e("qwer","执行刷新");
+                //adapter.notifyDataSetChanged();
                 notifyDataSetChanged();
                 //adapter.notifyItemRemoved(0);
                 //adapter.notifyItemInserted(1);
@@ -117,20 +121,13 @@ public class RecyclerActivity extends AppCompatActivity {
     }
 
     private void releaseVideo(int viewPosition){
-        if (viewPosition == currentPlayPosition ){
-            //当view跟播放是同一个的时候在执行操作
-            if (!isNotify){
-                Jzvd.releaseAllVideos();
-                currentPlayPosition = -1;
-            }
+        if (!isNotify){
+            Jzvd.releaseAllVideos();
         }
     }
 
     private void notifyDataSetChanged(){
-        if (currentPlayPosition >= 0){
-            //当前存在播放的视频
-            isNotify = true;
-        }
+        isNotify = true;
         adapter.notifyDataSetChanged();
     }
 

@@ -2,6 +2,7 @@ package spa.lyh.cn.spaplayer;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,8 @@ import cn.jzvd.JzvdStd;
 public class SpaPlayer extends JzvdStd {
     TextView time;
     Context context;
+
+    public boolean isStarted;
 
     private VideoStatusListener listener;
 
@@ -57,6 +60,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStateNormal() {
         super.onStateNormal();
+        isStarted = false;
         if (listener != null){
             listener.onStateNormal();
         }
@@ -65,6 +69,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStatePreparing() {
         super.onStatePreparing();
+        isStarted = true;
         if (listener != null){
             listener.onStatePreparing();
         }
@@ -113,6 +118,7 @@ public class SpaPlayer extends JzvdStd {
     public void onInfo(int what, int extra) {
         super.onInfo(what, extra);
     }
+
 
 
     @Override
