@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
+import spa.lyh.cn.spaplayer.VideoManager;
 import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.adapter.RecyclerViewAdapter;
@@ -40,58 +42,52 @@ public class RecyclerActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerViewAdapter adapter;
 
-    private boolean isNotify;
+    LinearLayoutManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acrtivity_recyclerview);
         recyclerView = findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
 
         adapter = new RecyclerViewAdapter(this);
         recyclerView.setAdapter(adapter);
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int firstVisibleItem, lastVisibleItem;
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING){
-                    //拖拽的话，将标识符置false
-                    isNotify = false;
-                }
-            }
-        });
-
-        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-            @Override
-            public void onChildViewAttachedToWindow(@NotNull View view) {
-            }
-
-            @Override
-            public void onChildViewDetachedFromWindow(@NotNull View view) {
-                int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
-                SpaPlayer jzvd = view.findViewById(R.id.spaplayer);
-                if (jzvd != null
-                        && Jzvd.CURRENT_JZVD != null
-                        && jzvd.jzDataSource != null
-                        && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
-                        && jzvd.mediaInterface != null) {
-                    JZMediaSystem system = (JZMediaSystem) jzvd.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
-                    if (system.mediaPlayer != null){
-                        if (system.isPlaying()){
-                            if (Jzvd.CURRENT_JZVD != null &&
-                                    Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
-                                releaseVideo(position);
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                firstVisibleItem   = manager.findFirstVisibleItemPosition();
+                lastVisibleItem = manager.findLastVisibleItemPosition();
+                if (VideoManager.getInstance().getSpaPlayer() != null){
+                    SpaPlayer spaPlayer = VideoManager.getInstance().getSpaPlayer();
+                    int position = spaPlayer.playPosition;
+                    if (position < firstVisibleItem || position > lastVisibleItem){
+                        //页面滑出了屏幕
+                        if (Jzvd.CURRENT_JZVD != null
+                                && spaPlayer.jzDataSource != null
+                                && spaPlayer.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
+                                && spaPlayer.mediaInterface != null) {
+                            JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
+                            if (system.mediaPlayer != null){
+                                if (system.isPlaying()){
+                                    if (Jzvd.CURRENT_JZVD != null &&
+                                            Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
+                                        Jzvd.releaseAllVideos();
+                                    }
+                                }else {
+                                    Jzvd.releaseAllVideos();
+                                }
+                            }else {
+                                if (spaPlayer.isStarted){
+                                    //当前播放器已经被启动
+                                    Jzvd.releaseAllVideos();
+                                }
                             }
-                        }else {
-                            releaseVideo(position);
-                        }
-                    }else {
-                        if (jzvd.isStarted){
-                            //当前播放器已经被启动
-                            releaseVideo(position);
                         }
                     }
                 }
@@ -101,7 +97,8 @@ public class RecyclerActivity extends AppCompatActivity {
         adapter.setVideoPlayClickListener(new OnStartPositionClickListener() {
             @Override
             public void startButtonClicked(SpaPlayer player, int position) {
-                player.setUp(Global.url,"聪明的小学神");
+                Toast.makeText(RecyclerActivity.this, "初始化",Toast.LENGTH_SHORT).show();
+                player.setUp(position,Global.url,"聪明的小学神");
                 player.startVideo();
             }
         });
@@ -111,24 +108,13 @@ public class RecyclerActivity extends AppCompatActivity {
             public void run() {
                 //adapter.notifyItemChanged(0);
                 Log.e("qwer","执行刷新");
-                //adapter.notifyDataSetChanged();
-                notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
+                //Jzvd.releaseAllVideos();
                 //adapter.notifyItemRemoved(0);
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
         },5000);
-    }
-
-    private void releaseVideo(int viewPosition){
-        if (!isNotify){
-            Jzvd.releaseAllVideos();
-        }
-    }
-
-    private void notifyDataSetChanged(){
-        isNotify = true;
-        adapter.notifyDataSetChanged();
     }
 
     @Override

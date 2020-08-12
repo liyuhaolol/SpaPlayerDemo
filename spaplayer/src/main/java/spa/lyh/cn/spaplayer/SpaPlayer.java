@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.jzvd.JZDataSource;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
@@ -17,6 +18,10 @@ public class SpaPlayer extends JzvdStd {
     public boolean isStarted;
 
     private VideoStatusListener listener;
+
+    public int playPosition;
+
+    private boolean canQuit;
 
     private OnStartButtonClickListener startButtonClickListener;
 
@@ -43,6 +48,7 @@ public class SpaPlayer extends JzvdStd {
         startButton.setOnClickListener(this);
 
         posterImageView.setOnClickListener(this);
+
     }
 
     @Override
@@ -54,13 +60,17 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void gotoFullscreen() {
         super.gotoFullscreen();
-        //Toast.makeText(getContext(), "全屏",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void gotoNormalScreen() {
+        super.gotoNormalScreen();
     }
 
     @Override
     public void onStateNormal() {
         super.onStateNormal();
-        isStarted = false;
+        //Log.e("qwer","onStateNormal");
         if (listener != null){
             listener.onStateNormal();
         }
@@ -69,7 +79,9 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStatePreparing() {
         super.onStatePreparing();
+        //Log.e("qwer","onStatePreparing");
         isStarted = true;
+        VideoManager.getInstance().setSpaplayer(this);
         if (listener != null){
             listener.onStatePreparing();
         }
@@ -78,6 +90,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStatePlaying() {
         super.onStatePlaying();
+        //Log.e("qwer","onStatePlaying");
         if (listener != null){
             listener.onStatePlaying();
         }
@@ -86,6 +99,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStatePause() {
         super.onStatePause();
+        //Log.e("qwer","onStatePause");
         if (listener != null){
             listener.onStatePause();
         }
@@ -94,6 +108,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStateError() {
         super.onStateError();
+        //Log.e("qwer","onStateError");
         if (listener != null){
             listener.onStateError();
         }
@@ -103,11 +118,13 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStateAutoComplete() {
         super.onStateAutoComplete();
+        //Log.e("qwer","onStateAutoComplete");
         textureViewContainer.removeAllViews();
         if (listener != null){
             listener.onComplete();
         }
     }
+
 
     @Override
     public void startVideo() {
@@ -119,7 +136,48 @@ public class SpaPlayer extends JzvdStd {
         super.onInfo(what, extra);
     }
 
+    @Override
+    public void reset() {
+        //Log.e("qwer","重置");
+        super.reset();
+        isStarted = false;
+        VideoManager.getInstance().clearPlayer();
+    }
 
+    @Override
+    public void onCompletion() {
+        //由于框架自带播放结束返回普通屏幕，所以这里做出屏蔽
+        if (screen == SCREEN_FULLSCREEN) {
+            if (canQuit){
+                super.onCompletion();
+            }else {
+                onStateAutoComplete();
+            }
+        } else {
+            super.onCompletion();
+        }
+    }
+
+    @Override
+    public void setUp(String url, String title) {
+        setUp(0,url, title);
+    }
+
+    public void setUp(int position,String url, String title) {
+        this.playPosition = position;
+        super.setUp(url, title);
+    }
+
+    @Override
+    public void setUp(String url, String title, int screen) {
+        setUp(0,url,title,screen);
+    }
+
+
+    public void setUp(int position,String url, String title, int screen) {
+        this.playPosition = position;
+        super.setUp(url,title,screen);
+    }
 
     @Override
     public void onClick(View v) {
@@ -141,19 +199,20 @@ public class SpaPlayer extends JzvdStd {
         }else if (i == R.id.start) {
             if (SpaPlayer.this.mediaInterface != null){
                 if (SpaPlayer.this.mediaInterface.jzvd.state == Jzvd.STATE_NORMAL){
-                    Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
 
                     if (startButtonClickListener != null){
                         startButtonClickListener.startButtonClicked(SpaPlayer.this);
+                    }else {
+                        super.onClick(v);
                     }
                 }else {
                     super.onClick(v);
                 }
             }else {
-                Toast.makeText(context, "初始化",Toast.LENGTH_SHORT).show();
-
                 if (startButtonClickListener != null){
                     startButtonClickListener.startButtonClicked(SpaPlayer.this);
+                }else {
+                    super.onClick(v);
                 }
             }
         }else {
@@ -169,4 +228,7 @@ public class SpaPlayer extends JzvdStd {
         this.startButtonClickListener = listener;
     }
 
+    public void canAutoQuitFullScreen(boolean canOrnot){
+        this.canQuit = canOrnot;
+    }
 }
