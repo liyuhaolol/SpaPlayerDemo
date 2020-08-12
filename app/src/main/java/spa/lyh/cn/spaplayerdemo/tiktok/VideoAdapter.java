@@ -29,23 +29,7 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
         SpaPlayer spaPlayer = baseViewHolder.getView(R.id.spaplayer);
-        if (spaPlayer.jzDataSource !=null){
-            //当前有对应播放数据
-            if (!spaPlayer.jzDataSource.containsTheUrl(viewModel.videoUrl)){
-                //当前item的url不一样，初始化
-                spaPlayer.setUp(
-                        viewModel.videoUrl,
-                        viewModel.title);
-                ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-            }
-        }else {
-            //当前没有对应播放数据，初始化
-            spaPlayer.setUp(
-                    viewModel.videoUrl,
-                    viewModel.title);
-            ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-        }
-
+        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
         spaPlayer.titleTextView.setText(viewModel.title);
         int count = getHeaderLayoutCount();
         int postion;

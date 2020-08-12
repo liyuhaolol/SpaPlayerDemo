@@ -50,6 +50,7 @@ public class TiktokActivity extends AppCompatActivity {
                 super.onPageSelected(position);
                 Jzvd.releaseAllVideos();
 
+
                 playVideo(position);
 
                 if (canLoadMore){
@@ -80,6 +81,19 @@ public class TiktokActivity extends AppCompatActivity {
         });
 
         canLoadMore = true;
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //adapter.notifyItemChanged(0);
+                Log.e("qwer","执行刷新");
+                adapter.notifyDataSetChanged();
+                //Jzvd.releaseAllVideos();
+                //adapter.notifyItemRemoved(0);
+                //adapter.notifyItemInserted(1);
+                //loadMore();
+            }
+        },5000);
 
     }
 
@@ -138,6 +152,8 @@ public class TiktokActivity extends AppCompatActivity {
     private void playVideo(int position){
         SpaPlayer spaPlayer = adapter.getVideoPlayer(position);
         if (spaPlayer != null){
+
+            spaPlayer.setUp(position,list.get(position).videoUrl,list.get(position).title);
 
             spaPlayer.startVideo();
         }else {
