@@ -5,13 +5,11 @@ import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -22,8 +20,8 @@ import java.util.List;
 import cn.jzvd.JZUtils;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
-import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
 public class XiguaPlayer extends RelativeLayout {
@@ -46,7 +44,9 @@ public class XiguaPlayer extends RelativeLayout {
 
     private OnXiguaLoadmore listener;
 
-    private ScreenListener sListener;
+    private ScreenPositionListener sListener;
+
+    private int currentPosition;
 
     public XiguaPlayer(Context context) {
         this(context,null);
@@ -89,12 +89,17 @@ public class XiguaPlayer extends RelativeLayout {
                 }
             }
         });
-
-        //this.setAlpha(0.2f);
     }
 
     public void setUp(String url,String pic,String title){
+        setUp(0,url,pic,title);
+
+    }
+
+    public void setUp(int position,String url,String pic,String title){
         //初始化列表或者清空列表
+
+        this.currentPosition = position;
         if (list == null){
             list = new ArrayList<>();
         }else {
@@ -106,34 +111,32 @@ public class XiguaPlayer extends RelativeLayout {
         model.title = title;
 
         list.add(model);
-        //list.add(model);
 
         if (adapter == null){
             adapter = new XiguaAdapter(context,list);
             viewPager.setAdapter(adapter);
             setData();
         }else {
-            //Jzvd.releaseAllVideos();
             adapter.notifyDataSetChanged();
         }
 
     }
 
     private void setData(){
-        adapter.setScreenListener(new ScreenListener() {
+        adapter.setScreenPositionListener(new ScreenPositionListener() {
             @Override
             public void gotoNormalScreen(View player, int position) {
                 //Log.e("qwer","小屏");
-                CommonPlayer commonPlayer = (CommonPlayer) player;
+                SpaPlayer spaPlayer = (SpaPlayer) player;
                 ViewGroup vg = (ViewGroup) (JZUtils.scanForActivity(context)).getWindow().getDecorView();
                 vg.removeView(XiguaPlayer.this);
                 //player.CONTAINER_LIST.getLast().removeViewAt(blockIndex);//remove block
                 /*TextView a = new TextView(context);
                 a.setText("测试一下");*/
-                commonPlayer.CONTAINER_LIST.getLast().addView(XiguaPlayer.this, blockIndex, blockLayoutParams);
-                commonPlayer.CONTAINER_LIST.pop();
+                spaPlayer.CONTAINER_LIST.getLast().addView(XiguaPlayer.this, blockIndex, blockLayoutParams);
+                spaPlayer.CONTAINER_LIST.pop();
 
-                commonPlayer.setScreenNormal();//这块可以放到jzvd中
+                spaPlayer.setScreenNormal();
                 JZUtils.showStatusBar(context);
                 JZUtils.setRequestedOrientation(context, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -151,7 +154,7 @@ public class XiguaPlayer extends RelativeLayout {
             @Override
             public void gotoFullscreen(View player, int position) {
                 //Log.e("qwer","全屏");
-                CommonPlayer commonPlayer = (CommonPlayer) player;
+                SpaPlayer spaPlayer = (SpaPlayer) player;
                 ViewGroup vg = (ViewGroup) getParent();
                 context = vg.getContext();
                 blockLayoutParams = getLayoutParams();
@@ -160,13 +163,13 @@ public class XiguaPlayer extends RelativeLayout {
                 /*TextView textView = new TextView(context);
                 textView.setText("123");
                 vg.addView(textView);*/
-                commonPlayer.CONTAINER_LIST.add(vg);
+                spaPlayer.CONTAINER_LIST.add(vg);
                 vg = (ViewGroup) (JZUtils.scanForActivity(context)).getWindow().getDecorView();
                 ViewGroup.LayoutParams fullLayout = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 vg.addView(XiguaPlayer.this, fullLayout);
 
-                commonPlayer.setScreenFullscreen();
+                spaPlayer.setScreenFullscreen();
                 JZUtils.hideStatusBar(context);
                 JZUtils.setRequestedOrientation(context, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
@@ -178,15 +181,23 @@ public class XiguaPlayer extends RelativeLayout {
                 }
             }
         });
+
+        adapter.setVideoPlayClickListener(new OnStartPositionClickListener() {
+            @Override
+            public void startButtonClicked(SpaPlayer player, int position) {
+                player.setUp(currentPosition, list.get(position).videoUrl,list.get(position).title);
+                player.startVideo();
+            }
+        });
     }
 
-    private void cloneView(ViewGroup vg){}
-
     private void playVideo(int position){
-        CommonPlayer commonPlayer = adapter.getVideoPlayer(position);
-        if (commonPlayer != null){
+        SpaPlayer spaPlayer = adapter.getVideoPlayer(position);
+        if (spaPlayer != null){
 
-            commonPlayer.startVideo();
+            spaPlayer.setUp(currentPosition,list.get(position).videoUrl,list.get(position).title,Jzvd.SCREEN_FULLSCREEN);
+
+            spaPlayer.startVideo();
         }else {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
@@ -229,15 +240,7 @@ public class XiguaPlayer extends RelativeLayout {
         canLoadMore = false;
     }
 
-    public void setScreenListener(ScreenListener listener){
+    public void setScreenListener(ScreenPositionListener listener){
         this.sListener = listener;
-    }
-
-    public void setOnStatusListener(VideoStatusListener listener){
-        adapter.setOnStatusListener(listener);
-    }
-
-    public Jzvd getVideoPlayer(){
-        return (Jzvd) adapter.getViewByPosition(0,R.id.player);
     }
 }

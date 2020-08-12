@@ -25,6 +25,8 @@ public class SpaPlayer extends JzvdStd {
 
     private OnStartButtonClickListener startButtonClickListener;
 
+    private ScreenListener screenListener;
+
     public SpaPlayer(Context context) {
         this(context,null);
     }
@@ -59,12 +61,22 @@ public class SpaPlayer extends JzvdStd {
 
     @Override
     public void gotoFullscreen() {
-        super.gotoFullscreen();
+        if (screenListener != null){
+            gotoFullscreenTime = System.currentTimeMillis();
+            screenListener.gotoFullscreen(SpaPlayer.this);
+        }else {
+            super.gotoFullscreen();
+        }
     }
 
     @Override
     public void gotoNormalScreen() {
-        super.gotoNormalScreen();
+        if (screenListener != null){
+            gobakFullscreenTime = System.currentTimeMillis();
+            screenListener.gotoNormalScreen(SpaPlayer.this);
+        }else {
+            super.gotoNormalScreen();
+        }
     }
 
     @Override
@@ -230,5 +242,9 @@ public class SpaPlayer extends JzvdStd {
 
     public void canAutoQuitFullScreen(boolean canOrnot){
         this.canQuit = canOrnot;
+    }
+
+    public void setScreenListener(ScreenListener listener){
+        this.screenListener = listener;
     }
 }

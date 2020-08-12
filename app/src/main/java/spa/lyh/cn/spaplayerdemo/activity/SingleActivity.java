@@ -3,6 +3,7 @@ package spa.lyh.cn.spaplayerdemo.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import spa.lyh.cn.lib_image.app.ImageLoadUtil;
 import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayer.SpaPlayer;
+import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
 /**
  * 在单独的Activity中演示
@@ -34,6 +36,7 @@ public class SingleActivity extends AppCompatActivity {
         ImageLoadUtil.displayImage(this,Global.pic,player.posterImageView);
 
         //player.startVideo();
+
     }
 
     @Override

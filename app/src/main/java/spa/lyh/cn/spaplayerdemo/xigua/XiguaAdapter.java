@@ -14,9 +14,12 @@ import java.util.List;
 
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
+import spa.lyh.cn.spaplayer.OnStartButtonClickListener;
+import spa.lyh.cn.spaplayer.ScreenListener;
+import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
-import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
+import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 import spa.lyh.cn.spaplayerdemo.listener.VideoPositionCompleteListener;
 
@@ -24,9 +27,11 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     private Context mContext;
     private VideoPositionCompleteListener listener;
 
-    private ScreenListener screenListener;
+    private ScreenPositionListener screenPositionListener;
 
     private VideoStatusListener statusListener;
+
+    private OnStartPositionClickListener clickListener;
 
     public XiguaAdapter(Context context, @Nullable List<VideoModel> data) {
         super(R.layout.item_xigua_video,data);
@@ -35,42 +40,9 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
-        int a = baseViewHolder.getLayoutPosition();
-        CommonPlayer commonPlayer = baseViewHolder.getView(R.id.player);
-        if (isVerticalScreen(mContext)){
-            //竖屏
-            if (commonPlayer.jzDataSource !=null){
-                //当前有对应播放数据
-                if (!commonPlayer.jzDataSource.containsTheUrl(viewModel.videoUrl)){
-                    //当前item的url不一样，初始化
-                    commonPlayer.setUp(
-                            viewModel.videoUrl,
-                            viewModel.title,Jzvd.SCREEN_NORMAL);
-                }
-            }else {
-                //当前没有对应播放数据，初始化
-                commonPlayer.setUp(
-                        viewModel.videoUrl,
-                        viewModel.title,Jzvd.SCREEN_NORMAL);
-            }
-        }else {
-            //横屏
-            if (commonPlayer.jzDataSource !=null){
-                //当前有对应播放数据
-                if (!commonPlayer.jzDataSource.containsTheUrl(viewModel.videoUrl)){
-                    //当前item的url不一样，初始化
-                    commonPlayer.setUp(
-                            viewModel.videoUrl,
-                            viewModel.title, Jzvd.SCREEN_FULLSCREEN);
-                }
-            }else {
-                //当前没有对应播放数据，初始化
-                commonPlayer.setUp(
-                        viewModel.videoUrl,
-                        viewModel.title, Jzvd.SCREEN_FULLSCREEN);
-            }
-        }
-        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,commonPlayer.posterImageView);
+        SpaPlayer spaPlayer = baseViewHolder.getView(R.id.player);
+        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+        spaPlayer.titleTextView.setText(viewModel.title);
         int count = getHeaderLayoutCount();
         int pos;
         if (count > 0){
@@ -78,23 +50,35 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }else {
             pos = baseViewHolder.getLayoutPosition();
         }
-        commonPlayer.setScreenListener(new ScreenListener() {
-            @Override
-            public void gotoNormalScreen(View player, int position) {
-                if (screenListener != null){
-                    screenListener.gotoNormalScreen(player,pos);
-                }
-            }
 
+        spaPlayer.setOnStartButtonClickListener(new OnStartButtonClickListener() {
             @Override
-            public void gotoFullscreen(View player, int position) {
-                if (screenListener != null){
-                    screenListener.gotoFullscreen(player,pos);
+            public void startButtonClicked(SpaPlayer player) {
+                if (clickListener != null){
+                    //范例就不判断头的问题了
+                    clickListener.startButtonClicked(player,pos);
                 }
             }
         });
 
-        commonPlayer.setOnStatusListener(new VideoStatusListener() {
+
+        spaPlayer.setScreenListener(new ScreenListener() {
+            @Override
+            public void gotoNormalScreen(SpaPlayer player) {
+                if (screenPositionListener != null){
+                    screenPositionListener.gotoNormalScreen(player,pos);
+                }
+            }
+
+            @Override
+            public void gotoFullscreen(SpaPlayer player) {
+                if (screenPositionListener != null){
+                    screenPositionListener.gotoFullscreen(player,pos);
+                }
+            }
+        });
+
+        spaPlayer.setOnStatusListener(new VideoStatusListener() {
             @Override
             public void onStateNormal() {
                 if (statusListener != null){
@@ -145,8 +129,8 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         this.listener = listener;
     }
 
-    public CommonPlayer getVideoPlayer(int position){
-        return (CommonPlayer) getViewByPosition(position,R.id.player);
+    public SpaPlayer getVideoPlayer(int position){
+        return (SpaPlayer) getViewByPosition(position,R.id.player);
     }
 
     /**
@@ -158,12 +142,16 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         return activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-    public void setScreenListener(ScreenListener listener){
-        this.screenListener = listener;
+    public void setScreenPositionListener(ScreenPositionListener listener){
+        this.screenPositionListener = listener;
     }
 
     public void setOnStatusListener(VideoStatusListener listener){
         this.statusListener = listener;
+    }
+
+    public void setVideoPlayClickListener(OnStartPositionClickListener listener){
+        this.clickListener = listener;
     }
 
 }

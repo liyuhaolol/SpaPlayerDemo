@@ -1,7 +1,6 @@
 package spa.lyh.cn.spaplayerdemo.xigua;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,17 +13,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
 public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder> implements LoadMoreModule {
     private Context mContext;
-
-    private VideoStartListener startListener;
 
     private ScreenListListener sListener;
 
@@ -40,12 +37,6 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
 
     @Override
     protected void convert(@NotNull BaseViewHolder holder, VideoModel viewModel) {
-        XiguaPlayer player = holder.getView(R.id.player);
-        player.setUp(
-                viewModel.videoUrl,
-                viewModel.picUrl,
-                viewModel.title);
-
         int count = getHeaderLayoutCount();
         int pos;
         if (count > 0){
@@ -54,44 +45,12 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
             pos = holder.getLayoutPosition();
         }
 
-        player.setOnStatusListener(new VideoStatusListener() {
-            @Override
-            public void onStateNormal() {
-
-            }
-
-            @Override
-            public void onStatePreparing() {
-                if (startListener != null){
-                    int count = getHeaderLayoutCount();
-                    if (count > 0){
-                        startListener.onStart(holder.getLayoutPosition()-1);
-                    } else {
-                        startListener.onStart(holder.getLayoutPosition());
-                    }
-                }
-            }
-
-            @Override
-            public void onStatePlaying() {
-
-            }
-
-            @Override
-            public void onStatePause() {
-
-            }
-
-            @Override
-            public void onStateError() {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        XiguaPlayer player = holder.getView(R.id.player);
+        player.setUp(
+                pos,
+                viewModel.videoUrl,
+                viewModel.picUrl,
+                viewModel.title);
 
         player.setLoadMoreListener(new OnXiguaLoadmore() {
             @Override
@@ -101,19 +60,7 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
                 }
             }
         });
-
-        player.setScreenListener(new ScreenListener() {
-            @Override
-            public void gotoNormalScreen(View player, int position) {
-
-            }
-
-            @Override
-            public void gotoFullscreen(View player, int position) {
-
-            }
-        });
-        player.setScreenListener(new ScreenListener() {
+        player.setScreenListener(new ScreenPositionListener() {
             @Override
             public void gotoNormalScreen(View player, int position) {
                 if (sListener != null){
@@ -134,10 +81,6 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
     }
 
 
-    public void setVideoStartListener(VideoStartListener listener){
-        this.startListener = listener;
-    }
-
     public void setLoadMoreListener(OnXiguaListLoadmore listener){
         this.loadmoreListener = listener;
     }
@@ -146,7 +89,4 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
         this.sListener = listener;
     }
 
-    public XiguaPlayer getVideoPlayer(int position){
-        return (XiguaPlayer) getViewByPosition(position,R.id.player);
-    }
 }

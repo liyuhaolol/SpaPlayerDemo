@@ -3,19 +3,16 @@ package spa.lyh.cn.spaplayerdemo.xigua;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.jzvd.Jzvd;
-import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
@@ -61,7 +58,7 @@ public class XiguaActivity extends AppCompatActivity {
             }
         });
 
-        player.setScreenListener(new ScreenListener() {
+        player.setScreenListener(new ScreenPositionListener() {
             @Override
             public void gotoNormalScreen(View player, int position) {
                 VideoModel model = list.get(position);

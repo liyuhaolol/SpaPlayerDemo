@@ -25,12 +25,19 @@ import java.util.List;
 
 import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
+import spa.lyh.cn.spaplayer.SpaPlayer;
+import spa.lyh.cn.spaplayer.VideoManager;
+import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
+import spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
 public class XiguaListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
+
+    LinearLayoutManager manager;
 
     XiguaListAdapter adapter;
 
@@ -39,16 +46,13 @@ public class XiguaListActivity extends AppCompatActivity {
 
     XiguaPlayer xiguaPlayer;
 
-    private int currentPlayPosition = -1;
-
-    private boolean isNotify;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acrtivity_recyclerview);
         recyclerView = findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
 
         list = new ArrayList<>();
 
@@ -60,58 +64,6 @@ public class XiguaListActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        /*TextView a = new TextView(this);
-        a.setText("测试一下");
-        adapter.addHeaderView(a);*/
-
-
-        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
-            @Override
-            public void onChildViewAttachedToWindow(@NotNull View view) {
-                int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
-                Log.e("qwer","添加position:"+position);
-
-                if (position == currentPlayPosition){
-                    isNotify = false;
-                }
-            }
-
-            @Override
-            public void onChildViewDetachedFromWindow(@NotNull View view) {
-                int position = recyclerView.getChildViewHolder(view).getLayoutPosition();
-                Log.e("qwer","移除position:"+position);
-
-                XiguaPlayer player = view.findViewById(R.id.player);
-                if (player != null){
-                    Jzvd jzvd = player.getVideoPlayer();
-                    if (jzvd != null
-                            && Jzvd.CURRENT_JZVD != null
-                            && jzvd.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
-                            && jzvd.mediaInterface != null) {
-                        JZMediaSystem system = (JZMediaSystem) jzvd.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
-                        if (system.mediaPlayer != null){
-                            if (system.isPlaying()){
-                                if (Jzvd.CURRENT_JZVD != null &&
-                                        Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
-                                    releaseVideo(position);
-                                }
-                            }else {
-                                releaseVideo(position);
-                            }
-                        }else {
-                            releaseVideo(position);
-                        }
-                    }
-                }
-            }
-        });
-
-        adapter.setVideoStartListener(new VideoStartListener() {
-            @Override
-            public void onStart(int position) {
-                currentPlayPosition = position;
-            }
-        });
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -121,14 +73,51 @@ public class XiguaListActivity extends AppCompatActivity {
             }
         });
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int firstVisibleItem, lastVisibleItem;
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                firstVisibleItem   = manager.findFirstVisibleItemPosition();
+                lastVisibleItem = manager.findLastVisibleItemPosition();
+                if (VideoManager.getInstance().getSpaPlayer() != null){
+                    SpaPlayer spaPlayer = VideoManager.getInstance().getSpaPlayer();
+                    int position = spaPlayer.playPosition;
+                    if (position < firstVisibleItem || position > lastVisibleItem){
+                        //页面滑出了屏幕
+                        if (Jzvd.CURRENT_JZVD != null
+                                && spaPlayer.jzDataSource != null
+                                && spaPlayer.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
+                                && spaPlayer.mediaInterface != null) {
+                            JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
+                            if (system.mediaPlayer != null){
+                                if (system.isPlaying()){
+                                    if (Jzvd.CURRENT_JZVD != null &&
+                                            Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
+                                        Jzvd.releaseAllVideos();
+                                    }
+                                }else {
+                                    Jzvd.releaseAllVideos();
+                                }
+                            }else {
+                                if (spaPlayer.isStarted){
+                                    //当前播放器已经被启动
+                                    Jzvd.releaseAllVideos();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
         adapter.setLoadMoreListener(new OnXiguaListLoadmore() {
             @Override
             public void loadMore(int position) {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        addMinData(position);
-                        //adapter.getVideoPlayer(position).loadMoreComplete();
+                        addMinData();
                     }
                 }, 100);
             }
@@ -138,22 +127,18 @@ public class XiguaListActivity extends AppCompatActivity {
             @Override
             public void gotoNormalScreen(View player, int mainPosition, int secPosition) {
                 VideoModel model = minList.get(secPosition);
-                /*list.remove(mainPosition);
-                list.add(mainPosition,model);*/
-                list.get(mainPosition).videoUrl = model.videoUrl;
-                list.get(mainPosition).picUrl = model.picUrl;
-                list.get(mainPosition).title = model.title;
-                /*if (currentPlayPosition >= 0){
-                    //当前存在播放的视频
-                    isNotify = true;
-                }
-                adapter.notifyItemChanged(mainPosition);*/
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                list.remove(mainPosition);
+                list.add(mainPosition,model);
+
+                //adapter.notifyDataSetChanged();
+
+                /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        notifyDataSetChanged();
+                        Log.e("qwer","执行刷新");
+                        adapter.notifyDataSetChanged();
                     }
-                },5000);
+                },5000);*/
             }
 
             @Override
@@ -173,7 +158,7 @@ public class XiguaListActivity extends AppCompatActivity {
                     public void run() {
                         addData();
                         //adapter.notifyItemInserted(adapter.getItemCount());
-                        notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                         adapter.getLoadMoreModule().loadMoreComplete();
                     }
                 },5000);
@@ -225,7 +210,7 @@ public class XiguaListActivity extends AppCompatActivity {
     }
 
 
-    private void addMinData(int position){
+    private void addMinData(){
         VideoModel model1 = new VideoModel();
         model1.title = "聪明的小学神";
         model1.videoUrl = "http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4";
@@ -256,34 +241,14 @@ public class XiguaListActivity extends AppCompatActivity {
         mList.add(model4);
         mList.add(model5);
         minList.addAll(mList);
-        refreshAdapter(mList,position);
-        //player.addAll(mList);
+        refreshAdapter(mList);
     }
 
-    private void refreshAdapter(List<VideoModel> list,int position){
+    private void refreshAdapter(List<VideoModel> list){
         xiguaPlayer.addAll(list);
         xiguaPlayer.loadMoreComplete();
     }
 
-
-
-    private void releaseVideo(int viewPosition){
-        if (viewPosition == currentPlayPosition ){
-            //当view跟播放是同一个的时候在执行操作
-            if (!isNotify){
-                Jzvd.releaseAllVideos();
-                currentPlayPosition = -1;
-            }
-        }
-    }
-
-    private void notifyDataSetChanged(){
-        if (currentPlayPosition >= 0){
-            //当前存在播放的视频
-            isNotify = true;
-        }
-        adapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onBackPressed() {

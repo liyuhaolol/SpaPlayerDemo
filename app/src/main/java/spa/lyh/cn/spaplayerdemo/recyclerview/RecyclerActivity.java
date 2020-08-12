@@ -15,16 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayer.VideoManager;
 import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.adapter.NewNewAdapter;
+import spa.lyh.cn.spaplayerdemo.adapter.NewRecyclerViewAdapter;
 import spa.lyh.cn.spaplayerdemo.adapter.RecyclerViewAdapter;
 import spa.lyh.cn.spaplayerdemo.listener.OnItemClickListener;
 import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
+import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 
 
 /**
@@ -40,9 +46,11 @@ import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
  */
 public class RecyclerActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    RecyclerViewAdapter adapter;
+    NewRecyclerViewAdapter adapter;
 
     LinearLayoutManager manager;
+
+    List<VideoModel> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +60,11 @@ public class RecyclerActivity extends AppCompatActivity {
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
-        adapter = new RecyclerViewAdapter(this);
+        list = new ArrayList<>();
+
+        addData();
+
+        adapter = new NewRecyclerViewAdapter(this,list);
         recyclerView.setAdapter(adapter);
 
 
@@ -98,7 +110,7 @@ public class RecyclerActivity extends AppCompatActivity {
             @Override
             public void startButtonClicked(SpaPlayer player, int position) {
                 Toast.makeText(RecyclerActivity.this, "初始化",Toast.LENGTH_SHORT).show();
-                player.setUp(position,Global.url,"聪明的小学神");
+                player.setUp(position,list.get(position).videoUrl,list.get(position).title);
                 player.startVideo();
             }
         });
@@ -106,7 +118,7 @@ public class RecyclerActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                //adapter.notifyItemChanged(0);
+                //adapter.notifyItemChanged(6);
                 Log.e("qwer","执行刷新");
                 adapter.notifyDataSetChanged();
                 //Jzvd.releaseAllVideos();
@@ -115,6 +127,21 @@ public class RecyclerActivity extends AppCompatActivity {
                 //loadMore();
             }
         },5000);
+    }
+
+    private void addData(){
+        VideoModel model = new VideoModel();
+        model.videoUrl=Global.url;
+        model.picUrl = Global.pic;
+        model.title = "聪明的小学神";
+
+        list.add(model);
+        list.add(model);
+        list.add(model);
+        list.add(model);
+        list.add(model);
+        list.add(model);
+        list.add(model);
     }
 
     @Override
