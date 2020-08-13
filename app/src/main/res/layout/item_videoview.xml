@@ -6,12 +6,33 @@
     android:orientation="vertical"
     android:id="@+id/cc">
 
+    <TextView
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:background="#fff0f0"
+        android:text="头部"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
     <spa.lyh.cn.spaplayer.SpaPlayer
         android:id="@+id/spaplayer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/head"
         app:layout_constraintDimensionRatio="h,16:9"/>
+
+    <TextView
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:background="#fff0f0"
+        android:text="底部"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spaplayer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

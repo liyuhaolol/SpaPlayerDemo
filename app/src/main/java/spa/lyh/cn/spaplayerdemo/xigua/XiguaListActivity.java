@@ -3,9 +3,7 @@ package spa.lyh.cn.spaplayerdemo.xigua;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,8 +16,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +23,9 @@ import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayer.VideoManager;
-import spa.lyh.cn.spaplayerdemo.Global;
 import spa.lyh.cn.spaplayerdemo.R;
-import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
-import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
-import spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
+import spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer;
 
 public class XiguaListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -130,7 +123,7 @@ public class XiguaListActivity extends AppCompatActivity {
                 list.remove(mainPosition);
                 list.add(mainPosition,model);
 
-                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
                 /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override

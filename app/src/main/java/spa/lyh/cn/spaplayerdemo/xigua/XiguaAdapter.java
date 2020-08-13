@@ -2,6 +2,7 @@ package spa.lyh.cn.spaplayerdemo.xigua;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,9 +41,6 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
-        SpaPlayer spaPlayer = baseViewHolder.getView(R.id.player);
-        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-        spaPlayer.titleTextView.setText(viewModel.title);
         int count = getHeaderLayoutCount();
         int pos;
         if (count > 0){
@@ -50,6 +48,10 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }else {
             pos = baseViewHolder.getLayoutPosition();
         }
+        SpaPlayer spaPlayer = baseViewHolder.getView(R.id.player);
+        SpaPlayer.checkPlayer(mContext,spaPlayer,pos);
+        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+        spaPlayer.titleTextView.setText(viewModel.title);
 
         spaPlayer.setOnStartButtonClickListener(new OnStartButtonClickListener() {
             @Override
@@ -88,6 +90,7 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
             @Override
             public void onStatePreparing() {
+                Log.e("qwer","111");
                 if (statusListener != null){
                     statusListener.onStatePreparing();
                 }

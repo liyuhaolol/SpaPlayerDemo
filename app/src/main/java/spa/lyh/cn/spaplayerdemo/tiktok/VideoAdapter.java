@@ -37,7 +37,7 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }
         SpaPlayer spaPlayer = baseViewHolder.getView(R.id.spaplayer);
         //检查当前player是否存在错位
-        SpaPlayer.checkPlayer(spaPlayer,postion);
+        SpaPlayer.checkPlayer(mContext,spaPlayer,postion);
         ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
         spaPlayer.titleTextView.setText(viewModel.title);
 

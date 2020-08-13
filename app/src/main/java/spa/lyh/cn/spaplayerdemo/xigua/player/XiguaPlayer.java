@@ -1,4 +1,4 @@
-package spa.lyh.cn.spaplayerdemo.xigua;
+package spa.lyh.cn.spaplayerdemo.xigua.player;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -23,6 +23,9 @@ import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
+import spa.lyh.cn.spaplayerdemo.xigua.OnXiguaLoadmore;
+import spa.lyh.cn.spaplayerdemo.xigua.ScreenPositionListener;
+import spa.lyh.cn.spaplayerdemo.xigua.XiguaAdapter;
 
 public class XiguaPlayer extends RelativeLayout {
     private Context context;

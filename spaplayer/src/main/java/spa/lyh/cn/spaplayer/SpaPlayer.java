@@ -255,11 +255,14 @@ public class SpaPlayer extends JzvdStd {
     /**
      * 检查player是否错位
      */
-    public static void checkPlayer(View spaPlayer,int position){
+    public static SpaPlayer checkPlayer(Context context,SpaPlayer spaPlayer,int position){
+        ViewGroup.LayoutParams blockLayoutParams = spaPlayer.getLayoutParams();
+        int blockIndex;
         SpaPlayer currentPlayer = VideoManager.getInstance().getSpaPlayer();
-        ViewGroup oldVg = (ViewGroup) spaPlayer.getParent();//原理上，这个vg不可能为null
+        ViewGroup oldVg = (ViewGroup) spaPlayer.getParent();
         if (oldVg != null){
             if (oldVg.getId() != -1){
+                blockIndex = oldVg.indexOfChild(spaPlayer);
                 if (currentPlayer != null && currentPlayer.playPosition == position){
                     ViewGroup vg = (ViewGroup) currentPlayer.getParent();
                     if (vg != null){
@@ -268,23 +271,49 @@ public class SpaPlayer extends JzvdStd {
                             //显示播放器父布局，跟实际运行的播放器父布局是一个
                             if (!spaPlayer.equals(currentPlayer)){
                                 //当前2个player不是同一个东西
+                                oldVg.removeView(spaPlayer);
                                 vg.removeView(currentPlayer);//移除掉当前播放器
-                                oldVg.addView(currentPlayer);//添加到当前控制器
+                                oldVg.addView(currentPlayer,blockIndex,blockLayoutParams);//添加到当前控制器
+                                return currentPlayer;
                             }
+                        }else {
+                            //当前正在全屏播放，准备替换父类
+                            currentPlayer.CONTAINER_LIST.pop();
+                            CONTAINER_LIST.add(oldVg);
                         }
                     }else {
                         //当前播放器没有父布局了直接添加
-                        oldVg.addView(currentPlayer);//添加到当前控制器
+                        oldVg.removeView(spaPlayer);
+                        oldVg.addView(currentPlayer,blockIndex,blockLayoutParams);//添加到当前控制器
+                        return currentPlayer;
                     }
                 }else {
-                    oldVg.removeView(currentPlayer);
+                    //当前item不是正在播放的位置
+                    if (currentPlayer != null){
+                        //当前存在正在播放的播放器
+                        ViewGroup vg = (ViewGroup) currentPlayer.getParent();
+                        if (vg != null){
+                            //说明此时，当前播放的view还在某个ViewGroup里
+                            if (oldVg.getId() == vg.getId()){
+                                //显示播放器父布局，跟实际运行的播放器父布局是一个
+                                if (spaPlayer.equals(currentPlayer)){
+                                    //当前2个player不是同一个东西
+                                    vg.removeView(currentPlayer);//移除掉当前播放器
+                                    SpaPlayer replacePlayer = new SpaPlayer(context);
+                                    oldVg.addView(replacePlayer,blockIndex,blockLayoutParams);//添加到当前控制器
+                                    return replacePlayer;
+                                }
+                            }
+                        }
+                    }
+                    //oldVg.removeView(currentPlayer);
                 }
             }else {
-                Log.e(TAG,"item中作为显示的SpaPlayer的父布局ViewGroup不存在ResId，逻辑逻辑判断无法继续进行，请去xml中对父布局设置id。");
+                if (!oldVg.toString().contains("DecorView")){
+                    Log.e(TAG,"item中作为显示的SpaPlayer的父布局ViewGroup不存在ResId，逻辑逻辑判断无法继续进行，请去xml中对父布局设置id。");
+                }
             }
-        }else {
-            Log.e(TAG,"item中作为显示的SpaPlayer的父布局ViewGroup为null，原理上不可能发生，请检查具体原因。");
         }
-
+        return null;
     }
 }

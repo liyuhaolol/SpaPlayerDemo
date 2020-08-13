@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <spa.lyh.cn.spaplayerdemo.xigua.XiguaPlayer
+    <spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer
         android:id="@+id/xiguaplayer"
         android:layout_width="match_parent"
         android:layout_height="0dp"

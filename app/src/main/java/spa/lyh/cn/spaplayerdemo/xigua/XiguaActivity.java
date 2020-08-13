@@ -15,6 +15,7 @@ import java.util.List;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
+import spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer;
 
 public class XiguaActivity extends AppCompatActivity {
     XiguaPlayer player;

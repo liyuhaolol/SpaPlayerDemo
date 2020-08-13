@@ -13,12 +13,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import spa.lyh.cn.spaplayer.SpaPlayer;
-import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
-import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
-import spa.lyh.cn.spaplayerdemo.listener.VideoStartListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
+import spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer;
 
 public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder> implements LoadMoreModule {
     private Context mContext;

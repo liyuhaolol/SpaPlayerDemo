@@ -126,7 +126,7 @@ public class RecyclerActivity extends AppCompatActivity {
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },5000);
+        },15000);
     }
 
     private void addData(){
