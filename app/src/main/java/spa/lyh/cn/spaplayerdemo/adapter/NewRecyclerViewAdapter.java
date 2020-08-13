@@ -45,15 +45,14 @@ public class NewRecyclerViewAdapter extends BaseQuickAdapter<VideoModel, BaseVie
     @Override
     protected void convert(@NotNull BaseViewHolder holder, VideoModel videoModel) {
         SpaPlayer spaPlayer = holder.getView(R.id.spaplayer);
-        Log.e("qwer",holder.getLayoutPosition()+"");
         //检查当前player是否存在错位
         SpaPlayer resultPlayer = SpaPlayer.checkPlayer(context,spaPlayer,holder.getLayoutPosition());
         if (resultPlayer != null){
             spaPlayer = resultPlayer;
         }
 
-        ImageLoadUtil.displayImage(context, Global.pic,spaPlayer.posterImageView);
-        spaPlayer.titleTextView.setText("聪明的小学神");
+        ImageLoadUtil.displayImage(context, videoModel.picUrl,spaPlayer.posterImageView);
+        spaPlayer.titleTextView.setText(videoModel.title);
 
         spaPlayer.setOnStartButtonClickListener(new OnStartButtonClickListener() {
             @Override
