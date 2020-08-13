@@ -28,9 +28,6 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
-        SpaPlayer spaPlayer = baseViewHolder.getView(R.id.spaplayer);
-        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
-        spaPlayer.titleTextView.setText(viewModel.title);
         int count = getHeaderLayoutCount();
         int postion;
         if (count > 0){
@@ -38,6 +35,11 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
         }else {
             postion = baseViewHolder.getLayoutPosition();
         }
+        SpaPlayer spaPlayer = baseViewHolder.getView(R.id.spaplayer);
+        //检查当前player是否存在错位
+        SpaPlayer.checkPlayer(spaPlayer,postion);
+        ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
+        spaPlayer.titleTextView.setText(viewModel.title);
 
         spaPlayer.setOnStatusListener(new VideoStatusListener() {
             @Override

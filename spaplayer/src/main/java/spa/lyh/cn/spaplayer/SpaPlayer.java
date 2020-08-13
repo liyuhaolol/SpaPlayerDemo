@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,9 @@ import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 public class SpaPlayer extends JzvdStd {
+    private final static String TAG = "SpaPlayer";
+
+
     TextView time;
     Context context;
 
@@ -246,5 +250,41 @@ public class SpaPlayer extends JzvdStd {
 
     public void setScreenListener(ScreenListener listener){
         this.screenListener = listener;
+    }
+
+    /**
+     * 检查player是否错位
+     */
+    public static void checkPlayer(View spaPlayer,int position){
+        SpaPlayer currentPlayer = VideoManager.getInstance().getSpaPlayer();
+        ViewGroup oldVg = (ViewGroup) spaPlayer.getParent();//原理上，这个vg不可能为null
+        if (oldVg != null){
+            if (oldVg.getId() != -1){
+                if (currentPlayer != null && currentPlayer.playPosition == position){
+                    ViewGroup vg = (ViewGroup) currentPlayer.getParent();
+                    if (vg != null){
+                        //说明此时，当前播放的view还在某个ViewGroup里
+                        if (oldVg.getId() == vg.getId()){
+                            //显示播放器父布局，跟实际运行的播放器父布局是一个
+                            if (!spaPlayer.equals(currentPlayer)){
+                                //当前2个player不是同一个东西
+                                vg.removeView(currentPlayer);//移除掉当前播放器
+                                oldVg.addView(currentPlayer);//添加到当前控制器
+                            }
+                        }
+                    }else {
+                        //当前播放器没有父布局了直接添加
+                        oldVg.addView(currentPlayer);//添加到当前控制器
+                    }
+                }else {
+                    oldVg.removeView(currentPlayer);
+                }
+            }else {
+                Log.e(TAG,"item中作为显示的SpaPlayer的父布局ViewGroup不存在ResId，逻辑逻辑判断无法继续进行，请去xml中对父布局设置id。");
+            }
+        }else {
+            Log.e(TAG,"item中作为显示的SpaPlayer的父布局ViewGroup为null，原理上不可能发生，请检查具体原因。");
+        }
+
     }
 }

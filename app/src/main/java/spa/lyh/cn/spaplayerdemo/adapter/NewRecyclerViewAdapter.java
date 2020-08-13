@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -44,25 +45,8 @@ public class NewRecyclerViewAdapter extends BaseQuickAdapter<VideoModel, BaseVie
     @Override
     protected void convert(@NotNull BaseViewHolder holder, VideoModel videoModel) {
         SpaPlayer spaPlayer = holder.getView(R.id.spaplayer);
-        ConstraintLayout cc = holder.getView(R.id.cc);
-        SpaPlayer currentPlayer = VideoManager.getInstance().getSpaPlayer();
-
-        if (currentPlayer != null && currentPlayer.playPosition == holder.getLayoutPosition()){
-            ViewGroup vg = (ViewGroup) currentPlayer.getParent();
-            if (vg instanceof ConstraintLayout){
-                //说明此时，当前播放的view还在某个ViewGroup里
-                if (!spaPlayer.equals(currentPlayer)){
-                    //当前2个player不是同一个东西
-                    vg.removeView(currentPlayer);//移除掉当前播放器
-                    cc.addView(currentPlayer);//添加到当前控制器
-                }
-            }else if (vg == null){
-                //当前播放器已经被移除了，直接添加
-                cc.addView(currentPlayer);//添加到当前控制器
-            }
-        }else {
-            cc.removeView(currentPlayer);
-        }
+        //检查当前player是否存在错位
+        SpaPlayer.checkPlayer(spaPlayer,holder.getLayoutPosition());
 
         ImageLoadUtil.displayImage(context, Global.pic,spaPlayer.posterImageView);
         spaPlayer.titleTextView.setText("聪明的小学神");
