@@ -341,4 +341,31 @@ public class SpaPlayer extends JzvdStd {
         }
         return null;
     }
+
+    public static SpaPlayer getPlayer(Context context,ViewGroup inVg,int position){
+        SpaPlayer currentPlayer = VideoManager.getInstance().getSpaPlayer();
+        if (currentPlayer != null){
+            if (currentPlayer.playPosition == position){
+                ViewGroup vg = (ViewGroup) currentPlayer.getParent();
+                if (vg != null){
+                    if (vg.getId() != -1){
+                        //非全屏状态
+                        vg.removeView(currentPlayer);
+                        return currentPlayer;
+                    }else {
+                        //应该是全屏状态
+                        currentPlayer.CONTAINER_LIST.pop();
+                        currentPlayer.CONTAINER_LIST.add(inVg);
+                        return new SpaPlayer(context);
+                    }
+                }else {
+                    return currentPlayer;
+                }
+            }else {
+                return new SpaPlayer(context);
+            }
+        }else {
+            return new SpaPlayer(context);
+        }
+    }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -44,24 +45,14 @@ public class NewRecyclerViewAdapter extends BaseQuickAdapter<VideoModel, BaseVie
 
     @Override
     protected void convert(@NotNull BaseViewHolder holder, VideoModel videoModel) {
-        SpaPlayer spaPlayer = holder.getView(R.id.spaplayer);
-        ConstraintLayout cc = holder.getView(R.id.cc);
-        /*if (spaPlayer.playPosition !=-1){
-            int blockIndex = cc.indexOfChild(spaPlayer);
-            ViewGroup.LayoutParams blockLayoutParams = spaPlayer.getLayoutParams();
-            cc.removeView(spaPlayer);
-            spaPlayer = new SpaPlayer(context);
-            spaPlayer.setId(R.id.spaplayer);
-            cc.addView(spaPlayer,blockIndex,blockLayoutParams);
-            spaPlayer = new SpaPlayer(context);
-            spaPlayer.setId(R.id.spaplayer);
-        }*/
+        RelativeLayout re = holder.getView(R.id.re);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        re.removeAllViews();
+        //re.removeViewAt(0);
+        SpaPlayer spaPlayer = SpaPlayer.getPlayer(context,re,holder.getLayoutPosition());
+        Log.e("qwer","位置"+holder.getLayoutPosition()+"的地址"+spaPlayer.toString());
+        re.addView(spaPlayer,layoutParams);
 
-        //检查当前player是否存在错位
-        SpaPlayer resultPlayer = SpaPlayer.checkPlayer(context,spaPlayer,holder.getLayoutPosition());
-        if (resultPlayer != null){
-            spaPlayer = resultPlayer;
-        }
 
         ImageLoadUtil.displayImage(context, videoModel.picUrl,spaPlayer.posterImageView);
         spaPlayer.titleTextView.setText(videoModel.title);

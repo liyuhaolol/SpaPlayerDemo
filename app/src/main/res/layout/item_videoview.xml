@@ -16,8 +16,8 @@
         android:text="头部"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-    <spa.lyh.cn.spaplayer.SpaPlayer
-        android:id="@+id/spaplayer"
+    <RelativeLayout
+        android:id="@+id/re"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,6 +33,6 @@
         android:background="#fff0f0"
         android:text="底部"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spaplayer"/>
+        app:layout_constraintTop_toBottomOf="@+id/re"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
