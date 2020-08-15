@@ -23,7 +23,9 @@ public class SpaPlayer extends JzvdStd {
 
     private VideoStatusListener listener;
 
-    public int playPosition;
+    private OnReleaseVideoListener releaseVideoListener;
+
+    public int playPosition = -1;
 
     private boolean canQuit;
 
@@ -157,7 +159,11 @@ public class SpaPlayer extends JzvdStd {
         //Log.e("qwer","重置");
         super.reset();
         isStarted = false;
+        playPosition = -1;
         VideoManager.getInstance().clearPlayer();
+        if (releaseVideoListener != null){
+            releaseVideoListener.onRelease();
+        }
     }
 
     @Override
@@ -252,10 +258,15 @@ public class SpaPlayer extends JzvdStd {
         this.screenListener = listener;
     }
 
+    public void setOnReleaseVideoListener(OnReleaseVideoListener listener){
+        this.releaseVideoListener = listener;
+    }
+
     /**
      * 检查player是否错位
      */
     public static SpaPlayer checkPlayer(Context context,SpaPlayer spaPlayer,int position){
+        Log.e("qwer",position+"");
         ViewGroup.LayoutParams blockLayoutParams = spaPlayer.getLayoutParams();
         int blockIndex;
         SpaPlayer currentPlayer = VideoManager.getInstance().getSpaPlayer();
@@ -263,54 +274,68 @@ public class SpaPlayer extends JzvdStd {
         if (oldVg != null){
             if (oldVg.getId() != -1){
                 blockIndex = oldVg.indexOfChild(spaPlayer);
-                if (currentPlayer != null && currentPlayer.playPosition == position){
-                    ViewGroup vg = (ViewGroup) currentPlayer.getParent();
-                    if (vg != null){
-                        //说明此时，当前播放的view还在某个ViewGroup里
-                        if (oldVg.getId() == vg.getId()){
-                            //显示播放器父布局，跟实际运行的播放器父布局是一个
-                            if (!spaPlayer.equals(currentPlayer)){
-                                //当前2个player不是同一个东西
-                                oldVg.removeView(spaPlayer);
-                                vg.removeView(currentPlayer);//移除掉当前播放器
-                                oldVg.addView(currentPlayer,blockIndex,blockLayoutParams);//添加到当前控制器
-                                return currentPlayer;
-                            }
-                        }else {
-                            //当前正在全屏播放，准备替换父类
-                            currentPlayer.CONTAINER_LIST.pop();
-                            CONTAINER_LIST.add(oldVg);
-                        }
-                    }else {
-                        //当前播放器没有父布局了直接添加
-                        oldVg.removeView(spaPlayer);
-                        oldVg.addView(currentPlayer,blockIndex,blockLayoutParams);//添加到当前控制器
-                        return currentPlayer;
-                    }
-                }else {
-                    //当前item不是正在播放的位置
-                    if (currentPlayer != null){
-                        //当前存在正在播放的播放器
+                if (currentPlayer != null){
+                    if (currentPlayer.playPosition == position){
+                        //当前播放位置就是当前item
                         ViewGroup vg = (ViewGroup) currentPlayer.getParent();
                         if (vg != null){
                             //说明此时，当前播放的view还在某个ViewGroup里
-                            if (oldVg.getId() == vg.getId()){
-                                //显示播放器父布局，跟实际运行的播放器父布局是一个
+                            if (!vg.equals(oldVg)){
+                                //两个父类不是一个东西
+                                if (oldVg.getId() != vg.getId()){
+                                    //当前正在全屏播放，准备替换父类
+                                    Log.e("qwer","替换了父类");
+                                    currentPlayer.CONTAINER_LIST.pop();
+                                    currentPlayer.CONTAINER_LIST.add(oldVg);
+                                    VideoManager.getInstance().setViewGroup(oldVg);
+                                    return currentPlayer;
+                                }else {
+                                    //当前id相同，替换播放器
+                                    oldVg.removeView(spaPlayer);//这个应该不是当前的播放器，应该无用
+                                    vg.removeView(currentPlayer);
+                                    oldVg.addView(currentPlayer,blockIndex,blockLayoutParams);
+                                    VideoManager.getInstance().setViewGroup(oldVg);
+                                }
+                            }
+                        }
+                    }else {
+                        //当前item不是正在播放的位置
+                        //进入这个分支说明什么：
+                        //当前不是全屏播放
+                        //oldVg肯定不是DecorView
+                        //oldVg肯定包含player
+                        //1,当前View并不是正在被播放的view
+                        //2,当前View就是正在播放的容器
+                        ViewGroup vg = (ViewGroup) currentPlayer.getParent();
+                        if (vg != null){
+                            //道理上，维护的播放器单例，父类不可能为空，这里用作判断
+                            Log.e("qwer","vg:"+vg.toString());
+                            Log.e("qwer","oldVg:"+oldVg.toString());
+                            Log.e("qwer","inVg:"+VideoManager.getInstance().getViewGroup().toString());
+                            if (vg.equals(oldVg)){
+                                //两个容器是一个，说明这里已经出现错位问题
                                 if (spaPlayer.equals(currentPlayer)){
-                                    //当前2个player不是同一个东西
-                                    vg.removeView(currentPlayer);//移除掉当前播放器
-                                    SpaPlayer replacePlayer = new SpaPlayer(context);
-                                    oldVg.addView(replacePlayer,blockIndex,blockLayoutParams);//添加到当前控制器
-                                    return replacePlayer;
+                                    //严谨判断，两个播放器是否也是同一个东西
+                                    if (oldVg.getChildCount() >= blockIndex){
+                                        //保证可以得到view
+                                        SpaPlayer replacePlayer = new SpaPlayer(context);
+                                        replacePlayer.setId(spaPlayer.getId());
+                                        View view = oldVg.getChildAt(blockIndex);
+                                        if (view instanceof SpaPlayer){
+                                            //得到的view是spaplayer时,需要先移除
+                                            oldVg.removeView(view);
+                                            VideoManager.getInstance().getViewGroup().addView(view,blockIndex,blockLayoutParams);
+                                        }
+                                        oldVg.addView(replacePlayer,blockIndex,blockLayoutParams);
+                                        return replacePlayer;
+                                    }else {
+                                        Log.e(TAG,"VG的子类数量不对");
+                                    }
+
                                 }
                             }
                         }
                     }
-                    //oldVg.removeView(currentPlayer);
-                }
-            }else {
-                if (!oldVg.toString().contains("DecorView")){
-                    Log.e(TAG,"item中作为显示的SpaPlayer的父布局ViewGroup不存在ResId，逻辑逻辑判断无法继续进行，请去xml中对父布局设置id。");
                 }
             }
         }

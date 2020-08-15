@@ -45,6 +45,18 @@ public class NewRecyclerViewAdapter extends BaseQuickAdapter<VideoModel, BaseVie
     @Override
     protected void convert(@NotNull BaseViewHolder holder, VideoModel videoModel) {
         SpaPlayer spaPlayer = holder.getView(R.id.spaplayer);
+        ConstraintLayout cc = holder.getView(R.id.cc);
+        /*if (spaPlayer.playPosition !=-1){
+            int blockIndex = cc.indexOfChild(spaPlayer);
+            ViewGroup.LayoutParams blockLayoutParams = spaPlayer.getLayoutParams();
+            cc.removeView(spaPlayer);
+            spaPlayer = new SpaPlayer(context);
+            spaPlayer.setId(R.id.spaplayer);
+            cc.addView(spaPlayer,blockIndex,blockLayoutParams);
+            spaPlayer = new SpaPlayer(context);
+            spaPlayer.setId(R.id.spaplayer);
+        }*/
+
         //检查当前player是否存在错位
         SpaPlayer resultPlayer = SpaPlayer.checkPlayer(context,spaPlayer,holder.getLayoutPosition());
         if (resultPlayer != null){
@@ -70,6 +82,12 @@ public class NewRecyclerViewAdapter extends BaseQuickAdapter<VideoModel, BaseVie
                     Toast.makeText(context, "进详情",Toast.LENGTH_SHORT).show();
                 }
             });*/
+
+        TextView head = holder.getView(R.id.head);
+        head.setText("头部"+holder.getLayoutPosition());
+        TextView bottom = holder.getView(R.id.bottom);
+        bottom.setText("尾部"+holder.getLayoutPosition());
+
     }
 
     public void setVideoPlayClickListener(OnStartPositionClickListener listener){

@@ -15,6 +15,7 @@ import java.util.List;
 
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.lib_image.app.ImageLoadUtil;
+import spa.lyh.cn.spaplayer.OnReleaseVideoListener;
 import spa.lyh.cn.spaplayer.OnStartButtonClickListener;
 import spa.lyh.cn.spaplayer.ScreenListener;
 import spa.lyh.cn.spaplayer.SpaPlayer;
@@ -34,6 +35,8 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
     private OnStartPositionClickListener clickListener;
 
+    private OnReleaseVideoListener releaseVideoListener;
+
     public XiguaAdapter(Context context, @Nullable List<VideoModel> data) {
         super(R.layout.item_xigua_video,data);
         mContext = context;
@@ -49,7 +52,7 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
             pos = baseViewHolder.getLayoutPosition();
         }
         SpaPlayer spaPlayer = baseViewHolder.getView(R.id.player);
-        SpaPlayer.checkPlayer(mContext,spaPlayer,pos);
+        //内部嵌套，所以这里不应该检查父类
         ImageLoadUtil.displayImage(mContext,viewModel.picUrl,spaPlayer.posterImageView);
         spaPlayer.titleTextView.setText(viewModel.title);
 
@@ -90,7 +93,6 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
             @Override
             public void onStatePreparing() {
-                Log.e("qwer","111");
                 if (statusListener != null){
                     statusListener.onStatePreparing();
                 }
@@ -126,6 +128,15 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
             }
         });
 
+        spaPlayer.setOnReleaseVideoListener(new OnReleaseVideoListener() {
+            @Override
+            public void onRelease() {
+                if (releaseVideoListener != null){
+                    releaseVideoListener.onRelease();
+                }
+            }
+        });
+
     }
 
     public void setOnCompleteListener(VideoPositionCompleteListener listener){
@@ -155,6 +166,10 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
     public void setVideoPlayClickListener(OnStartPositionClickListener listener){
         this.clickListener = listener;
+    }
+
+    public void setOnReleaseVideoListener(OnReleaseVideoListener listener){
+        this.releaseVideoListener = listener;
     }
 
 }

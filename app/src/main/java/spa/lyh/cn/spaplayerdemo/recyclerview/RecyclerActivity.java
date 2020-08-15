@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -52,11 +55,14 @@ public class RecyclerActivity extends AppCompatActivity {
 
     List<VideoModel> list;
 
+    Button btn;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acrtivity_recyclerview);
         recyclerView = findViewById(R.id.recycler);
+        btn = findViewById(R.id.btn);
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
@@ -115,11 +121,52 @@ public class RecyclerActivity extends AppCompatActivity {
             }
         });
 
+
+        adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("qwer","添加数据");
+                        addData();
+                        adapter.notifyDataSetChanged();
+                        adapter.getLoadMoreModule().loadMoreComplete();
+                    }
+                },10000);
+            }
+        });
+        adapter.getLoadMoreModule().setEnableLoadMore(false);
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //adapter.notifyItemChanged(6);
+                Log.e("qwer","执行刷新");
+                /*VideoModel model = new VideoModel();
+                model.videoUrl=Global.url;
+                model.picUrl = Global.pic;
+                model.title = "聪明的小笨蛋";
+                list.remove(2);
+                list.add(2,model);*/
+                adapter.notifyDataSetChanged();
+                //Jzvd.releaseAllVideos();
+                //adapter.notifyItemRemoved(0);
+                //adapter.notifyItemInserted(1);
+                //loadMore();
+            }
+        });
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                //adapter.notifyItemChanged(6);
                 Log.e("qwer","执行刷新");
+                VideoModel model = new VideoModel();
+                model.videoUrl=Global.url;
+                model.picUrl = Global.pic;
+                model.title = "聪明的小笨蛋";
+                list.remove(0);
+                list.add(0,model);
                 adapter.notifyDataSetChanged();
                 //Jzvd.releaseAllVideos();
                 //adapter.notifyItemRemoved(0);
@@ -130,18 +177,33 @@ public class RecyclerActivity extends AppCompatActivity {
     }
 
     private void addData(){
-        VideoModel model = new VideoModel();
-        model.videoUrl=Global.url;
-        model.picUrl = Global.pic;
-        model.title = "聪明的小学神";
 
-        list.add(model);
-        list.add(model);
-        list.add(model);
-        list.add(model);
-        list.add(model);
-        list.add(model);
-        list.add(model);
+        VideoModel model1 = new VideoModel();
+        model1.title = "聪明的小学神";
+        model1.videoUrl = "http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4";
+        model1.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png";
+        VideoModel model2 = new VideoModel();
+        model2.title = "压爆气球";
+        model2.videoUrl = "http://jzvd.nathen.cn/63f3f73712544394be981d9e4f56b612/69c5767bb9e54156b5b60a1b6edeb3b5-5287d2089db37e62345123a1be272f8b.mp4";
+        model2.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/1d935cc5-a1e7-4779-bdfa-20fd7a60724c.jpg";
+        VideoModel model3 = new VideoModel();
+        model3.title = "美美的做饭";
+        model3.videoUrl = "http://jzvd.nathen.cn/35b3dc97fbc240219961bd1fccc6400b/8d9b76ab5a584bce84a8afce012b72d3-5287d2089db37e62345123a1be272f8b.mp4";
+        model3.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/f2dbd12e-b1cb-4daf-aff1-8c6be2f64d1a.jpg";
+        VideoModel model4 = new VideoModel();
+        model4.title = "舞也能这么跳";
+        model4.videoUrl = "http://jzvd.nathen.cn/384d341e000145fb82295bdc54ecef88/103eab5afca34baebc970378dd484942-5287d2089db37e62345123a1be272f8b.mp4";
+        model4.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/2adde364-9be1-4864-b4b9-0b0bcc81ef2e.jpg";
+        VideoModel model5 = new VideoModel();
+        model5.title = "练习瑜伽";
+        model5.videoUrl = "http://jzvd.nathen.cn/6340efd1962946ad80eeffd19b3be89c/65b499c0f16e4dd8900497e51ffa0949-5287d2089db37e62345123a1be272f8b.mp4";
+        model5.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/aaeb5da9-ac50-4712-a28d-863fe40f1fc6.png";
+
+        list.add(model1);
+        list.add(model2);
+        list.add(model3);
+        list.add(model4);
+        list.add(model5);
     }
 
     @Override

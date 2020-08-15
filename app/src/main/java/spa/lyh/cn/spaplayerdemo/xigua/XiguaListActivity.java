@@ -3,6 +3,7 @@ package spa.lyh.cn.spaplayerdemo.xigua;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -104,7 +105,7 @@ public class XiguaListActivity extends AppCompatActivity {
             }
         });
 
-        adapter.setLoadMoreListener(new OnXiguaListLoadmore() {
+        /*adapter.setLoadMoreListener(new OnXiguaListLoadmore() {
             @Override
             public void loadMore(int position) {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -114,7 +115,7 @@ public class XiguaListActivity extends AppCompatActivity {
                     }
                 }, 100);
             }
-        });
+        });*/
 
         adapter.setScreenListener(new ScreenListListener() {
             @Override
@@ -123,7 +124,7 @@ public class XiguaListActivity extends AppCompatActivity {
                 list.remove(mainPosition);
                 list.add(mainPosition,model);
 
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
 
                 /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
@@ -142,7 +143,7 @@ public class XiguaListActivity extends AppCompatActivity {
             }
         });
 
-        adapter.getLoadMoreModule().setEnableLoadMore(true);
+
         adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -154,22 +155,29 @@ public class XiguaListActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         adapter.getLoadMoreModule().loadMoreComplete();
                     }
-                },5000);
+                },7000);
 
             }
         });
+        adapter.getLoadMoreModule().setEnableLoadMore(true);
 
         /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 //adapter.notifyItemChanged(0);
                 Log.e("qwer","执行刷新");
-                notifyDataSetChanged();
+                VideoModel model1 = new VideoModel();
+                model1.title = "聪明的小糊涂";
+                model1.videoUrl = "http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4";
+                model1.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png";
+                //list.remove(0);
+                //list.add(0,model1);
+                adapter.notifyDataSetChanged();
                 //adapter.notifyItemRemoved(0);
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },5000);*/
+        },15000);*/
     }
 
     private void addData(){

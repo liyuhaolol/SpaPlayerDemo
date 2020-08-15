@@ -1,6 +1,7 @@
 package spa.lyh.cn.spaplayerdemo.xigua;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 import spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer;
@@ -41,13 +43,23 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
         }else {
             pos = holder.getLayoutPosition();
         }
+        Log.e("qwer",pos+"");
 
         XiguaPlayer player = holder.getView(R.id.player);
-        player.setUp(
+
+        //检查当前player是否存在错位
+        XiguaPlayer resultPlayer = XiguaPlayer.checkPlayer(mContext,player,pos);
+        if (resultPlayer != null){
+            player = resultPlayer;
+        }
+        player.showView(
                 pos,
                 viewModel.videoUrl,
                 viewModel.picUrl,
                 viewModel.title);
+        if (!viewModel.equals(player.getFirstItem())){
+            player.refreshFirstData(viewModel);
+        }
 
         player.setLoadMoreListener(new OnXiguaLoadmore() {
             @Override

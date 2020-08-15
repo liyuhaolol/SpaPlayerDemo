@@ -30,19 +30,24 @@
             android:screenOrientation="portrait"/>
         <activity android:name="spa.lyh.cn.spaplayerdemo.recyclerview.RecyclerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity android:name="spa.lyh.cn.spaplayerdemo.web.WebActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity android:name="spa.lyh.cn.spaplayerdemo.tiktok.TiktokActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity android:name="spa.lyh.cn.spaplayerdemo.xigua.XiguaActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity android:name="spa.lyh.cn.spaplayerdemo.xigua.XiguaListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
     </application>
 
 </manifest>
