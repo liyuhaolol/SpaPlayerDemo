@@ -201,8 +201,8 @@ public class XiguaPlayer extends RelativeLayout {
                 JZUtils.setRequestedOrientation(context, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
                 JZUtils.hideSystemUI(context);//华为手机和有虚拟键的手机全屏时可隐藏虚拟键 issue:1326
-                /*canLoadMore = true;
-                processLoadMore();*/
+                canLoadMore = true;
+                processLoadMore();
                 if (sListener != null){
                     sListener.gotoFullscreen(XiguaPlayer.this,position);
                 }
@@ -296,27 +296,6 @@ public class XiguaPlayer extends RelativeLayout {
         }
     }
 
-    public VideoModel getFirstItem(){
-        if (list == null){
-            return null;
-        }
-        try {
-            return list.get(0);
-        }catch (Exception e){
-            e.printStackTrace();
-            Log.e(TAG,"唯一能想到的可能性就是数组越界，但是如果真的发生了，不太符合逻辑。需要进一步排查发生原因，我自己靠脑子想不出来这种场景。");
-            return null;
-        }
-    }
-
-    public void refreshFirstData(VideoModel model){
-        if (list != null){
-            list.remove(0);
-            list.add(0,model);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
     public void loadMoreComplete(){
         adapter.notifyDataSetChanged();
         canLoadMore = true;
@@ -330,69 +309,41 @@ public class XiguaPlayer extends RelativeLayout {
         this.sListener = listener;
     }
 
-    /**
-     * 检查player是否错位
-     */
-    public static XiguaPlayer checkPlayer(Context context,XiguaPlayer xiguaPlayer,int position){
-        ViewGroup.LayoutParams blockLayoutParams = xiguaPlayer.getLayoutParams();
-        int blockIndex;
+
+    public static XiguaPlayer getPlayer(Context context,ViewGroup inVg,int position){
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         XiguaPlayer currentPlayer = XiguaManager.getInstance().getXiguaPlayer();
-        ViewGroup oldVg = (ViewGroup) xiguaPlayer.getParent();
-        if (oldVg != null){
-            if (oldVg.getId() != -1){
-                blockIndex = oldVg.indexOfChild(xiguaPlayer);
-                if (currentPlayer != null && currentPlayer.currentPosition == position){
-                    ViewGroup vg = (ViewGroup) currentPlayer.getParent();
-                    if (vg != null){
-                        //说明此时，当前播放的view还在某个ViewGroup里
-                        if (oldVg.getId() == vg.getId()){
-                            //显示播放器父布局，跟实际运行的播放器父布局是一个
-                            if (!xiguaPlayer.equals(currentPlayer)){
-                                //当前2个player不是同一个东西
-                                oldVg.removeView(xiguaPlayer);
-                                vg.removeView(currentPlayer);//移除掉当前播放器
-                                oldVg.addView(currentPlayer,blockIndex,blockLayoutParams);//添加到当前控制器
-                                return currentPlayer;
-                            }
-                        }else {
-                            //当前正在全屏播放，准备替换父类
-                            currentPlayer.CONTAINER_LIST.pop();
-                            currentPlayer.CONTAINER_LIST.add(oldVg);
-                            return currentPlayer;
-                        }
+        XiguaPlayer xiguaPlayer = new XiguaPlayer(context);
+        if (currentPlayer != null){
+            if (currentPlayer.currentPosition == position){
+                ViewGroup vg = (ViewGroup) currentPlayer.getParent();
+                if (vg != null){
+                    if (vg.getId() != -1){
+                        //非全屏状态
+                        vg.removeView(currentPlayer);
+                        inVg.removeAllViews();
+                        inVg.addView(currentPlayer,layoutParams);
+                        return currentPlayer;
                     }else {
-                        //当前播放器没有父布局了直接添加
-                        oldVg.removeView(xiguaPlayer);
-                        oldVg.addView(currentPlayer,blockIndex,blockLayoutParams);//添加到当前控制器
+                        //应该是全屏状态
+                        CONTAINER_LIST.pop();
+                        CONTAINER_LIST.add(inVg);
                         return currentPlayer;
                     }
                 }else {
-                    //当前item不是正在播放的位置
-                    if (currentPlayer != null){
-                        //当前存在正在播放的播放器
-                        ViewGroup vg = (ViewGroup) currentPlayer.getParent();
-                        if (vg != null){
-                            //说明此时，当前播放的view还在某个ViewGroup里
-                            if (oldVg.getId() == vg.getId()){
-                                //显示播放器父布局，跟实际运行的播放器父布局是一个
-                                if (xiguaPlayer.equals(currentPlayer)){
-                                    //当前2个player不是同一个东西
-                                    vg.removeView(currentPlayer);//移除掉当前播放器
-                                    XiguaPlayer replacePlayer = new XiguaPlayer(context);
-                                    oldVg.addView(replacePlayer,blockIndex,blockLayoutParams);//添加到当前控制器
-                                    return replacePlayer;
-                                }
-                            }
-                        }
-                    }
-                    //oldVg.removeView(currentPlayer);
+                    inVg.removeAllViews();
+                    inVg.addView(currentPlayer,layoutParams);
+                    return currentPlayer;
                 }
             }else {
-                if (!oldVg.toString().contains("DecorView")){
-                    Log.e(TAG,"item中作为显示的SpaPlayer的父布局ViewGroup不存在ResId，逻辑逻辑判断无法继续进行，请去xml中对父布局设置id。");
-                }
+                inVg.removeAllViews();
+                inVg.addView(xiguaPlayer,layoutParams);
+                return xiguaPlayer;
             }
+        }else {
+            inVg.removeAllViews();
+            inVg.addView(xiguaPlayer,layoutParams);
+            return xiguaPlayer;
         }
-        return null;
     }
 }

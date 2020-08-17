@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ public class SpaPlayer extends JzvdStd {
 
     private ScreenListener screenListener;
 
+    private LinearLayout start_layout;
+
     public SpaPlayer(Context context) {
         this(context,null);
     }
@@ -56,6 +59,8 @@ public class SpaPlayer extends JzvdStd {
         startButton.setOnClickListener(this);
 
         posterImageView.setOnClickListener(this);
+
+        start_layout = findViewById(R.id.start_layout);
 
     }
 
@@ -141,6 +146,14 @@ public class SpaPlayer extends JzvdStd {
         if (listener != null){
             listener.onComplete();
         }
+    }
+
+    @Override
+    public void changeStartButtonSize(int size) {
+        super.changeStartButtonSize(size);
+        ViewGroup.LayoutParams lp = start_layout.getLayoutParams();
+        lp.height = size;
+        lp.width = size;
     }
 
 

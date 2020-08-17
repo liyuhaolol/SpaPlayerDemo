@@ -33,10 +33,7 @@ public class XiguaActivity extends AppCompatActivity {
 
         list = new ArrayList<>();
 
-        VideoModel model1 = new VideoModel();
-        model1.title = "聪明的小学神";
-        model1.videoUrl = "http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4";
-        model1.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png";
+        VideoModel model1 = (VideoModel) getIntent().getSerializableExtra("data");
 
         list.add(model1);
 
@@ -76,10 +73,10 @@ public class XiguaActivity extends AppCompatActivity {
     }
 
     private void addData(){
-        /*VideoModel model1 = new VideoModel();
+        VideoModel model1 = new VideoModel();
         model1.title = "聪明的小学神";
         model1.videoUrl = "http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4";
-        model1.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png";*/
+        model1.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png";
         VideoModel model2 = new VideoModel();
         model2.title = "压爆气球";
         model2.videoUrl = "http://jzvd.nathen.cn/63f3f73712544394be981d9e4f56b612/69c5767bb9e54156b5b60a1b6edeb3b5-5287d2089db37e62345123a1be272f8b.mp4";
@@ -98,7 +95,7 @@ public class XiguaActivity extends AppCompatActivity {
         model5.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/aaeb5da9-ac50-4712-a28d-863fe40f1fc6.png";
 
         List<VideoModel> mList = new ArrayList<>();
-        //list.add(model1);
+        mList.add(model1);
         mList.add(model2);
         mList.add(model3);
         mList.add(model4);

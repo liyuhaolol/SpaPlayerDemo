@@ -3,6 +3,7 @@ package spa.lyh.cn.spaplayerdemo.xigua;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -43,23 +44,17 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
         }else {
             pos = holder.getLayoutPosition();
         }
-        Log.e("qwer",pos+"");
+        //Log.e("qwer",pos+"");
+        RelativeLayout re = holder.getView(R.id.re);
 
-        XiguaPlayer player = holder.getView(R.id.player);
+        XiguaPlayer player = XiguaPlayer.getPlayer(mContext,re,pos);
 
-        //检查当前player是否存在错位
-        XiguaPlayer resultPlayer = XiguaPlayer.checkPlayer(mContext,player,pos);
-        if (resultPlayer != null){
-            player = resultPlayer;
-        }
+
         player.showView(
                 pos,
                 viewModel.videoUrl,
                 viewModel.picUrl,
                 viewModel.title);
-        if (!viewModel.equals(player.getFirstItem())){
-            player.refreshFirstData(viewModel);
-        }
 
         player.setLoadMoreListener(new OnXiguaLoadmore() {
             @Override
