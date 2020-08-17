@@ -343,7 +343,9 @@ public class SpaPlayer extends JzvdStd {
     }
 
     public static SpaPlayer getPlayer(Context context,ViewGroup inVg,int position){
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         SpaPlayer currentPlayer = VideoManager.getInstance().getSpaPlayer();
+        SpaPlayer spaPlayer = new SpaPlayer(context);
         if (currentPlayer != null){
             if (currentPlayer.playPosition == position){
                 ViewGroup vg = (ViewGroup) currentPlayer.getParent();
@@ -351,21 +353,29 @@ public class SpaPlayer extends JzvdStd {
                     if (vg.getId() != -1){
                         //非全屏状态
                         vg.removeView(currentPlayer);
+                        inVg.removeAllViews();
+                        inVg.addView(currentPlayer,layoutParams);
                         return currentPlayer;
                     }else {
                         //应该是全屏状态
                         currentPlayer.CONTAINER_LIST.pop();
                         currentPlayer.CONTAINER_LIST.add(inVg);
-                        return new SpaPlayer(context);
+                        return currentPlayer;
                     }
                 }else {
+                    inVg.removeAllViews();
+                    inVg.addView(currentPlayer,layoutParams);
                     return currentPlayer;
                 }
             }else {
-                return new SpaPlayer(context);
+                inVg.removeAllViews();
+                inVg.addView(spaPlayer,layoutParams);
+                return spaPlayer;
             }
         }else {
-            return new SpaPlayer(context);
+            inVg.removeAllViews();
+            inVg.addView(spaPlayer,layoutParams);
+            return spaPlayer;
         }
     }
 }

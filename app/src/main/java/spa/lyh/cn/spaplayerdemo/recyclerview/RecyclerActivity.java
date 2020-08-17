@@ -157,7 +157,7 @@ public class RecyclerActivity extends AppCompatActivity {
                 //loadMore();
             }
         });
-        /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.e("qwer","执行刷新");
@@ -173,7 +173,7 @@ public class RecyclerActivity extends AppCompatActivity {
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },15000);*/
+        },15000);
     }
 
     private void addData(){

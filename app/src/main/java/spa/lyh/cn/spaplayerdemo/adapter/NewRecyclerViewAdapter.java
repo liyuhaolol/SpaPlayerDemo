@@ -46,12 +46,9 @@ public class NewRecyclerViewAdapter extends BaseQuickAdapter<VideoModel, BaseVie
     @Override
     protected void convert(@NotNull BaseViewHolder holder, VideoModel videoModel) {
         RelativeLayout re = holder.getView(R.id.re);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        re.removeAllViews();
         //re.removeViewAt(0);
         SpaPlayer spaPlayer = SpaPlayer.getPlayer(context,re,holder.getLayoutPosition());
-        Log.e("qwer","位置"+holder.getLayoutPosition()+"的地址"+spaPlayer.toString());
-        re.addView(spaPlayer,layoutParams);
+        //Log.e("qwer","位置"+holder.getLayoutPosition()+"的地址"+spaPlayer.toString());
 
 
         ImageLoadUtil.displayImage(context, videoModel.picUrl,spaPlayer.posterImageView);
