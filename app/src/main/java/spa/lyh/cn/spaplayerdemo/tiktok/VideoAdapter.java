@@ -48,6 +48,17 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
 
             @Override
             public void onStatePreparing() {
+
+            }
+
+            @Override
+            public void onStatePreparingPlaying() {
+
+            }
+
+            @Override
+            public void onStatePreparingChangeUrl() {
+
             }
 
             @Override

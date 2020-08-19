@@ -14,6 +14,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jzvd.JZMediaInterface;
+import cn.jzvd.JZMediaSystem;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayerdemo.R;
@@ -153,9 +155,14 @@ public class TiktokActivity extends AppCompatActivity {
         SpaPlayer spaPlayer = adapter.getVideoPlayer(position);
         if (spaPlayer != null){
 
+            spaPlayer.disableBottomContraler();
+
+            spaPlayer.disableTouchContraler();
+
             spaPlayer.setUp(position,list.get(position).videoUrl,list.get(position).title);
 
             spaPlayer.startVideo();
+
         }else {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override

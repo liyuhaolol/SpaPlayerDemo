@@ -3,6 +3,7 @@ package spa.lyh.cn.spaplayer;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -35,6 +36,10 @@ public class SpaPlayer extends JzvdStd {
     private ScreenListener screenListener;
 
     private LinearLayout start_layout;
+
+    private boolean canShowBottom = true;
+
+    private boolean canTouchControl = true;
 
     public SpaPlayer(Context context) {
         this(context,null);
@@ -71,6 +76,11 @@ public class SpaPlayer extends JzvdStd {
     }
 
     @Override
+    public void dissmissControlView() {
+        super.dissmissControlView();
+    }
+
+    @Override
     public void gotoFullscreen() {
         if (screenListener != null){
             gotoFullscreenTime = System.currentTimeMillis();
@@ -93,7 +103,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStateNormal() {
         super.onStateNormal();
-        //Log.e("qwer","onStateNormal");
+        Log.e("qwer","onStateNormal");
         if (listener != null){
             listener.onStateNormal();
         }
@@ -102,7 +112,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStatePreparing() {
         super.onStatePreparing();
-        //Log.e("qwer","onStatePreparing");
+        Log.e("qwer","onStatePreparing");
         isStarted = true;
         VideoManager.getInstance().setSpaplayer(this);
         if (listener != null){
@@ -113,7 +123,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStatePlaying() {
         super.onStatePlaying();
-        //Log.e("qwer","onStatePlaying");
+        Log.e("qwer","onStatePlaying");
         if (listener != null){
             listener.onStatePlaying();
         }
@@ -122,7 +132,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStatePause() {
         super.onStatePause();
-        //Log.e("qwer","onStatePause");
+        Log.e("qwer","onStatePause");
         if (listener != null){
             listener.onStatePause();
         }
@@ -131,7 +141,7 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStateError() {
         super.onStateError();
-        //Log.e("qwer","onStateError");
+        Log.e("qwer","onStateError");
         if (listener != null){
             listener.onStateError();
         }
@@ -141,10 +151,28 @@ public class SpaPlayer extends JzvdStd {
     @Override
     public void onStateAutoComplete() {
         super.onStateAutoComplete();
-        //Log.e("qwer","onStateAutoComplete");
+        Log.e("qwer","onStateAutoComplete");
         textureViewContainer.removeAllViews();
         if (listener != null){
             listener.onComplete();
+        }
+    }
+
+    @Override
+    public void onStatePreparingPlaying() {
+        super.onStatePreparingPlaying();
+        Log.e("qwer","onStatePreparingPlaying");
+        if (listener != null){
+            listener.onStatePreparingPlaying();
+        }
+    }
+
+    @Override
+    public void onStatePreparingChangeUrl() {
+        super.onStatePreparingChangeUrl();
+        Log.e("qwer","onStatePreparingChangeUrl");
+        if (listener != null){
+            listener.onStatePreparingChangeUrl();
         }
     }
 
@@ -156,6 +184,39 @@ public class SpaPlayer extends JzvdStd {
         lp.width = size;
     }
 
+    @Override
+    public void onClickUiToggle() {
+        if (canShowBottom){
+            super.onClickUiToggle();
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (canTouchControl){
+            return super.onTouch(v, event);
+        }else {
+            return true;
+        }
+    }
+
+    @Override
+    public void changeUIToPreparingPlaying() {
+        if (canShowBottom){
+            super.changeUIToPreparingPlaying();
+        }else {
+            switch (screen) {
+                case SCREEN_NORMAL:
+                case SCREEN_FULLSCREEN:
+                    setAllControlsVisiblity(View.VISIBLE, View.INVISIBLE, View.INVISIBLE,
+                            View.VISIBLE, View.INVISIBLE, View.VISIBLE, View.INVISIBLE);
+                    updateStartImage();
+                    break;
+                case SCREEN_TINY:
+                    break;
+            }
+        }
+    }
 
     @Override
     public void startVideo() {
@@ -212,6 +273,14 @@ public class SpaPlayer extends JzvdStd {
     public void setUp(int position,String url, String title, int screen) {
         this.playPosition = position;
         super.setUp(url,title,screen);
+    }
+
+    public void disableBottomContraler(){
+        this.canShowBottom = false;
+    }
+
+    public void disableTouchContraler(){
+        this.canTouchControl = false;
     }
 
     @Override

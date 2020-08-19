@@ -100,6 +100,20 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
             }
 
             @Override
+            public void onStatePreparingPlaying() {
+                if (statusListener != null){
+                    statusListener.onStatePreparingPlaying();
+                }
+            }
+
+            @Override
+            public void onStatePreparingChangeUrl() {
+                if (statusListener != null){
+                    statusListener.onStatePreparingChangeUrl();
+                }
+            }
+
+            @Override
             public void onStatePlaying() {
                 if (statusListener != null){
                     statusListener.onStatePlaying();

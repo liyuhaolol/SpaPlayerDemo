@@ -229,6 +229,16 @@ public class XiguaPlayer extends RelativeLayout {
             }
 
             @Override
+            public void onStatePreparingPlaying() {
+
+            }
+
+            @Override
+            public void onStatePreparingChangeUrl() {
+
+            }
+
+            @Override
             public void onStatePlaying() {
 
             }

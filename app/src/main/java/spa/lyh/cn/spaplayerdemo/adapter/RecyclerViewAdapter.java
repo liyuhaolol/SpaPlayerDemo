@@ -96,6 +96,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
 
                 @Override
+                public void onStatePreparingPlaying() {
+
+                }
+
+                @Override
+                public void onStatePreparingChangeUrl() {
+
+                }
+
+                @Override
                 public void onStatePlaying() {
 
                 }
@@ -112,6 +122,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 @Override
                 public void onComplete() {
+
                 }
             });
 
