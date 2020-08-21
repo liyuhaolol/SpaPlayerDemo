@@ -44,7 +44,7 @@ import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
  * onPause()
  * onDestroy()
  * 这三个方法必须重写
- *
+ * <p>
  * RecyclerView添加对应的监听，用来停止视频的播放
  */
 public class RecyclerActivity extends AppCompatActivity {
@@ -55,14 +55,11 @@ public class RecyclerActivity extends AppCompatActivity {
 
     List<VideoModel> list;
 
-    Button btn;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acrtivity_recyclerview);
         recyclerView = findViewById(R.id.recycler);
-        btn = findViewById(R.id.btn);
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
@@ -70,38 +67,39 @@ public class RecyclerActivity extends AppCompatActivity {
 
         addData();
 
-        adapter = new NewRecyclerViewAdapter(this,list);
+        adapter = new NewRecyclerViewAdapter(this, list);
         recyclerView.setAdapter(adapter);
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int firstVisibleItem, lastVisibleItem;
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                firstVisibleItem   = manager.findFirstVisibleItemPosition();
+                firstVisibleItem = manager.findFirstVisibleItemPosition();
                 lastVisibleItem = manager.findLastVisibleItemPosition();
-                if (VideoManager.getInstance().getSpaPlayer() != null){
+                if (VideoManager.getInstance().getSpaPlayer() != null) {
                     SpaPlayer spaPlayer = VideoManager.getInstance().getSpaPlayer();
                     int position = spaPlayer.playPosition;
-                    if (position < firstVisibleItem || position > lastVisibleItem){
+                    if (position < firstVisibleItem || position > lastVisibleItem) {
                         //页面滑出了屏幕
                         if (Jzvd.CURRENT_JZVD != null
                                 && spaPlayer.jzDataSource != null
                                 && spaPlayer.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
                                 && spaPlayer.mediaInterface != null) {
                             JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
-                            if (system.mediaPlayer != null){
-                                if (system.isPlaying()){
+                            if (system.mediaPlayer != null) {
+                                if (system.isPlaying()) {
                                     if (Jzvd.CURRENT_JZVD != null &&
                                             Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
                                         Jzvd.releaseAllVideos();
                                     }
-                                }else {
+                                } else {
                                     Jzvd.releaseAllVideos();
                                 }
-                            }else {
-                                if (spaPlayer.isStarted){
+                            } else {
+                                if (spaPlayer.isStarted) {
                                     //当前播放器已经被启动
                                     Jzvd.releaseAllVideos();
                                 }
@@ -115,8 +113,8 @@ public class RecyclerActivity extends AppCompatActivity {
         adapter.setVideoPlayClickListener(new OnStartPositionClickListener() {
             @Override
             public void startButtonClicked(SpaPlayer player, int position) {
-                Toast.makeText(RecyclerActivity.this, "初始化",Toast.LENGTH_SHORT).show();
-                player.setUp(position,list.get(position).videoUrl,list.get(position).title);
+                Toast.makeText(RecyclerActivity.this, "初始化", Toast.LENGTH_SHORT).show();
+                player.setUp(position, list.get(position).videoUrl, list.get(position).title);
                 player.startVideo();
             }
         });
@@ -128,55 +126,36 @@ public class RecyclerActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("qwer","添加数据");
+                        Log.e("qwer", "添加数据");
                         addData();
                         adapter.notifyDataSetChanged();
                         adapter.getLoadMoreModule().loadMoreComplete();
                     }
-                },7000);
+                }, 7000);
             }
         });
         adapter.getLoadMoreModule().setEnableLoadMore(true);
 
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //adapter.notifyItemChanged(6);
-                Log.e("qwer","执行刷新");
-                /*VideoModel model = new VideoModel();
-                model.videoUrl=Global.url;
-                model.picUrl = Global.pic;
-                model.title = "聪明的小笨蛋";
-                list.remove(2);
-                list.add(2,model);*/
-                adapter.notifyDataSetChanged();
-                //Jzvd.releaseAllVideos();
-                //adapter.notifyItemRemoved(0);
-                //adapter.notifyItemInserted(1);
-                //loadMore();
-            }
-        });
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.e("qwer","执行刷新");
+                Log.e("qwer", "执行刷新");
                 VideoModel model = new VideoModel();
-                model.videoUrl=Global.url;
+                model.videoUrl = Global.url;
                 model.picUrl = Global.pic;
                 model.title = "聪明的小笨蛋";
                 list.remove(0);
-                list.add(0,model);
+                list.add(0, model);
                 adapter.notifyDataSetChanged();
                 //Jzvd.releaseAllVideos();
                 //adapter.notifyItemRemoved(0);
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },15000);
+        }, 15000);
     }
 
-    private void addData(){
+    private void addData() {
 
         VideoModel model1 = new VideoModel();
         model1.title = "聪明的小学神";
