@@ -79,27 +79,29 @@ public class XiguaListActivity extends AppCompatActivity {
                 lastVisibleItem = manager.findLastVisibleItemPosition();
                 if (VideoManager.getInstance().getSpaPlayer() != null){
                     SpaPlayer spaPlayer = VideoManager.getInstance().getSpaPlayer();
-                    int position = spaPlayer.playPosition;
-                    if (position < firstVisibleItem || position > lastVisibleItem){
-                        //页面滑出了屏幕
-                        if (Jzvd.CURRENT_JZVD != null
-                                && spaPlayer.jzDataSource != null
-                                && spaPlayer.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
-                                && spaPlayer.mediaInterface != null) {
-                            JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
-                            if (system.mediaPlayer != null){
-                                if (system.isPlaying()){
-                                    if (Jzvd.CURRENT_JZVD != null &&
-                                            Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
+                    if (spaPlayer.screen == Jzvd.SCREEN_NORMAL){
+                        int position = spaPlayer.playPosition;
+                        if (position < firstVisibleItem || position > lastVisibleItem){
+                            //页面滑出了屏幕
+                            if (Jzvd.CURRENT_JZVD != null
+                                    && spaPlayer.jzDataSource != null
+                                    && spaPlayer.jzDataSource.containsTheUrl(Jzvd.CURRENT_JZVD.jzDataSource.getCurrentUrl())
+                                    && spaPlayer.mediaInterface != null) {
+                                JZMediaSystem system = (JZMediaSystem) spaPlayer.mediaInterface;//只是用框架的话，是mediaplayer，没有第三方,如果有第三方，这里需要改
+                                if (system.mediaPlayer != null){
+                                    if (system.isPlaying()){
+                                        if (Jzvd.CURRENT_JZVD != null &&
+                                                Jzvd.CURRENT_JZVD.screen != Jzvd.SCREEN_FULLSCREEN) {
+                                            Jzvd.releaseAllVideos();
+                                        }
+                                    }else {
                                         Jzvd.releaseAllVideos();
                                     }
                                 }else {
-                                    Jzvd.releaseAllVideos();
-                                }
-                            }else {
-                                if (spaPlayer.isStarted){
-                                    //当前播放器已经被启动
-                                    Jzvd.releaseAllVideos();
+                                    if (spaPlayer.isStarted){
+                                        //当前播放器已经被启动
+                                        Jzvd.releaseAllVideos();
+                                    }
                                 }
                             }
                         }
