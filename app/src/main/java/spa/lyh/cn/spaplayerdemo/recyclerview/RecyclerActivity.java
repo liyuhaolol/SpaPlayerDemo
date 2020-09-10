@@ -55,14 +55,11 @@ public class RecyclerActivity extends AppCompatActivity {
 
     List<VideoModel> list;
 
-    Button btn;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acrtivity_recyclerview);
         recyclerView = findViewById(R.id.recycler);
-        btn = findViewById(R.id.btn);
         manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
@@ -140,25 +137,6 @@ public class RecyclerActivity extends AppCompatActivity {
         });
         adapter.getLoadMoreModule().setEnableLoadMore(true);
 
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //adapter.notifyItemChanged(6);
-                Log.e("qwer","执行刷新");
-                /*VideoModel model = new VideoModel();
-                model.videoUrl=Global.url;
-                model.picUrl = Global.pic;
-                model.title = "聪明的小笨蛋";
-                list.remove(2);
-                list.add(2,model);*/
-                adapter.notifyDataSetChanged();
-                //Jzvd.releaseAllVideos();
-                //adapter.notifyItemRemoved(0);
-                //adapter.notifyItemInserted(1);
-                //loadMore();
-            }
-        });
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
