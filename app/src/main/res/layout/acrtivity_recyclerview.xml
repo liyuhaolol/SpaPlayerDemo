@@ -11,12 +11,4 @@
         app:layout_constraintTop_toTopOf="parent"
         android:overScrollMode="never"/>
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="点击"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
