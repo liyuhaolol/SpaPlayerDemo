@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +130,7 @@ public class RecyclerActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         adapter.getLoadMoreModule().loadMoreComplete();
                     }
-                },7000);
+                },2000);
             }
         });
         adapter.getLoadMoreModule().setEnableLoadMore(true);

@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
@@ -15,8 +16,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class NewRecyclerViewAdapter extends BaseQuickAdapter<VideoModel, BaseVie
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder holder, VideoModel videoModel) {
+    protected void convert(BaseViewHolder holder, VideoModel videoModel) {
         RelativeLayout re = holder.getView(R.id.re);
         //re.removeViewAt(0);
         SpaPlayer spaPlayer = SpaPlayer.getPlayer(context,re,holder.getLayoutPosition());

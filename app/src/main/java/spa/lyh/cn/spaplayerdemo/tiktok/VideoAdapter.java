@@ -3,11 +3,10 @@ package spa.lyh.cn.spaplayerdemo.tiktok;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class VideoAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
+    protected void convert(BaseViewHolder baseViewHolder, VideoModel viewModel) {
         int count = getHeaderLayoutCount();
         int postion;
         if (count > 0){

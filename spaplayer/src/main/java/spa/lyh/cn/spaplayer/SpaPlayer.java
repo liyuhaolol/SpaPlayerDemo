@@ -67,6 +67,7 @@ public class SpaPlayer extends JzvdStd {
 
         start_layout = findViewById(R.id.start_layout);
 
+
     }
 
     @Override

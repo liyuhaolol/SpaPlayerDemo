@@ -6,12 +6,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
 
 
     @Override
-    protected void convert(@NotNull BaseViewHolder holder, VideoModel viewModel) {
+    protected void convert(BaseViewHolder holder, VideoModel viewModel) {
         int count = getHeaderLayoutCount();
         int pos;
         if (count > 0){

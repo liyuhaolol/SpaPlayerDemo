@@ -250,7 +250,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="1:28"
         android:textColor="@android:color/white"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"/>

@@ -5,11 +5,10 @@ import android.content.res.Configuration;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, VideoModel viewModel) {
+    protected void convert(BaseViewHolder baseViewHolder, VideoModel viewModel) {
         int count = getHeaderLayoutCount();
         int pos;
         if (count > 0){
