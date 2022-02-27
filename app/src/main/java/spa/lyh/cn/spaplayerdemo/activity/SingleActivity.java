@@ -32,7 +32,7 @@ public class SingleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single);
         player = findViewById(R.id.spaplayer);
-        player.setUp(Global.url,"聪明的小学神");
+        player.setUp(Global.url,"这位小姐姐拍视频");
         ImageLoadUtil.displayImage(this,Global.pic,player.posterImageView);
 
         //player.startVideo();

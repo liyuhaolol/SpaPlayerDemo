@@ -137,14 +137,14 @@ public class RecyclerActivity extends AppCompatActivity {
         });
         adapter.getLoadMoreModule().setEnableLoadMore(true);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+/*        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.e("qwer","执行刷新");
                 VideoModel model = new VideoModel();
                 model.videoUrl=Global.url;
                 model.picUrl = Global.pic;
-                model.title = "聪明的小笨蛋";
+                model.title = "这位小姐姐拍视频";
                 list.remove(0);
                 list.add(0,model);
                 adapter.notifyDataSetChanged();
@@ -153,31 +153,31 @@ public class RecyclerActivity extends AppCompatActivity {
                 //adapter.notifyItemInserted(1);
                 //loadMore();
             }
-        },15000);
+        },15000);*/
     }
 
     private void addData(){
 
         VideoModel model1 = new VideoModel();
-        model1.title = "聪明的小学神";
-        model1.videoUrl = "http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4";
-        model1.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png";
+        model1.title = "这位小姐姐拍视频";
+        model1.videoUrl = "http://m.newsduan.com/video/VideoSystem/dealVideoSave/2021/4/202104151112379147220.mp4";
+        model1.picUrl = "http://res.offshoremedia.net/dxw/image/newsyun/zhuanti/u/cms/www/202104/15111257rt2k.jpg";
         VideoModel model2 = new VideoModel();
-        model2.title = "压爆气球";
-        model2.videoUrl = "http://jzvd.nathen.cn/63f3f73712544394be981d9e4f56b612/69c5767bb9e54156b5b60a1b6edeb3b5-5287d2089db37e62345123a1be272f8b.mp4";
-        model2.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/1d935cc5-a1e7-4779-bdfa-20fd7a60724c.jpg";
+        model2.title = "中西文化交流";
+        model2.videoUrl = "http://m.newsduan.com/video/transVideo/2022/02/25/1645748814450.mp4";
+        model2.picUrl = "http://m.newsduan.com/image/2022-02-25/946709089965182976.jpg";
         VideoModel model3 = new VideoModel();
-        model3.title = "美美的做饭";
-        model3.videoUrl = "http://jzvd.nathen.cn/35b3dc97fbc240219961bd1fccc6400b/8d9b76ab5a584bce84a8afce012b72d3-5287d2089db37e62345123a1be272f8b.mp4";
-        model3.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/f2dbd12e-b1cb-4daf-aff1-8c6be2f64d1a.jpg";
+        model3.title = "老人的警察，谢谢你";
+        model3.videoUrl = "http://m.newsduan.com/video/VideoSystem/dealVideoSave/2021/7/20210720143636549229.mp4";
+        model3.picUrl = "http://res.offshoremedia.net/dxw/image/newsyun/zhuanti/u/cms/www/202107/20143653cj10.jpg";
         VideoModel model4 = new VideoModel();
-        model4.title = "舞也能这么跳";
-        model4.videoUrl = "http://jzvd.nathen.cn/384d341e000145fb82295bdc54ecef88/103eab5afca34baebc970378dd484942-5287d2089db37e62345123a1be272f8b.mp4";
-        model4.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/2adde364-9be1-4864-b4b9-0b0bcc81ef2e.jpg";
+        model4.title = "官宣视频来了";
+        model4.videoUrl = "http://m.newsduan.com/video/VideoSystem/dealVideoSave/2020/7/202007311023323758351.mp4";
+        model4.picUrl = "http://res.offshoremedia.net/dxw/image/newsyun/zhuanti/u/cms/www/202007/31103312gxtv.jpg";
         VideoModel model5 = new VideoModel();
-        model5.title = "练习瑜伽";
-        model5.videoUrl = "http://jzvd.nathen.cn/6340efd1962946ad80eeffd19b3be89c/65b499c0f16e4dd8900497e51ffa0949-5287d2089db37e62345123a1be272f8b.mp4";
-        model5.picUrl = "http://jzvd-pic.nathen.cn/jzvd-pic/aaeb5da9-ac50-4712-a28d-863fe40f1fc6.png";
+        model5.title = "视频示范稿件";
+        model5.videoUrl = "http://m.newsduan.com/video/transVideo/2022/02/22/1645501420938.mp4";
+        model5.picUrl = "http://m.newsduan.com/video/videoImg/2022/02/22/1645501420938.jpg";
 
         list.add(model1);
         list.add(model2);

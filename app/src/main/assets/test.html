@@ -1,344 +1,285 @@
 
 <!doctype html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-
-	<meta name="keywords" content="【视频新闻】震惊！巴西在线教育竟如此艰难？" />
-    <meta name="description" content="【视频新闻】震惊！巴西在线教育竟如此艰难？" />
-
-	<title>【视频新闻】震惊！巴西在线教育竟如此艰难？</title>
-     <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/swiper.min.css">
-    <!-- <link rel="stylesheet" href="/jrlmCMS/r/cms/www/tpl_basecms/css/wap.css"> -->
-    <script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/jquery-1.8.0.min.js"></script>
-    <script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/myjquery.js"></script>
-    <script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/swiper.min.js"></script>
-
-    <!-- Demo styles -->
-    <style>
-    html, body {
-        position: relative;
-        height: 100%;
-    }
-    .swiper-slide p span{
-    	/*margin-right: 0.1rem;*/
-    	padding:0;
-    }
-    .swiper-slide p .text{
-    	/*padding-right:0.02rem;*/
-    	margin-right: 0.02rem;
-    }
-
-    .mainContent img{
-    	width: 100%;
-    	max-width: 550px;
-    	height: auto;
-    	margin: 0 auto;
-    }
-    .mainContent{
-    	font-size:0.18rem;
-    	line-height: .27rem;
-    }
-
-    /*add*/
-    .downapp{
-    	background: rgba(0,0,0,0.4);
-    	padding:0.1rem;
-    	position:fixed;
-    	width:100%;
-    	bottom:0;
-    	overflow:hidden;
-    	/*text-align: center;*/
-    	z-index:111;
-    }
-    .pr{
-    	position:relative;
-    }
-    .pr a{
-    	color:white;
-    	outline: none;
-    	blr:expression(this.onFocus=this.blur());
-    	text-decoration: none;
-    	font-size: 0.2rem;
-    	/*display: inline-block;*/
-    	display: block;
-    	/*width: 0.6rem;*/
-    	/*width:3.2rem;*/
-    	width:95%;
-    	height:0.6rem;
-    	/*line-height: 0.35rem;
-    	background:#38f;*/
-    	border-radius:0.06rem;
-    }
-    .pr a img{
-    	float:left;
-    	width:0.8rem;
-    	height:0.8rem;
-    }
-    .pr span{
-		float:left;
-		margin-top:0.2rem;
-		margin-left:0.2rem;
-    }
-    .app_close{
-    	width: 0.6rem;
-		height: 0.6rem;
-		right: 10px;
-		top: -10px;
-		position: absolute;
-		background: #000 url("http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/img/x.png") no-repeat 23px 14px;
-		background-size: auto 30%;
-		text-indent: -9999px;
-		border-radius: 0 0 0 100%;
-		cursor: pointer;
-		z-index: 999;
-    }
+	<meta name="viewport" id="view" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
 
+	<meta name="keywords" content="${content.title}" />
+	<meta name="description" content="${content.title}" />
 
-    </style>
-    <script>
-    $(document).ready(function(){
-    	$(".mainContent p:has(img)").css("text-align","center");
-    	$(".mainContent p:has(img)").css("text-indent","0px");
-       // $(".mainContent").find("p").not(':has(img)').css("border","solid yellow");
-    //alert($.browser.chrome);
-        //转换本地时间
-        var timestamp = $("#span_localDate").text();
-	var localDate = new Date(parseInt(timestamp)).Format("yyyy-MM-dd hh:mm");
-        $("#span_localDate").text(localDate);
-        $("#span_localDate").show();
-        //转换本地时间结束
-     if($.browser.chrome){
- 	var version=$.browser.version.split(".");
- 	//alert("this is chrome");
-   	if(version[0]>53){
-          $("<link>").attr({ rel: "stylesheet",type: "text/css",href: "http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/wap_video.css"}).appendTo("head");
-     //$("link").attr("href","/jrlmCMS/r/cms/www/tpl_basecms/css/wap_video.css");
-   	}
-     }
+	<title>李建毛：长沙窑为何能成为中西文化交流的重要见证？</title>
+	<!--    <link rel="stylesheet" href="https://www.au123.com/web/resource/libs/css/preview-photo.css">-->
+	<script src="http://m.newsduan.com/web/resource/js/jquery-1.11.0.min.js"></script>
+	<script src="http://m.newsduan.com/web/resource/js/jquery.cookie.js"></script>
+	<script src="http://m.newsduan.com/web/resource/js/common.js"></script>
+	<!--    <script src="https://cdn.bootcss.com/vConsole/3.3.0/vconsole.min.js"></script>-->
+	<!--    <script src="https://www.au123.com/web/resource/libs/js/preview-photo.js"></script>-->
+	<!-- <script src="https://www.au123.com/web/resource/libs/js/swiper.min.js"></script> -->
 
-	    //夜间模式 add 20180409
-	    function getQueryVariable(variable){
-	       var query = window.location.search.substring(1);
-	       var vars = query.split("&");
-	       for (var i=0;i<vars.length;i++) {
-	               var pair = vars[i].split("=");
-	               if(pair[0] == variable){return pair[1];}
-	       }
-	       return(false);
-	    }
-	    function include_css(path){
-	        var fileref=document.createElement("link");
-	        fileref.rel = "stylesheet";
-	        fileref.type = "text/css";
-	        fileref.href = path;
-	        var head = document.getElementsByTagName('head')[0];
-	        head.appendChild(fileref);
-	    }
-
-	    var res = getQueryVariable("night");
-	    if(res=="true"){
-	        include_css("http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/wapn.css");
-	    }else{
-	        include_css("http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/css/wap.css");
-	    }
-
-	    //图片点击放大效果
-	    var imgSrcs=[];
-	    $(".mainContent img").each(function(){
-	    	imgSrcs.push($(this).attr('src'));
-	    });
-
-	    //判断客户端
-	    var u = navigator.userAgent;
-	    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-	    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-
-	    //判断是否是app打开
-	    var isapp = getQueryVariable("closeAD");
+	<link rel="stylesheet" href="http://m.newsduan.com/resource/commenapp.css">
 
 
-	    if(isapp=="true"){
-	    	//添加视频音频播放暂停
-		    var videos = document.getElementsByTagName('video');
-		    for (var i = 0; i < videos.length; i++) {
-		        videos[i].addEventListener('play', onPlay, false);
-		    }
-
-		    var audios = document.getElementsByTagName('audio');
-		    for (var i = 0; i < audios.length; i++) {
-		        audios[i].addEventListener('play', onPlay, false);
-		    }
-
-	    	function onPlay() {
-	    		if(isiOS){
-	    			window.webkit.messageHandlers.stopTTS.postMessage("");
-	    		}else if(isAndroid){
-		       		window.android.stopAudio();
-		    	}
-		    }
+	<script>
+        var contype = "3";
 
 
-	    	$(".downapp").hide();
-	    	if(isAndroid){
-		  		pics = imgSrcs.join(",");
-		  		window.android.getPicUrl(pics);
-		  		$(".mainContent img").on("click",function(){
-		    		var clicksrc = $(this).attr("src");
-		    		for(var i = 0; i < imgSrcs.length; i++) {
-			            if (imgSrcs[i] == clicksrc){
-			            	window.android.getPicIndex(i);
-			            	return i;
-				        }
-				    }
-			    });
-		    }else if(isiOS){
-		    	window.webkit.messageHandlers.AddPicture.postMessage(imgSrcs);
-		    	$(".mainContent img").on("click",function(){
-		    		var clicksrc = $(this).attr("src");
-		    		for(var i = 0; i < imgSrcs.length; i++) {
-			            if (imgSrcs[i] == clicksrc){
-			            	window.webkit.messageHandlers.testWS.postMessage(i);
-			            	return i;
-				        }
-				    }
-			    });
-		    }
-	    }else{
-	    	$(".downapp").show();
-	    	if(isAndroid){
-	    		//$(".pr a").attr("href","http://www.jrlamei.com/app/");
-	    		//http://10.8.13.235:8080/jrlmCMS/hwzxadmin/hwzxcms/content/share.html
-	    		//http://10.8.13.235:8080/jrlmCMS/share.html
-	    		$(".pr a").attr("href","http://cms.jrlamei.com/jrlmCMS/share.html");
-
-	    	}else if(isiOS){
-	    		//$(".pr a").attr("href","https://itunes.apple.com/app/id1321836222");
-	    		$(".pr a").attr("href","http://cms.jrlamei.com/jrlmCMS/share.html");
-	    	}
-	    }
+        $(document).ready(function () {
+            // window.PreviewPhoto();
+            // console.log('ready')
+            if (contype == 1) {
+                // console.log('if')
+                // clickImgZoom('mainContent','platform',false);
+            } else {
+                // console.log('else')
+                // photoBig();
+            };
+            // $(".mainContent p:has(img)").css("text-align", "center");
+            // $(".mainContent p:has(img)").css("text-indent", "0px");
+            // $(".mainContent").find("p").not(':has(img)').css("border","solid yellow");
+            // alert($.browser.chrome);
 
 
-    });
+            //图片点击放大效果
+            var imgSrcs = [];
+            $(".mainContent img").each(function () {
+                imgSrcs.push($(this).attr('src'));
+            });
 
-    function phide(obj){
-       $(obj).parent().children().children("div").fadeToggle();
-    }
-    function stopaudio(){
-    	var audio = document.getElementById("audio1");
-    	audio.pause();
-    }
-    function stopvideo(){
-    	var video = document.getElementById("video1");
-    	video.pause();
-    }
 
-    function closed(obj){
-    	$(obj).parent().parent().hide();
-    }
+            //判断客户端
+            // var u = navigator.userAgent;
+            // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-    function onPause() {
-		var videos = document.getElementsByTagName('video');
-        for (var i = 0; i < videos.length; i++) {
-     		var video = videos[i];
-         	video.pause();
+            //判断是否是app打开
+            var isapp = getQueryVariable("closeAD");
+
+
+            if (isapp == "true") {
+                //添加视频音频播放暂停
+                // var videos = document.getElementsByTagName('video');
+                // for (var i = 0; i < videos.length; i++) {
+                //     videos[i].addEventListener('play', onPlay, false);
+                // }
+
+                // var audios = document.getElementsByTagName('audio');
+                // for (var i = 0; i < audios.length; i++) {
+                //     audios[i].addEventListener('play', onPlay, false);
+                // }
+
+                // function onPlay() {
+                //     if (isiOS) {
+                //         window.webkit.messageHandlers.stopTTS.postMessage("");
+                //     } else if (isAndroid) {
+                //         window.android.stopAudio();
+                //     }
+                // }
+
+
+                // $(".downapp").hide();
+                // if (isAndroid) {
+                //     pics = imgSrcs.join(",");
+                //     window.android.getPicUrl(pics);
+                //     $(".mainContent img").on("click", function () {
+                //         var clicksrc = $(this).attr("src");
+                //         for (var i = 0; i < imgSrcs.length; i++) {
+                //             if (imgSrcs[i] == clicksrc) {
+                //                 window.android.getPicIndex(i);
+                //                 return i;
+                //             }
+                //         }
+                //     });
+                // } else if (isiOS) {
+                //     window.webkit.messageHandlers.AddPicture.postMessage(imgSrcs);
+                //     $(".mainContent img").on("click", function () {
+                //         var clicksrc = $(this).attr("src");
+                //         for (var i = 0; i < imgSrcs.length; i++) {
+                //             if (imgSrcs[i] == clicksrc) {
+                //                 window.webkit.messageHandlers.testWS.postMessage(i);
+                //                 return i;
+                //             }
+                //         }
+                //     });
+                // }
+            }
+
+
+        });
+
+
+        function phide(obj) {
+            $(obj).parent().children().children("div").fadeToggle();
         }
-        var audios = document.getElementsByTagName('audio');
-        for (var i = 0; i < audios.length; i++) {
-        	var audio = audios[i];
+
+
+        function stopaudio() {
+            var audio = document.getElementById("audio1");
             audio.pause();
         }
-	}
+
+        function stopvideo() {
+            var video = document.getElementById("video1");
+            video.pause();
+        }
 
 
-Date.prototype.Format = function(fmt) {//author: liyuhao
-			var o = {
-				"M+" : this.getMonth() + 1,
-				"d+" : this.getDate(),
-				"h+" : this.getHours(),
-				"m+" : this.getMinutes(),
-				"s+" : this.getSeconds(),
-				"q+" : Math.floor((this.getMonth() + 3) / 3),
-				"S" : this.getMilliseconds() };
-			if (/(y+)/.test(fmt))
-				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-			for (var k in o)
-			if (new RegExp("(" + k + ")").test(fmt))
-				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-			return fmt;
-		}
+        function onPause() {
+            var videos = document.getElementsByTagName('video');
+            for (var i = 0; i < videos.length; i++) {
+                var video = videos[i];
+                video.pause();
+            }
+            var audios = document.getElementsByTagName('audio');
+            for (var i = 0; i < audios.length; i++) {
+                var audio = audios[i];
+                audio.pause();
+            }
+        }
+
+
+        Date.prototype.Format = function (fmt) { //author: liyuhao
+            var o = {
+                "M+": this.getMonth() + 1,
+                "d+": this.getDate(),
+                "h+": this.getHours(),
+                "m+": this.getMinutes(),
+                "s+": this.getSeconds(),
+                "q+": Math.floor((this.getMonth() + 3) / 3),
+                "S": this.getMilliseconds()
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[
+                        k]).length)));
+            return fmt;
+        }
+
+        // 点击量
+        var contentId = "946685125339516928";
+        // var contentId = "722423134489419776";
+        var query = getQueryVariable("platform");
+        var whereopen;
+        // iOS重复计数问题
+        if (query !== "blank") {
+            if (query == "Android") {
+                console.log("Android")
+                whereopen = 2;
+            } else if (query == "iOS") {
+                console.log("ios")
+                whereopen = 3;
+            } else {
+                if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                    console.log("wap")
+                    whereopen = 1
+                } else {
+                    console.log("PC")
+                    whereopen = 0
+                }
+            }
+            statistic(contentId, whereopen);
+        }
+        console.log('ready1')
+
+
+        function statistic(contentId, platform) {
+            $.ajax({
+                type: 'post',
+                data: {
+                    'recordContentId': contentId,
+                    'recordPlatform': platform
+                }, //向后台传参
+                // url: "http://10.8.3.67:8080/api/dsms/common/direct/save",
+                url: "http://dsms.offshoremedia.net/api/dsms/common/direct/save",
+                success: function () {},
+                error: function () {}
+            })
+            $.ajax({
+                type: 'get',
+                url: "http://cms.offshoremedia.net/front/detail/click/" + contentId,
+                success: function () {},
+                error: function () {}
+            })
+        }
     </script>
 </head>
+
 <body>
- <!--    <div class="wrap"> -->
-	     <!-- 图文类型稿件-->
+<!--    <div class="wrap"> -->
+<!-- 图文类型稿件-->
 
-		 <!-- 视频类型稿件-->
-			<div class="mod">
-				<header class="landingHead">
-					<h1 class="titleFont">【视频新闻】震惊！巴西在线教育竟如此艰难？</h1>
-					<div class="infoSet">
-						<span class="afrSplit">来源：南美侨报网</span>
+<!-- 视频类型稿件-->
+<div>
+	<div class="mod">
+		<header class="landingHead">
+			<h1 class="titleFont">李建毛：长沙窑为何能成为中西文化交流的重要见证？</h1>
 
-						<span   id="span_localDate" style="display:none;">
-							1589465491000 &nbsp
-						</span>
-					</div>
-				</header>
-				<div class="mainContent">
-					<section id="video_play">
-						<video id="video1" class="main_video"  poster="http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png"   webkit-playsinline="" playsinline="" controls="true">
-							     <source src="http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4">
-						</video>
-					</section>
-		                <p>
-			              <p style="text-indent:2em;">
-	【南美侨报网讯】疫情期间，为何巴西学校推出的远程在线课程，一直饱受诟病？巴西高考会如期进行吗？学生，家长与老师之间又存在着怎样的矛盾与争吵？（“今日拉美”　小苏圣保罗报道）
-</p>
-<p style="text-indent:2em;">
+			<div class="infoSet">
 
-	<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592288269664&di=797cd96998ed20b95d4cf53c76a08e9f&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg" width="100" height="91" />
-	<p>
-		部分资源来自YOUTUBE，原视频链接如下：
-	</p>
-		<p>
-			http://video.jrlamei.com/VideoSystem/dealVideoSave/2020/5/202005141111198306351.mp4
-	</p>
-					<p>
-						http://jzvd.nathen.cn/df6096e7878541cbbea3f7298683fbed/ef76450342914427beafe9368a4e0397-5287d2089db37e62345123a1be272f8b.mp4
-					</p>
-		<p>
-			http://cms.jrlamei.com/jrlmCMS/br_video/u/cms/www/202005/141105146fun.png
-	</p>
-					<p>
-						http://jzvd-pic.nathen.cn/jzvd-pic/ccd86ca1-66c7-4331-9450-a3b7f765424a.png
-					</p>
-	<p>
-		https://www.youtube.com/watch?v=xM-ICfudXJw
-	</p>
-	<p>
-		https://www.youtube.com/watch?v=EeOpimY8pVg
-	</p>
-	<p>
-		https://www.youtube.com/watch?v=apufjiGlIY0
-	</p>
-	<p>
-		https://www.youtube.com/watch?v=QIYrjZTmjwI
-	</p>
-</p>
-<p style="text-indent:2em;">
 
-</p>
-		                </p>
+				<span style="margin-right: 20px;" id="span_localDate">1645710355000</span>
+				<span>
+                        <span class="afrSplit">来源：中国新闻社</span>
+                    </span>
 
-				</div>
 			</div>
+		</header>
+		<div class="mainContent">
+			<!--            摘要-->
 
-			<script>
+			<section id="video_play">
+
+				<video id="video1" class="main_video" poster="http://m.newsduan.com/image/2022-02-25/946709089965182976.jpg" webkit-playsinline=""
+					   playsinline="" controls="true" width="100%">
+
+					<source src="http://m.newsduan.com/video/transVideo/2022/02/25/1645748814450.mp4">
+
+				</video>
+			</section>
+
+
+			<div><p style="text-indent:2em;"><span style="text-indent: 2em;"><font color="#a6a6a6">▲（视频来自中新网）</font></span></p><p style="text-indent:2em;"><span style="text-indent: 2em;">中新社长沙2月24日电 题：李建毛：长沙窑为何能成为中西文化交流的重要见证？</span></p><p style="text-indent:2em;"></p><p style="text-indent:2em;">中新社记者 白祖偕 刘双双 邓霞</p><p><img src="http://m.newsduan.com/image/2022-02-25/946683135163240448.JPG"/></p><p style="text-indent:2em;"><span style="text-indent: 2em; text-align: center;">怛罗斯之战和“安史之乱”发生以后，陆上丝绸之路因战乱基本被堵塞，以瓷器外销为主要特征的海上丝绸之路逐渐繁盛并取代陆路，成为中西方贸易往来的主要通道。1998年在印度尼西亚海域发现的千年沉船“黑石号”，是迄今所见中国和阿拉伯地区进行直接贸易的最早考古证据，在海上丝绸之路发展史上具有里程碑式地位。</span></p><p style="text-indent:2em;">“黑石号”沉船装载数万件中国唐代文物，其中有5.6万余件长沙窑瓷器，由此可见长沙窑在唐代外销瓷“三驾马车”中的地位。长沙窑如何兴起并走上外销之路？为何能成为中西文化交流的重要见证？中国古陶瓷学会副会长李建毛近日接受中新社“东西问”独家专访，作出深度解读。</p><p style="text-indent:2em;"><b>现将访谈实录摘要如下：</b></p><p style="text-indent:2em;"><b>中新社记者：长沙窑首创釉下多彩技艺，突破了中国唐代青瓷和白瓷的单一色调，堪称“陶瓷史上的里程碑”。长沙窑如何兴起？历经哪些发展阶段？</b></p><p style="text-indent:2em;"><b>李建毛：</b>长沙窑是在岳州窑青瓷烧造基础上，融合北方制瓷工艺发展起来。岳州窑在隋代以前惯称湘阴窑，始烧于东汉，是湖南省内烧瓷时间最早的青瓷古窑址。长沙窑位于望城铜官一带，起先应是岳州窑的一个外围窑场。</p><p style="text-indent:2em;">“安史之乱”发生后，唐王朝都城一带陶瓷业包括三彩窑业遭受破坏，一些窑工南迁到湖南地区。由于湖南境内没有出现过大的战乱和灾荒，经济较为繁荣，一些窑工就在靠近长沙的铜官居住下来，并与当地窑工慢慢融合。在此过程中，岳州窑受到北方彩釉等陶瓷工艺影响，逐渐创造形成了一种独特的彩饰瓷器，即长沙窑。</p><p style="text-indent:2em;">从目前看到的长沙窑器物纪年铭文和纪年墓出土瓷器可知，长沙窑瓷器生产的年代，最早不会晚于贞元十七年（公元801年），最迟不会早于五代天成四年（公元929年）。具体来说，长沙窑兴起于八九世纪之交，盛于晚唐，衰于五代。长沙窑只存在了一百多年，可说是昙花一现，但在中国陶瓷史和中西文化交流中留下了浓墨重彩的一笔。</p><p style="text-align:left;"><img src="http://m.newsduan.com/image/2022-02-25/946685128955006976.jpg" style="margin-top: 10px; margin-bottom: 10px;"/><font color="#a6a6a6">　　▲谭家坡龙窑遗址，清晰地展示了长沙窑瓷器的生产过程。中新社记者 杨华峰 摄</font></p><p style="text-indent:2em; text-align:left;"><b>中新社记者：长沙窑如何从湖南的一个小镇走上外销之路？其在古代海上丝绸之路中有何地位？</b></p><p style="text-indent:2em;"><b>李建毛：</b>据考证，唐代瓷器外销有“三驾马车”，即长沙窑彩瓷、北方窑口白瓷及白釉绿彩瓷、越窑青瓷。从“黑石号”上装载的5.6万余件长沙窑瓷器可看出，长沙窑应是“三驾马车”中的领跑者。</p><p style="text-indent:2em;">长沙窑走上外销之路有这样几个因素：一是海上丝绸之路的繁盛。湖南地处内陆，但水运资源丰富，从战国至唐代对外联系都非常密切。长沙窑产品主要沿湘江顺水而下经岳州，过洞庭到达武昌，然后再沿长江顺水而下，从扬州、广州、明州(宁波)等地运往海外各地。</p><p style="text-indent:2em;">二是长沙窑强烈的外销意识。为迎合外商需求，长沙窑独辟蹊径，根据购买者的喜好专门制作或定做外销型产品，其器型和纹样皆融入域外文化元素。在长沙窑窑址采集到波斯陶碎片，是波斯商的生活用具，这说明外商到过窑场。从一些装饰纹饰看，外商应持有纹样直接到窑口进行订制。长沙窑在品牌营销上更是独树一帜，瓷器上发现的“湖南道草市石诸孟子有名樊家记”“卞家小口天下第一”“郑家小口天下有名”等带有广告性质的字样均可说明。</p><p style="text-indent:2em;">三是长沙窑的价格优势。“黑石号”上的长沙窑瓷器有些标注有“伍文”的题记，比邢窑白瓷、越窑青瓷的价格更为低廉；并且饰有不易脱落的釉下彩绘，可说是物美价廉。</p><p style="text-align:left;"><img src="http://m.newsduan.com/image/2022-02-25/946685129605124096.jpg" style="margin-top: 10px; margin-bottom: 10px;"/><font color="#a6a6a6">　　▲2014年，“黑石号”沉船唐代长沙窑瓷器展在长沙市博物馆举行，展出的150余件长沙窑是当地收藏家从海外购买的“黑石号”出水瓷器和长沙窑遗址出土的精美器物。中新社记者 邓霞 摄</font></p><p style="text-indent:2em; text-align:left;"><b>中新社记者：长沙铜官窑如何将中西文化进行融合创新，以适应外销对象的生活需求和审美观念？</b></p><p style="text-indent:2em;"><b>李建毛：</b>长沙窑有专供外销的产品，这些产品针对海外市场需求，根据使用功能、风俗习惯及审美需求量身定制，在器型和纹样上大量模仿海外陶器、铜器、金银器和织锦中的艺术元素，或直接按样生产。有迹象表明，中晚唐时期长沙及洞庭湖区是阿拉伯人活动的重要地区，他们应参与了长沙窑外销产品的设计定样或制作。</p><p style="text-indent:2em;">从“黑石号”和国外发现的长沙窑瓷壶中，模印贴花壶占很大比例。从北方窑口烧制过相同纹样的模印贴花壶看，外商可能向有意购货的窑场同时提供过纹样。长沙窑技艺是在南北瓷器工艺融合的基础上形成，产品最为价廉物美，且在贴花上涂层褐斑，这种创新使纹样更为醒目，产品最迎合外商需求，故购买量大，产量也多，模印贴花便成为长沙窑外销的标志纹样和特色性装饰技法。其纹饰以西亚风格的椰枣纹、狮纹等为主。</p><p style="text-align:left;"><img src="http://m.newsduan.com/image/2022-02-25/946685129659650048.jpg" style="margin-top: 10px; margin-bottom: 10px;"/><font color="#a6a6a6">　　▲外国人在长沙铜官窑博物馆参观出土文物青釉褐斑贴椰枣纹瓷壶。椰枣纹具有显见的西亚风格。中新社记者 杨华峰 摄</font></p><p style="text-indent:2em; text-align:left;">这种堪称“定制化”的长沙窑，无疑是中国制瓷技术达到一定高度的产物，也是当时社会对外开放的佐证。中西文化的双向交流为长沙窑的畅销奠定了坚实基础。</p><p style="text-indent:2em;"><b>中新社记者：长沙窑为何能成为中西文化交流的重要见证？</b></p><p style="text-indent:2em;"><b>李建毛：</b>日本古陶瓷学家三上次男曾说：古代东西方的文明交流是写在中国陶瓷上的，当时的中国茶叶喝了、丝绸烂了，抹去尘埃，昔日的中国陶瓷依然熠熠生辉。包罗万象的长沙窑瓷器，不仅见证了唐代海上丝绸之路的繁盛，也为我们研究中西交通史、贸易史、文化交流等提供了珍贵的实物资料。</p><p style="text-align:left;"><img src="http://m.newsduan.com/image/2022-02-25/946685129709981696.jpg" style="margin-top: 10px; margin-bottom: 10px;"/><font color="#a6a6a6">　　▲精美的长沙窑瓷碗。中新社记者 邓霞 摄</font></p><p style="text-indent:2em; text-align:left;">长沙窑产品丰富，并将书画用于瓷器装饰，载有诗文警句、茶酒文化等华夏文明，可将其看作反映唐代社会生活的一面镜子。这些具有中国审美情趣和带有中国文化印记的瓷器运到海外，不仅给外国人带来美的享受，也以艺术的形式向外传播了中国文化，更显示了当时中国强大的经济实力和文化自信。长沙窑向外传播的同时，也受到域外文化影响，将印度佛教文化、波斯文化、伊斯兰文化中的元素为我所用，在瓷器上融合呈现，体现了开放包容、兼收并蓄的特性，是研究中外文化交流不可或缺的见证物。</p><p style="text-align:left;"><img src="http://m.newsduan.com/image/2022-02-25/946685129768701952.jpg" style="margin-top: 10px; margin-bottom: 10px;"/><font color="#a6a6a6">　　▲图中长沙唐代铜官窑瓷器上是一首写旅店客栈的诗：“小水通大河，山深鸟宿多。主人看客好，曲路亦相过。”反映了唐代商业发展，旅店兴盛。中新社记者 刘双双 摄</font></p><p style="text-align:left;"><img src="http://m.newsduan.com/image/2022-02-25/946685129831616512.jpg" style="margin-top: 10px; margin-bottom: 10px;"/><font color="#a6a6a6">　　▲铜官镇蓝岸嘴窑址出土的青釉“此是饮瓶，不得别用”褐绿彩摩竭纹瓷壶。摩竭是印度神话中一种长鼻利齿、鱼身鱼尾的动物，摩羯纹饰包含了明显的外来文化因素。中新社记者 邓霞 摄</font></p><p style="text-indent:2em; text-align:left;">当今，我们将长沙窑作为海上丝绸之路中的一个文化元素进行传承和发扬时，既要在器型纹饰、外销渠道、发展背景等方面进行系统学术梳理，更要看到长沙窑之所以能够成为当时中西文化交流的重要见证，是因其拥有“包容、创新”的内生动力。而这种包容、创新是建立在强大的文化自信之上，用开放的心态交流、碰撞，在交流中借鉴，在借鉴中发展，从而推动文明进步。（完）</p><p style="text-indent:2em;"><b>受访者简介：</b></p><p style="text-align:left;"><img src="http://m.newsduan.com/image/2022-02-25/946685129881948160.jpg" style="margin-top: 10px; margin-bottom: 10px;"/>　　<font color="#a6a6a6">李建毛，中国古陶瓷学会副会长，中国博协常务理事、湖南省考古学会副理事长。文化部优秀专家，享受国务院特殊津贴专家，原湖南省博物馆党委书记，著有《中国古陶瓷经济研究》《长沙窑》等书，发表论文50余篇。</font></p></div>
+
+		</div>
+
+		<div class="bianji">
+
+
+
+		</div>
+	</div>
+
+</div>
+<script>
+        //判断客户端
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var elevideo = document.getElementById("video1");
+
+        if (isiOS) {
+            console.log("ios");
+            elevideo.addEventListener('play', function () {
+                window.webkit.messageHandlers.pauseAPPAudios.postMessage("")
+            }, false);
+        } else if (isAndroid) {
+            elevideo.addEventListener('play', function () {
+                window.android.stopAudio();
+            }, false);
+        } else {
+            console.log('1');
+        }
+        // 关闭app音频播放
+        function videoPause() {
+            document.getElementById("video1").pause()
+        }
+    </script>
+<script>
 
 			var video1=document.getElementById("video1");
 			var sources = video1.getElementsByTagName('source');
@@ -346,45 +287,100 @@ Date.prototype.Format = function(fmt) {//author: liyuhao
 jzvd.adViewJiaoZiVideoPlayer(video1.offsetWidth,video1.offsetHeight,video1.offsetTop,video1.offsetLeft,0,sources[0].src,video1.poster)
 			                });
 		 </script>
+<!--<script>-->
+<!--    var vi = document.getElementById("video1")-->
+<!--    vi.addEventListener('webkitendfullscreen', function () {-->
+<!--        window.webkit.messageHandlers.webVideoEndFullScreen.postMessage("");-->
+<!--    }, false);-->
+<!--</script>-->
+<style>
+        .more_mg img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
 
- <!-- <script>
- window.onload = function(){
- 　　　var video1=document.getElementById("video1");
- var sources = video1.getElementsByTagName('source');
-    jzvd.adViewJiaoZiVideoPlayer(video1.offsetWidth,video1.offsetHeight,video1.offsetTop,video1.offsetLeft,0,sources[0].src,video1.poster)
- }
- </script>
-音频类型稿件-->
-                <script>
-                       var vi = document.getElementById("video1")
-                       vi.addEventListener('webkitendfullscreen',function () {
-                            window.webkit.messageHandlers.webVideoEndFullScreen.postMessage("");
-                       },false);
-               </script>
+        .more_mg p {
+            font-size: .18rem;
+            line-height: 1.6;
+            margin-top: 0.11rem;
+        }
 
-		 <!-- 音频类型稿件-->
+        .infoSet span {
+            margin-right: 20px;
+        }
 
-		 <!-- 图集类型稿件-->
-		<!-- add下载app -->
-        <div class="downapp" style="display:none;">
-        	<div class="pr">
-        		<a><img src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/img/waplogo.png"><span>下载今日拉美客户端</span></a>
-        		<div class="app_close" onclick="closed(this);">关闭</div>
-        	</div>
+        #span_localDate {
+            margin: 0;
+        }
+
+        .abstrct {
+            font-size: 0.18rem;
+            line-height: 1.6;
+            padding-bottom: 15px;
+        }
+
+        .mainContent p {
+            padding-bottom: 15px;
+            -webkit-font-smoothing: antialiased
+        }
+    </style>
+<!-- 图集类型稿件-->
+
+
+<!-- <div class="swiper-container swiper1" th:if="${contentType == 2}">
+<header class="landingHead">
+    <h1 class="titleFont" th:text="${contentTitle}"></h1>
+    <div class="infoSet">
+
+        <span th:if="${contentAuthor} ne ''">
+                <span class="afrSplit" th:text=" ${contentAuthor}"></span>
+            </span>
+        <span id="span_localDate" th:text="${contentPublishTime}"></span>
+    </div>
+</header>
+<div class="swiper-wrapper">
+    <div class="swiper-slide" th:each="newContent:${imageList}">
+        <img th:src="@{${newContent.filePath}}"/>
+        <div>
+            <p>
+                <span th:if="${newContent.fileDes != '' && newContent.fileDes != null}"
+                      th:text="@{${newContent.fileDes}}"></span>
+            </p>
         </div>
-		<!-- Swiper JS -->
-		<script src="http://cms.jrlamei.com/jrlmCMS/r/cms/www/tpl_basecms/js/swiper.min.js"></script>
+    </div>
 
-		<!-- Initialize Swiper -->
-		<script>
-		var swiper = new Swiper('.swiper-container', {
-			paginationClickable: true
-		});
-		</script>
+</div>
+
+<div class="swiper-pagination"></div>
+
+<div class="swiper-button-next swiper-button-white"></div>
+<div class="swiper-button-prev swiper-button-white"></div>
+</div> -->
+
+<!-- add下载app -->
+<div class="downapp">
+	<div class="pr">
+		<img src="http://m.newsduan.com/web/resource/img/logo.png">
+	</div>
+	<div class="desapp">
+		<p style="color:#242424;font-size:13px;line-height: 25px">东西问客户端</p>
+		<p style="color:#a4a4a4;font-size:10px;">理性对话 文明互鉴</p>
+	</div>
+	<div class="open">
+		<a href="//m.newsduan.com/index.html">
+			<p>打开</p>
+		</a>
+	</div>
+
+	<div class="app_close" onclick="isAppShow('true');">
+
+		<img src="http://m.newsduan.com/web/resource/img/close.png">
+	</div>
+</div>
 
 
-
-
-   <!--  </div> -->
 </body>
+
 </html>

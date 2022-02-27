@@ -85,7 +85,7 @@ public class WebActivity extends AppCompatActivity {
             }
         });
         //web.loadUrl("file:///android_asset/jzvd.html");
-        web.loadUrl("file:///android_asset/test.html?closeAD=true");
+        web.loadUrl("file:///android_asset/test.html?closeDL=true");
     }
 
     public class JZCallBack {

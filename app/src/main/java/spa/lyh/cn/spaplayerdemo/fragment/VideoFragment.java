@@ -27,7 +27,7 @@ public class VideoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         player = view.findViewById(R.id.spaplayer);
-        player.setUp(Global.url,"聪明的小学神");
+        player.setUp(Global.url,"这位小姐姐拍视频");
         ImageLoadUtil.displayImage(getActivity(),Global.pic,player.posterImageView);
     }
 }
