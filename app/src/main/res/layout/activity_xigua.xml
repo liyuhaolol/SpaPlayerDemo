@@ -3,20 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer
-        android:id="@+id/xiguaplayer"
+    <FrameLayout
+        android:id="@+id/a"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintDimensionRatio="h,16:9"/>
+        app:layout_constraintDimensionRatio="h,16:9">
+        <spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer
+            android:id="@+id/xiguaplayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/xiguaplayer"
+        app:layout_constraintTop_toBottomOf="@+id/a"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
