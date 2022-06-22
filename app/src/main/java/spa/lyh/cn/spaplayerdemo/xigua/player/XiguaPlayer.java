@@ -267,7 +267,7 @@ public class XiguaPlayer extends RelativeLayout {
     }
 
     private void playVideo(int position){
-        SpaPlayer spaPlayer = adapter.getVideoPlayer(position);
+         SpaPlayer spaPlayer = adapter.getVideoPlayer(position);
         if (spaPlayer != null){
 
             spaPlayer.setUp(currentPosition,list.get(position).videoUrl,list.get(position).title,Jzvd.SCREEN_FULLSCREEN);

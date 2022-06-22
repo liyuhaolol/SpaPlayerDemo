@@ -273,6 +273,11 @@ public class SpaPlayer extends JzvdStd {
 
     public void setUp(int position,String url, String title, int screen) {
         this.playPosition = position;
+        if (screen == SCREEN_FULLSCREEN){
+            //如果是全屏，则要初始化数据,我也不知道为什么，反正他就是好了
+            ViewGroup vg = (ViewGroup) getParent();
+            CONTAINER_LIST.add(vg);
+        }
         super.setUp(url,title,screen);
     }
 
