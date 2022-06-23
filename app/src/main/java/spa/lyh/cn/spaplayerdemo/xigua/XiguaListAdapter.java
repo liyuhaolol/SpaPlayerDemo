@@ -16,10 +16,11 @@ import java.util.List;
 
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.holder.NBViewHolder;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 import spa.lyh.cn.spaplayerdemo.xigua.player.XiguaPlayer;
 
-public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder> implements LoadMoreModule {
+public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, NBViewHolder> implements LoadMoreModule {
     private Context mContext;
 
     private ScreenListListener sListener;
@@ -35,13 +36,13 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolde
 
 
     @Override
-    protected void convert(BaseViewHolder holder, VideoModel viewModel) {
+    protected void convert(NBViewHolder holder, VideoModel viewModel) {
         int count = getHeaderLayoutCount();
         int pos;
         if (count > 0){
-            pos = holder.getLayoutPosition()-1;
+            pos = holder.getItemPosition()-1;
         }else {
-            pos = holder.getLayoutPosition();
+            pos = holder.getItemPosition();
         }
         //Log.e("qwer",pos+"");
         RelativeLayout re = holder.getView(R.id.re);
