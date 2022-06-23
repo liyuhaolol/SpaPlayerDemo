@@ -48,7 +48,7 @@ public class XiguaPlayer extends RelativeLayout {
 
     private Context context;
 
-    private ViewPager3 viewPager;
+    private ViewPager2 viewPager;
     private RecyclerView recyInViewpager;
 
     private XiguaAdapter adapter;
@@ -92,7 +92,8 @@ public class XiguaPlayer extends RelativeLayout {
         viewPager = findViewById(R.id.viewpager);
         recyInViewpager = (RecyclerView) viewPager.getChildAt(0);
         recyInViewpager.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        viewPager.setOrientation(ViewPager3.ORIENTATION_VERTICAL);
+        viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+        //viewPager.setUserInputEnabled(false);
         /*LinearLayoutManager manager = new LinearLayoutManager(context){
             @Override
             public boolean canScrollVertically() {
@@ -102,10 +103,10 @@ public class XiguaPlayer extends RelativeLayout {
                 return false;
             }
         };*/
-        manager = (ViewPager3.LinearLayoutManagerImpl) recyInViewpager.getLayoutManager();
+        //manager = (ViewPager3.LinearLayoutManagerImpl) recyInViewpager.getLayoutManager();
         //recyInViewpager.setLayoutManager(manager);
 
-        viewPager.registerOnPageChangeCallback(new ViewPager3.OnPageChangeCallback() {
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -147,6 +148,7 @@ public class XiguaPlayer extends RelativeLayout {
         model.title = title;
 
         list.add(model);
+        checkScroll();
 
         if (adapter == null){
             adapter = new XiguaAdapter(context,list);
@@ -168,6 +170,7 @@ public class XiguaPlayer extends RelativeLayout {
             model.title = title;
 
             list.add(model);
+            checkScroll();
             adapter = new XiguaAdapter(context,list);
             viewPager.setAdapter(adapter);
             setData();
@@ -327,6 +330,17 @@ public class XiguaPlayer extends RelativeLayout {
         if (list != null){
             list.addAll(mList);
         }
+        checkScroll();
+    }
+
+    public void checkScroll(){
+        /*if (list != null && manager != null){
+            if (list.size() > 1){
+                manager.setCanScroll(true);
+            }else {
+                manager.setCanScroll(false);
+            }
+        }*/
     }
 
     public void loadMoreComplete(){
