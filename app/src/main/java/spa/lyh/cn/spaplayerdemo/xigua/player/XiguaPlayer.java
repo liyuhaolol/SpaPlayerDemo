@@ -1,17 +1,26 @@
 package spa.lyh.cn.spaplayerdemo.xigua.player;
 
+import static androidx.viewpager2.widget.ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT;
+
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Rect;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -27,6 +36,7 @@ import spa.lyh.cn.spaplayer.VideoManager;
 import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
+import spa.lyh.cn.spaplayerdemo.test.widget.ViewPager3;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 import spa.lyh.cn.spaplayerdemo.xigua.OnXiguaLoadmore;
 import spa.lyh.cn.spaplayerdemo.xigua.ScreenPositionListener;
@@ -38,7 +48,7 @@ public class XiguaPlayer extends RelativeLayout {
 
     private Context context;
 
-    private ViewPager2 viewPager;
+    private ViewPager3 viewPager;
     private RecyclerView recyInViewpager;
 
     private XiguaAdapter adapter;
@@ -61,6 +71,8 @@ public class XiguaPlayer extends RelativeLayout {
 
     public static LinkedList<ViewGroup> CONTAINER_LIST = new LinkedList<>();
 
+    public ViewPager3.LinearLayoutManagerImpl manager;
+
     public XiguaPlayer(Context context) {
         this(context,null);
     }
@@ -80,9 +92,20 @@ public class XiguaPlayer extends RelativeLayout {
         viewPager = findViewById(R.id.viewpager);
         recyInViewpager = (RecyclerView) viewPager.getChildAt(0);
         recyInViewpager.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        viewPager.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+        viewPager.setOrientation(ViewPager3.ORIENTATION_VERTICAL);
+        /*LinearLayoutManager manager = new LinearLayoutManager(context){
+            @Override
+            public boolean canScrollVertically() {
+                if (list.size() > 1){
+                    return true;
+                }
+                return false;
+            }
+        };*/
+        manager = (ViewPager3.LinearLayoutManagerImpl) recyInViewpager.getLayoutManager();
+        //recyInViewpager.setLayoutManager(manager);
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        viewPager.registerOnPageChangeCallback(new ViewPager3.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -356,4 +379,5 @@ public class XiguaPlayer extends RelativeLayout {
             return xiguaPlayer;
         }
     }
+
 }

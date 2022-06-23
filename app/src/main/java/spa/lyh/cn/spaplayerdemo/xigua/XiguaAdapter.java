@@ -20,11 +20,12 @@ import spa.lyh.cn.spaplayer.ScreenListener;
 import spa.lyh.cn.spaplayer.SpaPlayer;
 import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
+import spa.lyh.cn.spaplayerdemo.holder.NBViewHolder;
 import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
 import spa.lyh.cn.spaplayerdemo.tiktok.VideoModel;
 import spa.lyh.cn.spaplayerdemo.listener.VideoPositionCompleteListener;
 
-public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
+public class XiguaAdapter extends BaseQuickAdapter<VideoModel, NBViewHolder>{
     private Context mContext;
     private VideoPositionCompleteListener listener;
 
@@ -42,13 +43,13 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, BaseViewHolder>{
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, VideoModel viewModel) {
+    protected void convert(NBViewHolder baseViewHolder, VideoModel viewModel) {
         int count = getHeaderLayoutCount();
         int pos;
         if (count > 0){
-            pos = baseViewHolder.getLayoutPosition()-1;
+            pos = baseViewHolder.getItemPosition()-1;
         }else {
-            pos = baseViewHolder.getLayoutPosition();
+            pos = baseViewHolder.getItemPosition();
         }
         SpaPlayer spaPlayer = baseViewHolder.getView(R.id.player);
         //内部嵌套，所以这里不应该检查父类
