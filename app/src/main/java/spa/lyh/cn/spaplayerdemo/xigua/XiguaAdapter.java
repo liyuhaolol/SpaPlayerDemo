@@ -71,7 +71,7 @@ public class XiguaAdapter extends BaseQuickAdapter<VideoModel, NBViewHolder>{
             @Override
             public void gotoNormalScreen(SpaPlayer player) {
                 if (screenPositionListener != null){
-                    screenPositionListener.gotoNormalScreen(player,pos);
+                    screenPositionListener.gotoNormalScreen(player,viewModel,pos);
                 }
             }
 

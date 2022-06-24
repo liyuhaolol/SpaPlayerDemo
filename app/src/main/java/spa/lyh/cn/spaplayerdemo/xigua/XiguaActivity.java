@@ -22,7 +22,9 @@ public class XiguaActivity extends AppCompatActivity {
 
     TextView tv_title;
 
-    List<VideoModel> list;
+    //List<VideoModel> list;
+
+    VideoModel videoModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,17 +33,15 @@ public class XiguaActivity extends AppCompatActivity {
 
         player = findViewById(R.id.xiguaplayer);
 
-        list = new ArrayList<>();
+        //list = new ArrayList<>();
 
-        VideoModel model1 = (VideoModel) getIntent().getSerializableExtra("data");
+        videoModel = (VideoModel) getIntent().getSerializableExtra("data");
 
-        list.add(model1);
-
-        player.setUp(list.get(0).videoUrl,list.get(0).picUrl,list.get(0).title);
+        player.setUp(videoModel);
 
         tv_title = findViewById(R.id.title);
 
-        tv_title.setText(list.get(0).title);
+        tv_title.setText(videoModel.title);
 
         player.setLoadMoreListener(new OnXiguaLoadmore() {
             @Override
@@ -58,10 +58,8 @@ public class XiguaActivity extends AppCompatActivity {
 
         player.setScreenListener(new ScreenPositionListener() {
             @Override
-            public void gotoNormalScreen(View player, int position) {
-                VideoModel model = list.get(position);
-                list.clear();
-                list.add(model);
+            public void gotoNormalScreen(View player,VideoModel model, int position) {
+                videoModel = model;
                 refreshView();
             }
 
@@ -100,13 +98,12 @@ public class XiguaActivity extends AppCompatActivity {
         mList.add(model3);
         mList.add(model4);
         mList.add(model5);
-        list.addAll(mList);
         player.addAll(mList);
     }
 
     private void refreshView(){
 
-        tv_title.setText(list.get(0).title);
+        tv_title.setText(videoModel.title);
     }
 
     @Override

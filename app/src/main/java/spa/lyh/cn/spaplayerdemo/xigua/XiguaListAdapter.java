@@ -66,7 +66,7 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, NBViewHolder>
         });
         player.setScreenListener(new ScreenPositionListener() {
             @Override
-            public void gotoNormalScreen(View player, int position) {
+            public void gotoNormalScreen(View player,VideoModel model, int position) {
                 if (sListener != null){
                     sListener.gotoNormalScreen(player,pos,position);
                 }

@@ -17,10 +17,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -32,7 +28,6 @@ import cn.jzvd.JZUtils;
 import cn.jzvd.Jzvd;
 import spa.lyh.cn.spaplayer.OnReleaseVideoListener;
 import spa.lyh.cn.spaplayer.SpaPlayer;
-import spa.lyh.cn.spaplayer.VideoManager;
 import spa.lyh.cn.spaplayer.VideoStatusListener;
 import spa.lyh.cn.spaplayerdemo.R;
 import spa.lyh.cn.spaplayerdemo.listener.OnStartPositionClickListener;
@@ -128,12 +123,12 @@ public class XiguaPlayer extends RelativeLayout {
         });
     }
 
-    public void setUp(String url,String pic,String title){
-        setUp(0,url,pic,title);
+    public void setUp(VideoModel model){
+        setUp(0,model);
 
     }
 
-    public void setUp(int position,String url,String pic,String title){
+    private void setUp(int position,VideoModel model){
         //初始化列表或者清空列表
 
         this.currentPosition = position;
@@ -142,10 +137,6 @@ public class XiguaPlayer extends RelativeLayout {
         }else {
             list.clear();
         }
-        VideoModel model = new VideoModel();
-        model.videoUrl = url;
-        model.picUrl = pic;
-        model.title = title;
 
         list.add(model);
         checkScroll();
@@ -180,7 +171,7 @@ public class XiguaPlayer extends RelativeLayout {
     private void setData(){
         adapter.setScreenPositionListener(new ScreenPositionListener() {
             @Override
-            public void gotoNormalScreen(View player, int position) {
+            public void gotoNormalScreen(View player,VideoModel model, int position) {
                 //Log.e("qwer","小屏");
                 SpaPlayer spaPlayer = (SpaPlayer) player;
                 ViewGroup vg = (ViewGroup) (JZUtils.scanForActivity(context)).getWindow().getDecorView();
@@ -193,13 +184,12 @@ public class XiguaPlayer extends RelativeLayout {
                 JZUtils.setRequestedOrientation(context, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                 JZUtils.showSystemUI(context);
-                VideoModel model = list.get(position);
                 list.clear();
                 list.add(model);
                 adapter.notifyDataSetChanged();
                 canLoadMore = false;
                 if (sListener != null){
-                    sListener.gotoNormalScreen(XiguaPlayer.this,position);
+                    sListener.gotoNormalScreen(XiguaPlayer.this,model,position);
                 }
             }
 
