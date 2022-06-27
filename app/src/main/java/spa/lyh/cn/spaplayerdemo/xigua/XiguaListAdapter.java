@@ -52,9 +52,7 @@ public class XiguaListAdapter extends BaseQuickAdapter<VideoModel, NBViewHolder>
 
         player.showView(
                 pos,
-                viewModel.videoUrl,
-                viewModel.picUrl,
-                viewModel.title);
+                viewModel);
 
         player.setLoadMoreListener(new OnXiguaLoadmore() {
             @Override

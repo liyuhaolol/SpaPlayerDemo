@@ -151,15 +151,10 @@ public class XiguaPlayer extends RelativeLayout {
 
     }
 
-    public void showView(int position,String url,String pic,String title){
+    public void showView(int position,VideoModel model){
         this.currentPosition = position;
         if (list == null){
             list = new ArrayList<>();
-            VideoModel model = new VideoModel();
-            model.videoUrl = url;
-            model.picUrl = pic;
-            model.title = title;
-
             list.add(model);
             checkScroll();
             adapter = new XiguaAdapter(context,list);
