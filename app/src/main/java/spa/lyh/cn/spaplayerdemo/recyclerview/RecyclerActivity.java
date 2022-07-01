@@ -80,6 +80,9 @@ public class RecyclerActivity extends AppCompatActivity {
                     SpaPlayer spaPlayer = VideoManager.getInstance().getSpaPlayer();
                     if (spaPlayer.screen == Jzvd.SCREEN_NORMAL){
                         int position = spaPlayer.playPosition;
+                        if (adapter.getHeaderLayoutCount() > 0){
+                            position++;
+                        }
                         if (position < firstVisibleItem || position > lastVisibleItem){
                             //页面滑出了屏幕
                             if (Jzvd.CURRENT_JZVD != null
