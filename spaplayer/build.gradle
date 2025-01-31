@@ -1,12 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 31
+    namespace "spa.lyh.cn.spaplayer"
+    compileSdk 35
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 31
-
+        minSdk 21
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -17,8 +16,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility 21
+        targetCompatibility 21
     }
 }
 

@@ -48,7 +48,7 @@ public class WebActivity extends AppCompatActivity {
         webSettings.setLoadWithOverviewMode(true);
 
         //使用缓存
-        webSettings.setAppCacheEnabled(true);
+        //webSettings.setAppCacheEnabled(true);
         webSettings.setAllowFileAccess(true);
         webSettings.setDatabaseEnabled(true);
 
